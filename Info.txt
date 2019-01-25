@@ -2,7 +2,19 @@ This website currently just adds pictures that it can recognize later
 
 Accessing webcam can only be done with https
 
-To upload the changes:
+Making another website:
+$ heroku login
+$ cd (my-project)/
+$ git init
+$ heroku git:remote -a (my-project)
+
+The bare minimun to copy at make other websites:
+index.js
+package.json
+Procfile
+README.md
+
+While in (my-project), to upload the changes:
 git add .
 $ git commit -am "(describe the changes)"
 $ git push heroku master
