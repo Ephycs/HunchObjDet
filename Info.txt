@@ -1,0 +1,8 @@
+This website currently just adds pictures that it can recognize later
+
+Accessing webcam can only be done with https
+
+To upload the changes:
+git add .
+$ git commit -am "(describe the changes)"
+$ git push heroku master
