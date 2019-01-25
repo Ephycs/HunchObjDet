@@ -99,8 +99,17 @@ function setup() {
 	// Creates the canvas to draw everything on
 	canvas = createCanvas(w, h);
 	
+	var videoOptions = 
+	{
+		audio: false,
+		video: 
+		{
+			facingMode: "environment"
+		}
+	};
+	
 	// Gets the camera input with certain options
-	video = createCapture(VIDEO);
+	video = createCapture(videoOptions);
 	video.hide();
 	
 	background(0);
