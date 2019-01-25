@@ -101,7 +101,7 @@ function gotResults(error, results) {
 
 function setup() {
 	
-	alert("Landscape Mode Please");
+	alert("Landscape Mode Please!");
 	
 	// Creates the canvas to draw everything on
 	canvas = createCanvas(w, h);
