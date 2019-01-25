@@ -1,36 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<title>Platt Object Recognition</title>
+	<title>Platt Object Recognition Hub</title>
 	
-	<link rel="stylesheet" type="text/css" href="style.css">
-	
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.1/p5.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.1/addons/p5.dom.min.js"></script>
-	<script src="https://unpkg.com/ml5@0.1.1/dist/ml5.min.js"></script>
-	<script src="sketch.js"></script>
+	<style>
+		table {
+			width: 100%;
+		}
+		th {
+			width: 50%;
+		}
+		a {
+			font-size: 32px;
+		}
+	</style>
 </head>
 <body>
-	<div class="content">
-		<center>Do not flip or change screen ratio</center>
-		<table>
-			<tr>
-				<td><center><button id="toggle" onClick="togglePredicting()">Start</button><center></td>
-				<td>
-					<center><button id="add" onClick="modelAddImage()">Add Image:</button></center>
-					<br>
-					<center><input type="text" id="inputText" value="name"></center>
-				</td>
-				<td><center><button id="train" onClick="modelTrain()">Train</button></center></td>
-			</tr>
-				<td><center><p>Predicts: <span id="predictions">...</span></p></center></td>
-				<td><center><p id="count">Nothing Trained</p></center></td>
-				<td><center><p id="lossState">Not Trained</p></center></td>
-		</table>
-	</div>
+<center>
+
+	<h1>This is a hub for both websites</h1>
+	
+	<br>
+	
+	<table>
+		<th><a href="Version-Add-Images\index.html">Train Model</a></th>
+		<th><a href="Version-Loaded-Model\index.html">Pre-trained Model</a></th>
+	</table>
+
+<center>
 </body>
 </html>
