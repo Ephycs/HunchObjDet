@@ -103,8 +103,9 @@ function togglePredicting() {
 		// Toggles to true in order to predict
 		toggle = true;
 		
-		// Disables the train button
+		// Disables the train and add button
 		document.getElementById("train").disabled = true;
+		document.getElementById("add").disabled = true;
 		
 		// Makes the toggle button a Stop button
 		document.getElementById("toggle").innerHTML = "Stop";
@@ -193,6 +194,6 @@ function draw() {
 	background(0);
 	
 	// Draws the video to the canvas
-	image(video, 0, 0, w, h - 60);
+	image(video, 0, 0, w, h);
 	fill(255);
 }
