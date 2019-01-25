@@ -1,18 +1,37 @@
+body {
+	background-color: black;
+}
+
 .content {
-    position: fixed;
-    bottom: 0;
-	right: -30px;
-    background: rgba(0, 0, 0, 0.5);
+	height: 95%;
+	width: 20%;
+	position: fixed;
+	top: 0;
+	right: 0;
+	overflow-x: hidden;
+	background: white;
+	font-family: Arial;
 	font-size: 16px;
-    color: #f1f1f1;
-    width: 100%;
-    padding: 20px;
+	color: black;
+	padding: 20px;
 	text-align: center;
 }
 
-table {
-	width: 100%;
+#toggle {
+	display: inline-block;
+	padding: 15px 25px;
+	font-size: 24px;
+	color: white;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	outline: none;
+	border: none;
+	border-radius: 15px;
+	box-shadow: 0 9px #999;
 }
-td {
-	width: 50%;
+#toggle:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
 }

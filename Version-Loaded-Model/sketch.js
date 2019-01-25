@@ -10,8 +10,8 @@ let video;
 var videoOptions;
 
 var canvas;
-var w = window.innerWidth * 0.97;
-var h = window.innerHeight * 0.97;
+var w = window.innerWidth * 0.75;
+var h = window.innerHeight * 0.96;
 
 var toggle = false;
 var predictions;
@@ -36,6 +36,7 @@ function togglePredicting() {
 		
 		// Makes the toggle button a Stop button
 		document.getElementById("toggle").innerHTML = "Stop";
+		document.getElementById("toggle").style.backgroundColor = "#e56afb";
 		
 		// Starts predicts
 		model.predict(gotResults);
@@ -47,10 +48,12 @@ function togglePredicting() {
 		toggle = false;
 		
 		// Clears all predictions
-		document.getElementById("predictions").innerHTML = '';
+		document.getElementById("predictions").innerHTML = "...";
+		document.getElementById("accuracy").innerHTML = "...";
 		
 		// Makes the toggle button a Stop button
 		document.getElementById("toggle").innerHTML = "Start";
+		document.getElementById("toggle").style.backgroundColor = "#00E5FF";
 	}
 }
 
@@ -76,7 +79,9 @@ function gotResults(error, results) {
 				document.getElementById("predictions").innerHTML = results[0].className;
 				
 				// Prints the top result accuracy
-				document.getElementById("accuracy").innerHTML = (results[0].probability).toFixed(2);
+				var acc = (results[0].probability).toFixed(2);
+				acc = acc * 100;
+				document.getElementById("accuracy").innerHTML = acc + "%";
 			}
 			else
 			{
@@ -95,6 +100,8 @@ function gotResults(error, results) {
 // }
 
 function setup() {
+	
+	alert("Landscape Mode Please");
 	
 	// Creates the canvas to draw everything on
 	canvas = createCanvas(w, h);
