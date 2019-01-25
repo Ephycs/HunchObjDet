@@ -67,7 +67,7 @@ function gotResults(error, results) {
 			//console.log(results);
 			
 			// Threshold
-			var threshold = .70;
+			var threshold = .50;
 			
 			// If the top result is above a certain threshold
 			if (results[0].probability >= threshold)
