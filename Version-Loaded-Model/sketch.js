@@ -10,8 +10,8 @@ let video;
 var videoOptions;
 
 var canvas;
-var w = window.innerWidth * 0.75;
-var h = window.innerHeight * 0.96;
+var w = window.innerWidth * 0.97;
+var h = window.innerHeight * 0.97;
 
 var toggle = false;
 var predictions;
@@ -101,7 +101,7 @@ function gotResults(error, results) {
 
 function setup() {
 	
-	alert("Landscape Mode Please!");
+	alert("Do not flip screen");
 	
 	// Creates the canvas to draw everything on
 	canvas = createCanvas(w, h);

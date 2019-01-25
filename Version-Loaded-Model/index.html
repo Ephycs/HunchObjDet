@@ -18,13 +18,16 @@
 	
 	<div class="content">
 		<h3><u>Pre-trained Model</u></h3>
-		<p>Use the button to toggle detection On & Off</p>
-		<button id="toggle" onClick="togglePredicting()" style="background-color: #00E5FF">Start</button>
-	<br>
-	<br>
-		<h3>Predicts: <font id="predictions" color="#4CAF50">...</font></h3>
-		<h3>Accuracy: <font id="accuracy" color="blue">...</font></h3>
-	<br>
+		<table>
+			<tr>
+				<td>Use the button to toggle detection On & Off</td>
+				<td><button id="toggle" onClick="togglePredicting()" style="background-color: #00E5FF">Start</button></td>
+			</tr>
+			<tr>
+				<td><h3>Predicts: <font id="predictions" color="#4CAF50">...</font></h3></td>
+				<td><h3>Accuracy: <font id="accuracy" color="blue">...</font></h3></td>
+			</tr>
+		</table>
 	</div>
 </body>
 </html>

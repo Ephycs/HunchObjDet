@@ -1,5 +1,5 @@
 body {
-	background-color: white;
+	background-color: black;
 }
 
 p {
@@ -7,17 +7,23 @@ p {
 }
 
 .content {
-	height: 95%;
-	width: 20%;
-	position: fixed;
-	top: 0;
-	right: 0;
-	overflow-x: hidden;
 	font-family: Arial;
+    position: fixed;
+    bottom: 0;
+	right: -30px;
+    background: rgba(0, 0, 0, 0.5);
 	font-size: 16px;
-	color: black;
-	padding: 20px;
+    color: #f1f1f1;
+    width: 100%;
+    padding: 20px;
 	text-align: center;
+}
+
+table {
+	width: 100%;
+}
+td {
+	width: 50%;
 }
 
 #toggle {
@@ -31,7 +37,7 @@ p {
 	outline: none;
 	border: none;
 	border-radius: 15px;
-	box-shadow: 0 9px #999;
+	box-shadow: 0 9px #ffffff;
 }
 #toggle:active {
   background-color: #3e8e41;
