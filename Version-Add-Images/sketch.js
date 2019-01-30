@@ -5,29 +5,38 @@
 // Webcam Image Classification with ml5
 // https://youtu.be/D9BoBSkLvFo
 
+// Model, classier, video, and canvas setup
 let model;
 let classifier;
 let video;
-
-var canvas;
+let canvas;
 var w = window.innerWidth * 0.97;
 var h = window.innerHeight * 0.97;
 
-var toggle = false;
-var str;
-var preStr = "";
-var countStr = 0;
+/* DOM elements
+var document.getElementById('upperText') = document.getElementById('document.getElementById('upperText')');
+var document.getElementById('toggleButton') = document.getElementById('document.getElementById('toggleButton')');
+var document.getElementById('addButton') = document.getElementById('document.getElementById('addButton')');
+var document.getElementById('trainButton') = document.getElementById('document.getElementById('trainButton')');
+var document.getElementById('saveButton') = document.getElementById('document.getElementById('saveButton')');
+var document.getElementById('inputText') = document.getElementById('document.getElementById('inputText')');
+var document.getElementById('inputInfo') = document.getElementById('document.getElementById('inputInfo')');
+var document.getElementById('addedImage') = document.getElementById('document.getElementById('addedImage')');
+*/
 
-var predictions;
+var countStr;
+var preStr = "";
+var isPredicting;
 
 function modelReady() {
 	
 	console.log('Model is ready!!!');
 	
 	// Enables the buttons to be pressed
-	document.getElementById("toggle").disabled = false;
-	document.getElementById("train").disabled = false;
-	document.getElementById("add").disabled = false;
+	document.getElementById('toggleButton').disabled = false;
+	document.getElementById('addButton').disabled = false;
+	document.getElementById('trainButton').disabled = false;
+	document.getElementById('saveButton').disabled = false;
 	
 }
 
@@ -39,21 +48,22 @@ function videoReady() {
 // Adds an image using the model, BUT THIS WILL NOT ADD TO THE ORIGINAL MODEL
 function modelAddImage() {
 	
+	console.log("Took a picture");
+	
 	// Gets what you typed into the input box
-	str = document.getElementById("inputText").value;
+	var str = document.getElementById('inputText').value;
 	str = str.toLowerCase();
 	
 	// This will check if you have not pressed the button multiple times with the same name
 	if (preStr != str)
 	{
 		countStr = 0;
-		
 		preStr = str;
 	}
 	
-	// Adds 1 o how many times you press the Add Image button with the same string
+	// Adds 1 to how many times you press the Add Image button with the same string
 	countStr++;
-	document.getElementById("count").innerHTML = str + " " + countStr;
+	document.getElementById('addedImage').innerHTML = str + " " + countStr;
 	
 	// Adds the image to our data
 	classifier.addImage(str);
@@ -61,10 +71,11 @@ function modelAddImage() {
 
 function modelTrain() {
 	
-	// disables all the buttons to be pressed
-	document.getElementById("toggle").disabled = true;
-	document.getElementById("train").disabled = true;
-	document.getElementById("add").disabled = true;
+	// Disables all buttons
+	document.getElementById('toggleButton').disabled = true;
+	document.getElementById('addButton').disabled = true;
+	document.getElementById('trainButton').disabled = true;
+	document.getElementById('saveButton').disabled = true;
 	
 	// Trains the model, this will loop
 	classifier.train(whileTraining);
@@ -72,93 +83,95 @@ function modelTrain() {
 
 function whileTraining(loss) {
 	
-	// If finshed training
+	// Checks if finshed training
 	if (loss == null)
 	{
-		// Still training
-		document.getElementById("lossState"). innerHTML = "Done Training";
+		// Done training
+		document.getElementById('upperText').innerHTML = "Done Training";
 		
-		// Enables the buttons to be pressed
-		document.getElementById("toggle").disabled = false;
-		document.getElementById("train").disabled = false;
-		document.getElementById("add").disabled = false;
+		// Enables the buttons
+		document.getElementById('toggleButton').disabled = false;
+		document.getElementById('addButton').disabled = false;
+		document.getElementById('trainButton').disabled = false;
+		document.getElementById('saveButton').disabled = false;
 	}
 	else
 	{
-		console.log(loss);
-		
 		// Still training
-		document.getElementById("lossState"). innerHTML = "Still Training";
-		
+		document.getElementById('upperText').innerHTML = "Still Training, Loss: " + loss;
 	}
-	
 }
 
 // Starts or Stops predicting
 function togglePredicting() {
 	
-	// Turns on the button
-	if (toggle == false)
+	// Checks if it is predicting
+	if (isPredicting == false)
 	{
-		// Toggles to true in order to predict
-		toggle = true;
+		// It is not predicting
 		
-		// Disables the train and add button
-		document.getElementById("train").disabled = true;
-		document.getElementById("add").disabled = true;
+		// Turns predicting to true
+		isPredicting = true;
 		
-		// Makes the toggle button a Stop button
-		document.getElementById("toggle").innerHTML = "Stop";
+		// Changes the predict button to "Stop"
+		document.getElementById('toggleButton').innerHTML = "Stop";
 		
-		// Starts predicts
-		//model.predict(gotResults);
-		classifier.classify(gotResults);
+		// Disables all buttons except the document.getElementById('toggleButton')
+		document.getElementById('addButton').disabled = true;
+		document.getElementById('trainButton').disabled = true;
+		document.getElementById('saveButton').disabled = true;
+		
+		// Actual predicting
+		classifier.classify(gotResult);
 	}
-	// Turns off the button
 	else
 	{
-		// Toggles to true in order to predict
-		toggle = false;
+		// It is predicting
 		
-		// Clears all predictions
-		document.getElementById("predictions").innerHTML = '';
+		// Turns predicting to false
+		isPredicting = false;
 		
-		// Makes the toggle button a Stop button
-		document.getElementById("toggle").innerHTML = "Start";
+		// Changes the predict button to "Stop"
+		document.getElementById('toggleButton').innerHTML = "Predict";
 		
-		// Enables the train button
-		document.getElementById("train").disabled = false;
-		document.getElementById("add").disabled = false;
+		// Enables all buttons except the document.getElementById('toggleButton')
+		document.getElementById('addButton').disabled = false;
+		document.getElementById('trainButton').disabled = false;
+		document.getElementById('saveButton').disabled = false;
 		
+		// Clears previous predictions
+		document.getElementById('upperText').innerHTML = "";
 	}
 }
 
-function gotResults(error, results) {
+// Predicts what's in front of your webcam
+function gotResult(err, res) {
 	
-	if (toggle)
+	// Sees if it is preicting
+	if (isPredicting)
 	{
-		if (error) 
+		// Checks for errors
+		if (err) 
 		{	
-			alert(error);
+			alert(err);
 		}
 		else
 		{
-			//console.log(results);
-			
 			// Gets the top result
-			//label = results[0].className;
-			document.getElementById("predictions").innerHTML = results;
+			//label = res[0].className;
+			document.getElementById('upperText').innerHTML = res;
 			
 			// Predicts again
-			//model.predict(gotResults);
-			classifier.classify(gotResults);
+			classifier.classify(gotResult);
 		}
 	}
 }
 
-// function imageReady() {
-// image(puffin, 0, 0, width, height);
-// }
+// Saves the model to your Downloads
+function modelSave() {
+	
+	classifier.save();
+}
 
 function setup() {
 	
@@ -180,9 +193,12 @@ function setup() {
 	
 	background(0);
 	
-	// Disables the toggle button
-	document.getElementById("toggle").disabled = true;
-	document.getElementById("train").disabled = false;
+	// Displays No Model Trained warning
+	document.getElementById('upperText').innerHTML = "No Images Trained";
+	
+	// Sets up some variables
+	countStr = 0;
+	isPredicting = false;
 	
 	// Gets the 'MobileNet' model from ml5
 	model = ml5.featureExtractor('MobileNet', modelReady);
