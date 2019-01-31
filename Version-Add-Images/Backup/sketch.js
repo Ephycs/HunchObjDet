@@ -28,47 +28,6 @@ var countStr;
 var preStr = "";
 var isPredicting;
 
-function setup() {
-	
-	// Creates the canvas to draw everything on
-	canvas = createCanvas(w, h);
-	
-	var videoOptions = 
-	{
-		audio: false,
-		video: 
-		{
-			facingMode: "environment"
-		}
-	};
-	
-	// Gets the camera input with certain options
-	video = createCapture(videoOptions);
-	video.hide();
-	
-	background(0);
-	
-	// Displays No Model Trained warning
-	document.getElementById('upperText').innerHTML = "No Images Trained";
-	
-	// Sets up some variables
-	countStr = 0;
-	isPredicting = false;
-	
-	// Gets the 'MobileNet' model from ml5
-	model = ml5.featureExtractor('MobileNet', modelReady);
-	classifier = model.classification(video, videoReady);
-}
-
-function draw() {
-	
-	background(0);
-	
-	// Draws the video to the canvas
-	image(video, 0, 0, w, h);
-	fill(255);
-}
-
 function modelReady() {
 	
 	console.log('Model is ready!!!');
@@ -212,4 +171,45 @@ function gotResult(err, res) {
 function modelSave() {
 	
 	classifier.save();
+}
+
+function setup() {
+	
+	// Creates the canvas to draw everything on
+	canvas = createCanvas(w, h);
+	
+	var videoOptions = 
+	{
+		audio: false,
+		video: 
+		{
+			facingMode: "environment"
+		}
+	};
+	
+	// Gets the camera input with certain options
+	video = createCapture(videoOptions);
+	video.hide();
+	
+	background(0);
+	
+	// Displays No Model Trained warning
+	document.getElementById('upperText').innerHTML = "No Images Trained";
+	
+	// Sets up some variables
+	countStr = 0;
+	isPredicting = false;
+	
+	// Gets the 'MobileNet' model from ml5
+	model = ml5.featureExtractor('MobileNet', modelReady);
+	classifier = model.classification(video, videoReady);
+}
+
+function draw() {
+	
+	background(0);
+	
+	// Draws the video to the canvas
+	image(video, 0, 0, w, h);
+	fill(255);
 }
