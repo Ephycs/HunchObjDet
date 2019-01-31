@@ -17,7 +17,7 @@ http.createServer(function(request, response) {
       return;
     }
 
-    if (fs.statSync(filename).isDirectory()) filename += 'sites/index.html';
+    if (fs.statSync(filename).isDirectory()) filename += 'WebpagesHub/index.html';
 
     fs.readFile(filename, "binary", function(err, file) {
       if(err) {        
