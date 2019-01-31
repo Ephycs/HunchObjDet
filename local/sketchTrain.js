@@ -1,9 +1,6 @@
-// Daniel Shiffman
-// http://youtube.com/thecodingtrain
-// http://codingtra.in
-
-// Webcam Image Classification with ml5
-// https://youtu.be/D9BoBSkLvFo
+//
+//
+//
 
 // Model, classier, video, and canvas setup
 let model;
@@ -13,36 +10,83 @@ let canvas;
 var w = window.innerWidth * 0.97;
 var h = window.innerHeight * 0.97;
 
-/* DOM elements
-var document.getElementById('upperText') = document.getElementById('document.getElementById('upperText')');
-var document.getElementById('toggleButton') = document.getElementById('document.getElementById('toggleButton')');
-var document.getElementById('addButton') = document.getElementById('document.getElementById('addButton')');
-var document.getElementById('trainButton') = document.getElementById('document.getElementById('trainButton')');
-var document.getElementById('saveButton') = document.getElementById('document.getElementById('saveButton')');
-var document.getElementById('inputText') = document.getElementById('document.getElementById('inputText')');
-var document.getElementById('inputInfo') = document.getElementById('document.getElementById('inputInfo')');
-var document.getElementById('addedImage') = document.getElementById('document.getElementById('addedImage')');
-*/
-
 var countStr;
 var preStr = "";
 var isPredicting;
 
+function alertInstr() {
+	alert("Warning: do not flip screen.\n1) Start training the model by entering the 'name' & 'description' of the object, then press the 'Add Image' button.\n2) To train another object, just simply change the 'name' & 'description' and take pictures of the new object.\n3) Try to have roughly the same amount of images for each of your pictures.\n4) When ready, tap the 'Train' button to train the model, you will see the loss at the top.\n5) Once done, you can press the 'Predict' button to start or stop predicting objects.\n6) Finally, you can download the model to your computer's Downloads folder with the 'Download' button.");
+}
+
+function setup() {
+	
+	// Disables the buttons
+	document.getElementById('instrButton').disabled = true;
+	document.getElementById('demoButton').disabled = true;
+	document.getElementById('toggleButton').disabled = true;
+	document.getElementById('addButton').disabled = true;
+	document.getElementById('trainButton').disabled = true;
+	document.getElementById('saveButton').disabled = true;
+	
+	// Creates the canvas to draw everything on
+	canvas = createCanvas(w, h);
+	
+	var videoOptions = 
+	{
+		audio: false,
+		video: 
+		{
+			facingMode: "environment"
+		}
+	};
+	
+	// Gets the camera input with certain options
+	video = createCapture(videoOptions);
+	video.hide();
+	
+	background(0);
+	
+	// Displays No Model Trained warning
+	document.getElementById('upperText').innerHTML = "No Images Trained";
+	document.getElementById('info').innerHTML = "Information about the object goes here";
+	
+	// Sets up some variables
+	countStr = 0;
+	isPredicting = false;
+	
+	// Gets the 'MobileNet' model through ml5
+	// Gets the model classification libraries from ml5
+	model = ml5.featureExtractor('MobileNet', modelReady);
+	classifier = model.classification(video, videoReady);
+	
+	alert("Press the 'Instructions' button for instructions");
+}
+
+function draw() {
+	
+	background(0);
+	
+	// Draws the video to the canvas
+	image(video, 0, 0, w, h);
+	fill(255);
+}
+
 function modelReady() {
 	
 	console.log('Model is ready!!!');
-	
-	// Enables the buttons to be pressed
-	document.getElementById('toggleButton').disabled = false;
-	document.getElementById('addButton').disabled = false;
-	document.getElementById('trainButton').disabled = false;
-	document.getElementById('saveButton').disabled = false;
-	
 }
 
 function videoReady() {
 	
 	console.log('Video is ready!!!');
+	
+	// Enables the buttons
+	document.getElementById('instrButton').disabled = false;
+	document.getElementById('demoButton').disabled = false;
+	document.getElementById('toggleButton').disabled = false;
+	document.getElementById('addButton').disabled = false;
+	document.getElementById('trainButton').disabled = false;
+	document.getElementById('saveButton').disabled = false;
 }
 
 // Adds an image using the model, BUT THIS WILL NOT ADD TO THE ORIGINAL MODEL
@@ -63,7 +107,7 @@ function modelAddImage() {
 	
 	// Adds 1 to how many times you press the Add Image button with the same string
 	countStr++;
-	document.getElementById('addedImage').innerHTML = str + " " + countStr;
+	document.getElementById('info').innerHTML = str + " " + countStr;
 	
 	// Adds the image to our data
 	classifier.addImage(str);
@@ -71,7 +115,9 @@ function modelAddImage() {
 
 function modelTrain() {
 	
-	// Disables all buttons
+	// Disables the buttons
+	document.getElementById('instrButton').disabled = true;
+	document.getElementById('demoButton').disabled = true;
 	document.getElementById('toggleButton').disabled = true;
 	document.getElementById('addButton').disabled = true;
 	document.getElementById('trainButton').disabled = true;
@@ -90,6 +136,8 @@ function whileTraining(loss) {
 		document.getElementById('upperText').innerHTML = "Done Training";
 		
 		// Enables the buttons
+		document.getElementById('instrButton').disabled = false;
+		document.getElementById('demoButton').disabled = false;
 		document.getElementById('toggleButton').disabled = false;
 		document.getElementById('addButton').disabled = false;
 		document.getElementById('trainButton').disabled = false;
@@ -117,6 +165,8 @@ function togglePredicting() {
 		document.getElementById('toggleButton').innerHTML = "Stop";
 		
 		// Disables all buttons except the document.getElementById('toggleButton')
+		document.getElementById('instrButton').disabled = true;
+		document.getElementById('demoButton').disabled = true;
 		document.getElementById('addButton').disabled = true;
 		document.getElementById('trainButton').disabled = true;
 		document.getElementById('saveButton').disabled = true;
@@ -135,12 +185,14 @@ function togglePredicting() {
 		document.getElementById('toggleButton').innerHTML = "Predict";
 		
 		// Enables all buttons except the document.getElementById('toggleButton')
+		document.getElementById('instrButton').disabled = false;
+		document.getElementById('demoButton').disabled = false;
 		document.getElementById('addButton').disabled = false;
 		document.getElementById('trainButton').disabled = false;
 		document.getElementById('saveButton').disabled = false;
 		
 		// Clears previous predictions
-		document.getElementById('upperText').innerHTML = "";
+		document.getElementById('upperText').innerHTML = "...";
 	}
 }
 
@@ -153,12 +205,18 @@ function gotResult(err, res) {
 		// Checks for errors
 		if (err) 
 		{	
-			alert(err);
+			if (err == "TypeError: Cannot read property 'predict' of null")
+			{
+				alert("You have not trained any images!\nPress the 'Stop' button.");
+			}
+			else
+			{
+				alert(err);
+			}
 		}
 		else
 		{
 			// Gets the top result
-			//label = res[0].className;
 			document.getElementById('upperText').innerHTML = res;
 			
 			// Predicts again
@@ -173,43 +231,7 @@ function modelSave() {
 	classifier.save();
 }
 
-function setup() {
+function goToDemoPage() {
 	
-	// Creates the canvas to draw everything on
-	canvas = createCanvas(w, h);
-	
-	var videoOptions = 
-	{
-		audio: false,
-		video: 
-		{
-			facingMode: "environment"
-		}
-	};
-	
-	// Gets the camera input with certain options
-	video = createCapture(videoOptions);
-	video.hide();
-	
-	background(0);
-	
-	// Displays No Model Trained warning
-	document.getElementById('upperText').innerHTML = "No Images Trained";
-	
-	// Sets up some variables
-	countStr = 0;
-	isPredicting = false;
-	
-	// Gets the 'MobileNet' model from ml5
-	model = ml5.featureExtractor('MobileNet', modelReady);
-	classifier = model.classification(video, videoReady);
-}
-
-function draw() {
-	
-	background(0);
-	
-	// Draws the video to the canvas
-	image(video, 0, 0, w, h);
-	fill(255);
+	window.location="index.html";
 }

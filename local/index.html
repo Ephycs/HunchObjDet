@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>Platt Object Recognition</title>
+	<title>Platt Object Recognition Pre-Trained</title>
 	
 	<link rel="stylesheet" type="text/css" href="style.css">
 	
@@ -14,21 +15,26 @@
 	<script src="https://unpkg.com/ml5@0.1.1/dist/ml5.min.js"></script>
 	<script src="sketch.js"></script>
 </head>
+
 <body>
+	<div>
+		<h1 class="upper" id="upperText"></h1>
+	</div>
 	
 	<div class="content">
-		<h3><u>Pre-trained Model</u></h3>
-		<table>
-			<tr>
-				<td>Use the button to toggle detection On & Off</td>
-				<td><button id="toggle" onClick="togglePredicting()" style="background-color: #00E5FF">Start</button></td>
-			</tr>
-			<tr>
-				<td><h3>Predicts: <font id="predictions" color="#4CAF50">...</font></h3></td>
-				<td><h3>Accuracy: <font id="accuracy" color="blue">...</font></h3></td>
-			</tr>
-		</table>
-		<p id="info">Info about the object goes here</p>
+		<button id="instrButton" onClick="alertInstr()">Instructions</button>
+		<button id="addButton" onClick="goToAddImagePage()">Add Image Page</button>
+		
+		<br>
+		<br>
+		
+		<button id="toggleButton" onClick="togglePredicting()">Predict</button>
+		
+		<br>
+		<br>
+		
+		<p id="info"></p>
 	</div>
 </body>
+
 </html>
