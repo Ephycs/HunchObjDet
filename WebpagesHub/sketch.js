@@ -158,5 +158,5 @@ function gotResult(err, res) {
 
 function goToAddImagePage() {
 	
-	window.location="indexTrain.html";
+	window.location="train.html";
 }
