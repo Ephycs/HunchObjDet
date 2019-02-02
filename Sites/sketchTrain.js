@@ -235,3 +235,10 @@ function goToDemoPage() {
 	
 	window.location="index.html";
 }
+
+function modelLoad() {
+	
+	var file = document.getElementById('load').files[0].name;
+	console.log(file);
+	classifier.load(file, modelReady);
+}
