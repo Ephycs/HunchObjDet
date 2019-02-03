@@ -15,7 +15,7 @@ var preStr = "";
 var isPredicting;
 
 function alertInstr() {
-	alert("Warning: do not flip screen.\n1) Start training the model by entering the 'name' & 'description' of the object, then press the 'Add Image' button.\n2) To train another object, just simply change the 'name' & 'description' and take pictures of the new object.\n3) Try to have roughly the same amount of images for each of your pictures.\n4) When ready, tap the 'Train' button to train the model, you will see the loss at the top.\n5) Once done, you can press the 'Predict' button to start or stop predicting objects.\n6) Finally, you can download the model to your computer's Downloads folder with the 'Download' button.");
+	alert("Warning: do not flip screen.\n1) Start training the model by entering the 'name' & 'description' of the object, then press the 'Add Image' button.\n2) To train another object, just simply change the 'name' & 'description' and take pictures of the new object.\n3) Try to have roughly the same amount of images for each of your pictures.\n4) When ready, tap the 'Train' button to train the model, you will see the loss at the top.\n5) Once done, you can press the 'Predict' button to start or stop predicting objects.\n6) You can download the model to your computer's Downloads folder with the 'Download' button.\n7) At the bottom, you can load models into the page by clicking the 'Choose Files' button and selecting both the model.js & model.weights.bin.");
 }
 
 function setup() {
@@ -236,9 +236,13 @@ function goToDemoPage() {
 	window.location="index.html";
 }
 
-function modelLoad() {
+// FileList
+function modelLoad(evt) {
 	
-	var file = document.getElementById('load').files[0].name;
-	console.log(file);
-	classifier.load(file, modelReady);
+	var files = evt.target.files; // Creates the FileList object
+	
+	classifier.load(files, modelReady);
 }
+
+// Will call function when files are loaded into the webpage
+document.getElementById('files').addEventListener('change', modelLoad, false);
