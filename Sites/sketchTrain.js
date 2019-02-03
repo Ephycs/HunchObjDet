@@ -60,6 +60,9 @@ function setup() {
 	classifier = model.classification(video, videoReady);
 	
 	alert("Press the 'Instructions' button for instructions");
+	
+	// Will call function when files are loaded into the webpage
+	document.getElementById('files').addEventListener('change', modelLoad, false);
 }
 
 function draw() {
@@ -243,6 +246,3 @@ function modelLoad(evt) {
 	
 	classifier.load(files, modelReady);
 }
-
-// Will call function when files are loaded into the webpage
-document.getElementById('files').addEventListener('change', modelLoad, false);
