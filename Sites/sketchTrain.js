@@ -240,6 +240,7 @@ function goToDemoPage() {
 }
 
 // FileList
+// You have the select both the model.json & model.weights.bin files into at the sametime!
 function modelLoad(evt) {
 	
 	var files = evt.target.files; // Creates the FileList object
