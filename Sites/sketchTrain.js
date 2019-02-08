@@ -34,18 +34,24 @@ function setup() {
 	h = window.innerHeight * 0.97;
 	createCanvas(w, h);
 	
-	var videoOptions = 
+	/*var videoOptions = 
 	{
 		audio: false,
 		video: 
 		{
 			facingMode: "environment"
 		}
-	};
+	};*/
 	
 	// Gets the camera input with certain options
-	video = createCapture(videoOptions);
-	capture.elt.setAttribute('playsinline', '');
+	video = createCapture({
+		audio: false,
+		video: 
+		{
+			facingMode: "environment"
+		}
+	});
+	video.elt.setAttribute('playsinline', '');
 	video.hide();
 	
 	background(0);
