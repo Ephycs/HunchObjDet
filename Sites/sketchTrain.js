@@ -44,7 +44,7 @@ function setup() {
 	};
 	
 	// Gets the camera input with certain options
-	video = createCapture(videoOptions);
+	video = createCapture(VIDEO);
 	video.hide();
 	
 	background(0);
