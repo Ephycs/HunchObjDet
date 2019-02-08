@@ -39,9 +39,7 @@ function setup() {
 		audio: false,
 		video: 
 		{
-			facingMode: "environment",
-			width: w,
-            height: h
+			facingMode: "environment"
 		}
 	};
 	
