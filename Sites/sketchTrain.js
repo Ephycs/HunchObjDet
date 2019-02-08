@@ -68,8 +68,8 @@ function setup() {
 	document.getElementById('files').addEventListener('change', modelLoad, false);
 }
 
-// This will call when the body is resized (basically when the page is resized)
-function resize() {
+// This will call when the window is resized
+function windowResized() {
 	
 	console.log("Window was resized");
 	
