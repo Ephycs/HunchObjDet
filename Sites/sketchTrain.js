@@ -137,6 +137,9 @@ function modelAddImage() {
 
 function modelTrain() {
 	
+	// Start training
+	document.getElementById('upperText').innerHTML = "Starting Training...";
+	
 	// Disables the buttons
 	document.getElementById('instrButton').disabled = true;
 	document.getElementById('toggleButton').disabled = true;
@@ -154,7 +157,7 @@ function whileTraining(loss) {
 	if (loss == null)
 	{
 		// Done training
-		document.getElementById('upperText').innerHTML = "Done Training";
+		document.getElementById('upperText').innerHTML = "Done Training!";
 		
 		// Enables the buttons
 		document.getElementById('instrButton').disabled = false;
