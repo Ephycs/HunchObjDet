@@ -69,7 +69,9 @@ function setup() {
 }
 
 // This will call when the window is resized
-window.onresize = function() {
+window.addEventListener("resize", resize);
+
+function resize() {
 	
 	console.log("Window was resized");
 	
