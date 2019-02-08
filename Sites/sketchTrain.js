@@ -7,14 +7,15 @@ let model;
 let classifier;
 let video;
 let canvas;
-var w = window.innerWidth * 0.97;
-var h = window.innerHeight * 0.97;
+var w;
+var h;
 
 var countStr;
 var preStr = "";
 var isPredicting;
 
 function alertInstr() {
+	
 	alert("Warning: do not flip screen.\n1) Start training the model by entering the 'name' & 'description' of the object, then press the 'Add Image' button.\n2) To train another object, just simply change the 'name' & 'description' and take pictures of the new object.\n3) Try to have roughly the same amount of images for each of your pictures.\n4) When ready, tap the 'Train' button to train the model, you will see the loss at the top.\n5) Once done, you can press the 'Predict' button to start or stop predicting objects.\n6) You can download the model to your computer's Downloads folder with the 'Download' button.\n7) At the bottom, you can load models into the page by clicking the 'Choose Files' button and selecting both the model.js & model.weights.bin.");
 }
 
@@ -29,7 +30,9 @@ function setup() {
 	document.getElementById('saveButton').disabled = true;
 	
 	// Creates the canvas to draw everything on
-	canvas = createCanvas(w, h);
+	w = window.innerHeight * 0.97;
+	h = window.innerHeight * 0.97;
+	createCanvas(w, h);
 	
 	var videoOptions = 
 	{
@@ -63,6 +66,15 @@ function setup() {
 	
 	// Will call function when files are loaded into the webpage
 	document.getElementById('files').addEventListener('change', modelLoad, false);
+}
+
+// This will call when the window is resized
+function windowResized() {
+	
+	// Resizes the canvas, w, and h when the user tilts the screen
+	w = window.innerWidth * 0.97;
+	h = window.innerHeight * 0.97;
+	resizeCanvas(w, h);
 }
 
 function draw() {
@@ -228,15 +240,22 @@ function gotResult(err, res) {
 	}
 }
 
+function changeCamera() {
+	
+	
+	
+}
+
+// Button that acts like a hyper link
+function goToDemoPage() {
+	
+	window.location="index.html";
+}
+
 // Saves the model to your Downloads
 function modelSave() {
 	
 	classifier.save();
-}
-
-function goToDemoPage() {
-	
-	window.location="index.html";
 }
 
 // FileList
