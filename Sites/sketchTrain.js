@@ -39,12 +39,15 @@ function setup() {
 		audio: false,
 		video: 
 		{
-			facingMode: "environment"
+			facingMode: "environment",
+			width: w,
+            height: h
 		}
 	};
 	
 	// Gets the camera input with certain options
-	video = createCapture(VIDEO);
+	video = createCapture(videoOptions);
+	capture.elt.setAttribute('playsinline', '');
 	video.hide();
 	
 	background(0);
