@@ -31,10 +31,10 @@ function setup() {
 	
 	// Creates the canvas to draw everything on
 	w = window.innerHeight * 0.97;
-	h = window.innerHeight * 0.97;
+	h = window.innerHeight * 0.96;
 	createCanvas(w, h);
 	
-	/*var videoOptions = 
+	var videoOptions = 
 	{
 		audio: false,
 		video: 
@@ -44,13 +44,7 @@ function setup() {
 	};*/
 	
 	// Gets the camera input with certain options
-	video = createCapture({
-		audio: false,
-		video: 
-		{
-			facingMode: "environment"
-		}
-	});
+	video = createCapture(videoOptions);
 	video.elt.setAttribute('playsinline', '');
 	video.hide();
 	
@@ -80,15 +74,12 @@ function windowResized() {
 	
 	// Gets new width and height
 	w = window.innerWidth * 0.97;
-	h = window.innerHeight * 0.97;
+	h = window.innerHeight * 0.96;
 	
-	// I just want to check if the screen is in landscape mode, so when width > height
-	if (w > h)
-	{
-		// Resizes the canvas, w, and h when the user tilts the screen
-		resizeCanvas(w, h);
-		console.log("Window was resized");
-	}
+	// Resizes the canvas, w, and h when the user tilts the screen
+	resizeCanvas(w, h);
+	
+	console.log("Window was resized");
 }
 
 function draw() {
@@ -108,6 +99,9 @@ function modelReady() {
 function videoReady() {
 	
 	console.log('Video is ready!!!');
+	
+	// There is a bug that calls windowResized() before a Chrome page is loaded, so this is called a second later
+	windowResized();
 	
 	// Enables the buttons
 	document.getElementById('instrButton').disabled = false;
