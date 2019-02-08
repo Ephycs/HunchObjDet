@@ -16,14 +16,13 @@ var isPredicting;
 
 function alertInstr() {
 	
-	alert("Warning: do not flip screen.\n1) Start training the model by entering the 'name' & 'description' of the object, then press the 'Add Image' button.\n2) To train another object, just simply change the 'name' & 'description' and take pictures of the new object.\n3) Try to have roughly the same amount of images for each of your pictures.\n4) When ready, tap the 'Train' button to train the model, you will see the loss at the top.\n5) Once done, you can press the 'Predict' button to start or stop predicting objects.\n6) You can download the model to your computer's Downloads folder with the 'Download' button.\n7) At the bottom, you can load models into the page by clicking the 'Choose Files' button and selecting both the model.js & model.weights.bin.");
+	alert("Warning: Android users have to exit chrome and renter chrome, NOT RESFRESHING or clearing the page, then zoom out.\n1) Start training the model by entering the 'name' & 'description' of the object, then press the 'Add Image' button.\n2) To train another object, just simply change the 'name' & 'description' and take pictures of the new object.\n3) Try to have roughly the same amount of images for each of your pictures.\n4) When ready, tap the 'Train' button to train the model, you will see the loss at the top.\n5) Once done, you can press the 'Predict' button to start or stop predicting objects.\n6) You can download the model to your computer's Downloads folder with the 'Download' button.\n7) At the bottom, you can load models into the page by clicking the 'Choose Files' button and selecting both the model.js & model.weights.bin.");
 }
 
 function setup() {
 	
 	// Disables the buttons
 	document.getElementById('instrButton').disabled = true;
-	document.getElementById('demoButton').disabled = true;
 	document.getElementById('toggleButton').disabled = true;
 	document.getElementById('addButton').disabled = true;
 	document.getElementById('trainButton').disabled = true;
@@ -43,7 +42,8 @@ function setup() {
 		}
 	};
 	
-	// Gets the camera input with certain options
+	// Gets the camera, sets some video options, and for IOS needs the 'playsinline'
+	// Hides the video so that it can be used only by the canvas
 	video = createCapture(videoOptions);
 	video.elt.setAttribute('playsinline', '');
 	video.hide();
@@ -100,12 +100,11 @@ function videoReady() {
 	
 	console.log('Video is ready!!!');
 	
-	// There is a bug that calls windowResized() before a Chrome page is loaded, so this is called a second later
+	// There is a bug that calls windowResized() before a Chrome page is loaded, so this is called a second later to compensate
 	windowResized();
 	
 	// Enables the buttons
 	document.getElementById('instrButton').disabled = false;
-	document.getElementById('demoButton').disabled = false;
 	document.getElementById('toggleButton').disabled = false;
 	document.getElementById('addButton').disabled = false;
 	document.getElementById('trainButton').disabled = false;
@@ -140,7 +139,6 @@ function modelTrain() {
 	
 	// Disables the buttons
 	document.getElementById('instrButton').disabled = true;
-	document.getElementById('demoButton').disabled = true;
 	document.getElementById('toggleButton').disabled = true;
 	document.getElementById('addButton').disabled = true;
 	document.getElementById('trainButton').disabled = true;
@@ -160,7 +158,6 @@ function whileTraining(loss) {
 		
 		// Enables the buttons
 		document.getElementById('instrButton').disabled = false;
-		document.getElementById('demoButton').disabled = false;
 		document.getElementById('toggleButton').disabled = false;
 		document.getElementById('addButton').disabled = false;
 		document.getElementById('trainButton').disabled = false;
@@ -189,7 +186,6 @@ function togglePredicting() {
 		
 		// Disables all buttons except the document.getElementById('toggleButton')
 		document.getElementById('instrButton').disabled = true;
-		document.getElementById('demoButton').disabled = true;
 		document.getElementById('addButton').disabled = true;
 		document.getElementById('trainButton').disabled = true;
 		document.getElementById('saveButton').disabled = true;
@@ -209,7 +205,6 @@ function togglePredicting() {
 		
 		// Enables all buttons except the document.getElementById('toggleButton')
 		document.getElementById('instrButton').disabled = false;
-		document.getElementById('demoButton').disabled = false;
 		document.getElementById('addButton').disabled = false;
 		document.getElementById('trainButton').disabled = false;
 		document.getElementById('saveButton').disabled = false;
@@ -248,16 +243,11 @@ function gotResult(err, res) {
 	}
 }
 
+// Changes the camera used
 function changeCamera() {
 	
 	
 	
-}
-
-// Button that acts like a hyper link
-function goToDemoPage() {
-	
-	window.location="index.html";
 }
 
 // Saves the model to your Downloads

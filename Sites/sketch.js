@@ -6,8 +6,8 @@
 let model;
 let video;
 let canvas;
-var w = window.innerWidth * 0.97;
-var h = window.innerHeight * 0.97;
+var w;
+var h;
 
 var countStr;
 var preStr = "";
@@ -18,7 +18,7 @@ var prediction;
 var accuracy;
 
 function alertInstr() {
-	alert("Warning: do not flip screen.\n1) This page uses a pretrained model to predict objects through your device's camera.\n2) Press the 'Predict' button to start or stop predicting objects.\n3) Objects detected will appear at the top of the screen.\n4) Information about that object will appear at the bottom of the screen.\n5) Press the 'Add Image Page' button to add images of your own");
+	alert("Warning: Android users have to exit chrome and renter chrome, NOT RESFRESHING or clearing the page, then zoom out.\n1) This page uses a pretrained model to predict objects through your device's camera.\n2) Press the 'Predict' button to start or stop predicting objects.\n3) Objects detected will appear at the top of the screen.\n4) Information about that object will appear at the bottom of the screen.\n5) Press the 'Add Image Page' button to add images of your own");
 }
 
 function setup() {
@@ -26,9 +26,10 @@ function setup() {
 	// Disables the buttons
 	document.getElementById('instrButton').disabled = true;
 	document.getElementById('toggleButton').disabled = true;
-	document.getElementById('addButton').disabled = true;
 	
 	// Creates the canvas to draw everything on
+	w = window.innerHeight * 0.97;
+	h = window.innerHeight * 0.96;
 	canvas = createCanvas(w, h);
 	
 	var videoOptions = 
@@ -40,8 +41,10 @@ function setup() {
 		}
 	};
 	
-	// Gets the camera input with certain options
+	// Gets the camera, sets some video options, and for IOS needs the 'playsinline'
+	// Hides the video so that it can be used only by the canvas
 	video = createCapture(videoOptions);
+	video.elt.setAttribute('playsinline', '');
 	video.hide();
 	
 	background(0);
@@ -60,6 +63,19 @@ function setup() {
 	alert("Press the 'Instructions' button for instructions");
 }
 
+// This will call when the window is resized
+function windowResized() {
+	
+	// Gets new width and height
+	w = window.innerWidth * 0.97;
+	h = window.innerHeight * 0.96;
+	
+	// Resizes the canvas, w, and h when the user tilts the screen
+	resizeCanvas(w, h);
+	
+	console.log("Window was resized");
+}
+
 function draw() {
 	
 	background(0);
@@ -73,10 +89,12 @@ function modelReady() {
 	
 	console.log('Model & Video are ready!!!');
 	
+	// There is a bug that calls windowResized() before a Chrome page is loaded, so this is called a second later to compensate
+	windowResized();
+	
 	// Enables the buttons
 	document.getElementById('instrButton').disabled = false;
 	document.getElementById('toggleButton').disabled = false;
-	document.getElementById('addButton').disabled = false;
 }
 
 // Starts or Stops predicting
@@ -95,7 +113,6 @@ function togglePredicting() {
 		
 		// Disables all buttons except the document.getElementById('toggleButton')
 		document.getElementById('instrButton').disabled = true;
-		document.getElementById('addButton').disabled = true;
 		
 		// Actual predicting
 		model.predict(gotResult);
@@ -112,7 +129,6 @@ function togglePredicting() {
 		
 		// Enables all buttons except the document.getElementById('toggleButton')
 		document.getElementById('instrButton').disabled = false;
-		document.getElementById('addButton').disabled = false;
 		
 		// Clears previous predictions
 		document.getElementById('upperText').innerHTML = "...";
@@ -154,9 +170,4 @@ function gotResult(err, res) {
 			model.predict(gotResult);
 		}
 	}
-}
-
-function goToAddImagePage() {
-	
-	window.location="indexTrain.html";
 }
