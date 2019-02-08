@@ -41,7 +41,7 @@ function setup() {
 		{
 			facingMode: "environment"
 		}
-	};*/
+	};
 	
 	// Gets the camera input with certain options
 	video = createCapture(videoOptions);
