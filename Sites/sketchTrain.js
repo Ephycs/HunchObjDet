@@ -71,6 +71,8 @@ function setup() {
 // This will call when the window is resized
 function windowResized() {
 	
+	console.log("Window was resized");
+	
 	// Resizes the canvas, w, and h when the user tilts the screen
 	w = window.innerWidth * 0.97;
 	h = window.innerHeight * 0.97;
