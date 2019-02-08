@@ -78,12 +78,17 @@ function setup() {
 // This will call when the window is resized
 function windowResized() {
 	
-	console.log("Window was resized");
-	
-	// Resizes the canvas, w, and h when the user tilts the screen
+	// Gets new width and height
 	w = window.innerWidth * 0.97;
 	h = window.innerHeight * 0.97;
-	resizeCanvas(w, h);
+	
+	// I just want to check if the screen is in landscape mode, so when width > height
+	if (w > h)
+	{
+		// Resizes the canvas, w, and h when the user tilts the screen
+		resizeCanvas(w, h);
+		console.log("Window was resized");
+	}
 }
 
 function draw() {
