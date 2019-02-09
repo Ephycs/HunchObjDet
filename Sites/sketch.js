@@ -18,7 +18,7 @@ var prediction;
 var accuracy;
 
 function alertInstr() {
-	alert("Warning: Android users have to exit chrome and renter chrome, NOT RESFRESHING or clearing the page, then zoom out.\n1) This page uses a pretrained model to predict objects through your device's camera.\n2) Press the 'Predict' button to start or stop predicting objects.\n3) Objects detected will appear at the top of the screen.\n4) Information about that object will appear at the bottom of the screen.\n5) Press the 'Add Image Page' button to add images of your own");
+	alert("Warning: If the page or buttons don't load: keep the site, but leave your browser, then return back in and zoom out if need be.\n1) This page uses a pretrained model to predict objects through your device's camera.\n2) Press the 'Predict' button to start or stop predicting objects.\n3) Objects detected will appear at the top of the screen.\n4) Information about that object will appear at the bottom of the screen.\n5) Press the 'Add Image Page' button to add images of your own");
 }
 
 function setup() {
