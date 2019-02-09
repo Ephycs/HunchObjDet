@@ -2,38 +2,44 @@
 //
 //
 
-// Model, classier, video, and canvas setup
+// Model, classier, camera, and canvas setup
 let model;
 let classifier;
-let video;
+let camera;
 let canvas;
 var w;
 var h;
 
+var cameraOptions;
 var countStr;
 var preStr = "";
 var isPredicting;
 
 function alertInstr() {
 	
-	alert("Warning: If the page or buttons don't load: keep the site, but leave your browser, then return back in and zoom out if need be.\n1) Start training the model by entering the 'name' & 'description' of the object, then press the 'Add Image' button.\n2) To train another object, just simply change the 'name' & 'description' and take pictures of the new object.\n3) Try to have roughly the same amount of images for each of your pictures.\n4) When ready, tap the 'Train' button to train the model, you will see the loss at the top.\n5) Once done, you can press the 'Predict' button to start or stop predicting objects.\n6) You can download the model to your computer's Downloads folder with the 'Save' button.\n7) At the bottom, you can load models into the page by clicking the 'Choose Files' button and selecting both the model.js & model.weights.bin.");
+	alert("1) Start training the model by entering the 'name' & 'description' of the object, then press the 'Add Image' button.\n2) To train another object, just simply change the 'name' & 'description' and take pictures of the new object.\n3) Try to have roughly the same amount of images for each of your pictures.\n4) When ready, tap the 'Train' button to train the model, you will see the loss at the top.\n5) Once done, you can press the 'Predict' button to start or stop predicting objects.\n6) You can download the model to your computer's Downloads folder with the 'Save' button.\n7) At the bottom, you can load models into the page by clicking the 'Choose Files' button and selecting both the model.js & model.weights.bin.");
 }
 
 function setup() {
 	
 	// Disables the buttons
-	document.getElementById('instrButton').disabled = true;
-	document.getElementById('toggleButton').disabled = true;
-	document.getElementById('addButton').disabled = true;
-	document.getElementById('trainButton').disabled = true;
-	document.getElementById('saveButton').disabled = true;
+	able(true);
 	
 	// Creates the canvas to draw everything on
 	w = window.innerHeight * 0.97;
 	h = window.innerHeight * 0.96;
 	createCanvas(w, h);
 	
-	var videoOptions = 
+	// Sets up some variables
+	camNum = 0;
+	countStr = 0;
+	isPredicting = false;
+	
+	// Sets up the cameraOptions
+	// Creates the capture using those options
+	// IOS needs that 'playsinline' thing
+	// Hides the camera, so that it can be used on the canvas instead
+	cameraOptions = 
 	{
 		audio: false,
 		video: 
@@ -41,12 +47,9 @@ function setup() {
 			facingMode: "environment"
 		}
 	};
-	
-	// Gets the camera, sets some video options, and for IOS needs the 'playsinline'
-	// Hides the video so that it can be used only by the canvas
-	video = createCapture(videoOptions);
-	video.elt.setAttribute('playsinline', '');
-	video.hide();
+	camera = createCapture(cameraOptions);
+	camera.elt.setAttribute('playsinline', '');
+	camera.hide();
 	
 	background(0);
 	
@@ -54,19 +57,21 @@ function setup() {
 	document.getElementById('upperText').innerHTML = "No Images Trained";
 	document.getElementById('info').innerHTML = "Information about the object goes here";
 	
-	// Sets up some variables
-	countStr = 0;
-	isPredicting = false;
-	
 	// Gets the 'MobileNet' model through ml5
 	// Gets the model classification libraries from ml5
 	model = ml5.featureExtractor('MobileNet', modelReady);
-	classifier = model.classification(video, videoReady);
+	classifier = model.classification(camera, cameraReady);
 	
-	alert("Press the 'Instructions' button for instructions");
+	alert("Warning: If the page or buttons don't load right: keep the site, but leave your browser, then return back in and zoom out if need be.\nPress the 'Instructions' button for instructions");
 	
 	// Will call function when files are loaded into the webpage
 	document.getElementById('files').addEventListener('change', modelLoad, false);
+}
+
+// Sets & changes the camera used
+function changeCamera() {
+	
+	alert("Work in progress");
 }
 
 // This will call when the window is resized
@@ -82,33 +87,31 @@ function windowResized() {
 	console.log("Window was resized");
 }
 
+// draws the camera to the canvas
 function draw() {
 	
 	background(0);
 	
-	// Draws the video to the canvas
-	image(video, 0, 0, w, h);
+	// Draws the camera to the canvas
+	image(camera, 0, 0, w, h);
 	fill(255);
 }
 
+// Loads the model for transfer learning
 function modelReady() {
 	
 	console.log('Model is ready!!!');
 }
 
-function videoReady() {
+function cameraReady() {
 	
-	console.log('Video is ready!!!');
+	console.log('Camera is ready!!!');
 	
 	// There is a bug that calls windowResized() before a Chrome page is loaded, so this is called a second later to compensate
 	windowResized();
 	
 	// Enables the buttons
-	document.getElementById('instrButton').disabled = false;
-	document.getElementById('toggleButton').disabled = false;
-	document.getElementById('addButton').disabled = false;
-	document.getElementById('trainButton').disabled = false;
-	document.getElementById('saveButton').disabled = false;
+	able(false);
 }
 
 // Adds an image using the model, BUT THIS WILL NOT ADD TO THE ORIGINAL MODEL
@@ -141,11 +144,7 @@ function modelTrain() {
 	document.getElementById('upperText').innerHTML = "Starting Training...";
 	
 	// Disables the buttons
-	document.getElementById('instrButton').disabled = true;
-	document.getElementById('toggleButton').disabled = true;
-	document.getElementById('addButton').disabled = true;
-	document.getElementById('trainButton').disabled = true;
-	document.getElementById('saveButton').disabled = true;
+	able(true);
 	
 	// Trains the model, this will loop
 	classifier.train(whileTraining);
@@ -160,11 +159,7 @@ function whileTraining(loss) {
 		document.getElementById('upperText').innerHTML = "Done Training!";
 		
 		// Enables the buttons
-		document.getElementById('instrButton').disabled = false;
-		document.getElementById('toggleButton').disabled = false;
-		document.getElementById('addButton').disabled = false;
-		document.getElementById('trainButton').disabled = false;
-		document.getElementById('saveButton').disabled = false;
+		able(false);
 	}
 	else
 	{
@@ -187,8 +182,7 @@ function togglePredicting() {
 		// Changes the predict button to "Stop"
 		document.getElementById('toggleButton').innerHTML = "Stop";
 		
-		// Disables all buttons except the document.getElementById('toggleButton')
-		document.getElementById('instrButton').disabled = true;
+		// Disables all buttons except the 'camButton', 'toggleButton', & 'instrButton'
 		document.getElementById('addButton').disabled = true;
 		document.getElementById('trainButton').disabled = true;
 		document.getElementById('saveButton').disabled = true;
@@ -206,8 +200,7 @@ function togglePredicting() {
 		// Changes the predict button to "Stop"
 		document.getElementById('toggleButton').innerHTML = "Predict";
 		
-		// Enables all buttons except the document.getElementById('toggleButton')
-		document.getElementById('instrButton').disabled = false;
+		// Enables all buttons except the 'camButton', 'toggleButton', & 'instrButton'
 		document.getElementById('addButton').disabled = false;
 		document.getElementById('trainButton').disabled = false;
 		document.getElementById('saveButton').disabled = false;
@@ -246,11 +239,15 @@ function gotResult(err, res) {
 	}
 }
 
-// Changes the camera used
-function changeCamera() {
+// Becuase I disable and enable the buttons alot
+function able(bool) {
 	
-	
-	
+	document.getElementById('camButton').disabled = bool;
+	document.getElementById('instrButton').disabled = bool;
+	document.getElementById('toggleButton').disabled = bool;
+	document.getElementById('addButton').disabled = bool;
+	document.getElementById('trainButton').disabled = bool;
+	document.getElementById('saveButton').disabled = bool;
 }
 
 // Saves the model to your Downloads
