@@ -14,6 +14,7 @@ var cameraOptions;
 var countStr;
 var preStr = "";
 var isPredicting;
+var desData = new Object();
 
 function alertInstr() {
 	
@@ -120,8 +121,11 @@ function modelAddImage() {
 	console.log("Took a picture");
 	
 	// Gets what you typed into the input box
+	// Makes it lowercase
+	// Gets ride of all the spaces
 	var str = document.getElementById('inputText').value;
 	str = str.toLowerCase();
+	str = str.replace(/\s/g,'');
 	
 	// This will check if you have not pressed the button multiple times with the same name
 	if (preStr != str)
@@ -134,8 +138,27 @@ function modelAddImage() {
 	countStr++;
 	document.getElementById('info').innerHTML = str + " " + countStr;
 	
-	// Adds the image to our data
+	// Adds the image to our model
 	classifier.addImage(str);
+	
+	// Gets what you typed into the info box
+	// Makes it lowercase
+	// Gets ride of all the spaces
+	var des = document.getElementById('inputInfo').value;
+	des = des.toLowerCase();
+	des = des.replace(/\s/g,'');
+	
+	if (des == '' || des == 'description')
+	{
+		// In case you just want to add more images without changing the description
+		// Just make the description box '' or 'description'
+		console.log("The description was not changed");
+	}
+	else
+	{
+		// Adds the description to desData
+		desData[str] = des;
+	}
 }
 
 function modelTrain() {
@@ -253,7 +276,14 @@ function able(bool) {
 // Saves the model to your Downloads
 function modelSave() {
 	
+	console.log(desData);
+	
+	// Saves the model & weights
 	classifier.save();
+	
+	// Saves the description file, with the desData
+	var blob = new Blob([desData.toString()], {type: "text/plain;charset=utf-8"});
+	saveAs(blob, "model.descriptions.txt");
 }
 
 // FileList
@@ -262,5 +292,8 @@ function modelLoad(evt) {
 	
 	var files = evt.target.files; // Creates the FileList object
 	
+	console.log(files);
+	
 	classifier.load(files, modelReady);
 }
+
