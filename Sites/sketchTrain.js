@@ -14,7 +14,7 @@ var cameraOptions;
 var countStr;
 var preStr = "";
 var isPredicting;
-var desData = new Object();
+var desData = [];
 
 function alertInstr() {
 	
@@ -118,8 +118,6 @@ function cameraReady() {
 // Adds an image using the model, BUT THIS WILL NOT ADD TO THE ORIGINAL MODEL
 function modelAddImage() {
 	
-	console.log("Took a picture");
-	
 	// Gets what you typed into the input box
 	// Makes it lowercase
 	// Gets ride of all the spaces
@@ -127,37 +125,53 @@ function modelAddImage() {
 	str = str.toLowerCase();
 	str = str.replace(/\s/g,'');
 	
-	// This will check if you have not pressed the button multiple times with the same name
-	if (preStr != str)
-	{
-		countStr = 0;
-		preStr = str;
-	}
-	
-	// Adds 1 to how many times you press the Add Image button with the same string
-	countStr++;
-	document.getElementById('info').innerHTML = str + " " + countStr;
-	
-	// Adds the image to our model
-	classifier.addImage(str);
-	
 	// Gets what you typed into the info box
 	// Makes it lowercase
-	// Gets ride of all the spaces
 	var des = document.getElementById('inputInfo').value;
 	des = des.toLowerCase();
-	des = des.replace(/\s/g,'');
 	
-	if (des == '' || des == 'description')
+	// Checks to see if the name or description of the object is empty or includes bad special characters
+	if (str == '')
 	{
-		// In case you just want to add more images without changing the description
-		// Just make the description box '' or 'description'
-		console.log("The description was not changed");
+		alert("Please input a name");
+	}
+	else if (str.includes("'") || str.includes('"') || str.includes(',') || str.includes(';') || str.includes(':'))
+	{
+		alert("Names can't have ' " + '"' + " , ; :  in it");
+	}
+	else if (des.includes("'") || des.includes('"') || des.includes(',') || des.includes(';') || des.includes(':'))
+	{
+		alert("Descriptions can't have ' " + '"' + " , ; :  in it");
 	}
 	else
 	{
-		// Adds the description to desData
-		desData[str] = des;
+		console.log("Took a picture");
+		
+		// This will check if you have not pressed the button multiple times with the same name
+		if (preStr != str)
+		{
+			countStr = 0;
+			preStr = str;
+		}
+		
+		// Adds 1 to how many times you press the Add Image button with the same string
+		countStr++;
+		document.getElementById('info').innerHTML = str + " " + countStr;
+		
+		// Adds the image to our model
+		classifier.addImage(str);
+	
+		if (des == '' || des == 'description')
+		{
+			// In case you just want to add more images without changing the description
+			// Just make the description box '' or 'description'
+			console.log("The description was not changed");
+		}
+		else
+		{
+			// Adds the description to desData
+			addDesData(str, des);
+		}
 	}
 }
 
@@ -273,6 +287,72 @@ function able(bool) {
 	document.getElementById('saveButton').disabled = bool;
 }
 
+// Adds an description to the 
+function addDesData(s, d) {
+	
+	// The first time this goes throught it will always error because there is nothing in the array
+	if (desData.length == 0)
+	{
+		// Adds the data to the array
+		desData.push('n_' + s + ': ' + '"' + d + '"');
+		
+		console.log(desData[0]);
+	}
+	else
+	{
+		var name = 'n_' + s;
+		var idx = searchStringInArray(name, desData);
+		
+		if (idx == 0)
+		{
+			// Found, but the first one
+			
+			// Sets it for the first one
+			desData[idx] = name + ': ' + '"' + d + '"';
+			
+			// Should be zero
+			console.log(idx + ") " + desData[idx]);
+			
+			// It was found
+			found = true;
+		}
+		else if (idx == -1)
+		{
+			// Not found
+			
+			// Adds the data to the array
+			desData.push(name + ': ' + '"' + d + '"');
+			
+			var last = desData.length - 1;
+			console.log(last + ") " + desData[last]);
+		}
+		else
+		{
+			// Found in a position other than 0
+			
+			// Sets it
+			desData[idx] = name + ': ' + '"' + d + '"';
+			
+			console.log(idx + ") " + desData[idx]);
+			
+			// It was found
+			found = true;
+		}
+	}
+}
+
+// Searches the names in the array
+function searchStringInArray(s, a) {
+    for (var i = 0; i < a.length; i++) 
+	{
+        if (a[i].includes(s + ':', 0))
+		{
+			return i;
+		}
+    }
+    return -1;
+}
+
 // Saves the model to your Downloads
 function modelSave() {
 	
@@ -282,7 +362,7 @@ function modelSave() {
 	classifier.save();
 	
 	// Saves the description file, with the desData
-	var blob = new Blob([desData.toString()], {type: "text/plain;charset=utf-8"});
+	var blob = new Blob([desData], {type: "text/plain;charset=utf-8"});
 	saveAs(blob, "model.descriptions.txt");
 }
 
