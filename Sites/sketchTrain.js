@@ -183,8 +183,15 @@ function modelTrain() {
 	// Disables the buttons
 	able(true);
 	
-	// Trains the model, this will loop
-	classifier.train(whileTraining);
+	try
+	{
+		// Trains the model, this will loop
+		classifier.train(whileTraining);
+	}
+	catch(err)
+	{
+		alert(err);
+	}
 }
 
 function whileTraining(loss) {
