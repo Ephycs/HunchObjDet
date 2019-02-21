@@ -4,7 +4,7 @@
 
 // Model, classier, camera, and canvas setup
 let model;
-let classifier;
+const classifier;
 let camera;
 let canvas;
 var w;
@@ -183,15 +183,8 @@ function modelTrain() {
 	// Disables the buttons
 	able(true);
 	
-	try
-	{
-		// Trains the model, this will loop
-		classifier.train(whileTraining);
-	}
-	catch(err)
-	{
-		document.getElementById('upperText').innerHTML = err.message;
-	}
+	// Trains the model, this will loop
+	classifier.train(whileTraining);
 }
 
 function whileTraining(loss) {
