@@ -382,7 +382,7 @@ function modelLoad(evt) {
 	for (var i = 0, f; f = files[i]; i++) 
 	{
 		// Checks for a .txt file
-		if (f.type.match(/text.*/)
+		if (f.type.match(/text.*/))
 		{
 			// Checks for the name 'model.descriptions.txt'
 			if (f.name.includes('model.descriptions.txt'))
@@ -408,5 +408,7 @@ function modelLoad(evt) {
 	
 	// Loads the model
 	classifier.load(files, modelReady);
+	
+	document.getElementById('upperText').innerHTML = 'Model & Descriptions Loaded!';
 }
 
