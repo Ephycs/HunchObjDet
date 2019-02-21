@@ -190,7 +190,7 @@ function modelTrain() {
 	}
 	catch(err)
 	{
-		alert(err);
+		alert(err.message);
 	}
 }
 
