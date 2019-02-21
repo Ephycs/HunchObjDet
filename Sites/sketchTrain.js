@@ -190,7 +190,7 @@ function modelTrain() {
 	}
 	catch(err)
 	{
-		alert(err.message);
+		document.getElementById('upperText').innerHTML = err.message;
 	}
 }
 
