@@ -135,13 +135,13 @@ function modelAddImage() {
 	{
 		alert("Please input a name");
 	}
-	else if (str.includes("'") || str.includes('"') || str.includes(',') || str.includes(';') || str.includes(':'))
+	else if (str.includes("'") || str.includes('"') || str.includes(',') || str.includes(';') || str.includes(":"))
 	{
-		alert("Names can't have ' " + '"' + " , ; :  in it");
+		alert("Names can't have ' '' , ; or : in it");
 	}
-	else if (des.includes("'") || des.includes('"') || des.includes(',') || des.includes(';') || des.includes(':'))
+	else if (des.includes("'") || des.includes('"') || des.includes(',') || des.includes(';') || des.includes(":"))
 	{
-		alert("Descriptions can't have ' " + '"' + " , ; :  in it");
+		alert("Descriptions can't have ' '' , ; or : in it");
 	}
 	else
 	{
@@ -290,38 +290,43 @@ function able(bool) {
 // Adds an description to the 
 function addDesData(s, d) {
 	
+	// Creates the fullText and description format
+	var fullText = 'N_' + s + ': D_' + d;
+	
+	//Creates the name to check for later
+	var name = 'N_' + s + ':';
+	
 	// The first time this goes throught it will always error because there is nothing in the array
 	if (desData.length == 0)
 	{
 		// Adds the data to the array
-		desData.push('n_' + s + ': ' + '"' + d + '"');
+		desData.push(fullText);
 		
 		console.log(desData[0]);
 	}
 	else
 	{
-		var name = 'n_' + s;
+		// Searches for a atring in the array
 		var idx = searchStringInArray(name, desData);
+		
+		console.log(idx);
 		
 		if (idx == 0)
 		{
 			// Found, but the first one
 			
 			// Sets it for the first one
-			desData[idx] = name + ': ' + '"' + d + '"';
+			desData[idx] = fullText;
 			
 			// Should be zero
-			console.log(idx + ") " + desData[idx]);
-			
-			// It was found
-			found = true;
+			console.log("Replaced First one " + idx + ") " + desData[idx]);
 		}
 		else if (idx == -1)
 		{
 			// Not found
 			
 			// Adds the data to the array
-			desData.push(name + ': ' + '"' + d + '"');
+			desData.push(fullText);
 			
 			var last = desData.length - 1;
 			console.log(last + ") " + desData[last]);
@@ -331,12 +336,9 @@ function addDesData(s, d) {
 			// Found in a position other than 0
 			
 			// Sets it
-			desData[idx] = name + ': ' + '"' + d + '"';
+			desData[idx] = fullText;
 			
 			console.log(idx + ") " + desData[idx]);
-			
-			// It was found
-			found = true;
 		}
 	}
 }
@@ -345,7 +347,9 @@ function addDesData(s, d) {
 function searchStringInArray(s, a) {
     for (var i = 0; i < a.length; i++) 
 	{
-        if (a[i].includes(s + ':', 0))
+		//console.log("s: " + s + ", includes thing: " + check);
+		
+        if (a[i].includes(s))
 		{
 			return i;
 		}
@@ -370,10 +374,39 @@ function modelSave() {
 // You have the select both the model.json & model.weights.bin files into at the sametime!
 function modelLoad(evt) {
 	
-	var files = evt.target.files; // Creates the FileList object
-	
+	// Creates the FileList object
+	var files = evt.target.files;
 	console.log(files);
 	
+	// Checks for the certain file
+	for (var i = 0, f; f = files[i]; i++) 
+	{
+		// Checks for a .txt file
+		if (f.type.match(/text.*/)
+		{
+			// Checks for the name 'model.descriptions.txt'
+			if (f.name.includes('model.descriptions.txt'))
+			{
+				var reader = new FileReader();
+				
+				reader.onload = function(e)
+				{
+					// Gets the data from the file
+					var data = reader.result;
+					
+					// Puts into the desData
+					// This will overwrite perious data in the webpage's session
+					desData = data.split(",");
+					
+					console.log(desData);
+				}
+				
+				reader.readAsText(f);
+			}
+		}
+	}
+	
+	// Loads the model
 	classifier.load(files, modelReady);
 }
 

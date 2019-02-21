@@ -8,6 +8,12 @@ $ cd (my-project)/
 $ git init
 $ heroku git:remote -a (my-project)
 
+To connect it to a github repository
+$ git remote add origin https://github.com/(link it gives me)
+
+The one it gave me:
+$ git remote add origin https://github.com/Platt-Hunch/plattobjdetwebpage.git
+
 The bare minimun to copy at make other websites:
 index.js
 package.json
@@ -15,6 +21,12 @@ Procfile
 README.md
 
 While in (my-project), to upload the changes:
-git add .
-$ git commit -am "(describe the changes)"
+$ git add .
+$ git commit -m "(describe the changes)"
 $ git push heroku master
+
+Push to Github:
+$ git add .
+$ git commit -m "(describe the changes)"
+$ git push -u origin master //For first time
+$ git push //Every other push
