@@ -4,7 +4,7 @@
 
 // Model, classier, camera, and canvas setup
 let model;
-const classifier;
+let classifier;
 let camera;
 let canvas;
 var w;
@@ -177,32 +177,30 @@ function modelAddImage() {
 
 function modelTrain() {
 	
-	// Start training
-	document.getElementById('upperText').innerHTML = "Starting Training...";
-	
 	// Disables the buttons
 	able(true);
 	
-	// Trains the model, this will loop
-	classifier.train(whileTraining);
-}
-
-function whileTraining(loss) {
+	// Start training
+	document.getElementById('upperText').innerHTML = "Starting Training...";
 	
-	// Checks if finshed training
-	if (loss == null)
-	{
-		// Done training
-		document.getElementById('upperText').innerHTML = "Done Training!";
-		
-		// Enables the buttons
-		able(false);
-	}
-	else
-	{
-		// Still training
-		document.getElementById('upperText').innerHTML = "Still Training, Loss: " + loss;
-	}
+	// Trains the model, this will loop
+	classifier.train(function(lossValue) {
+	
+		// Checks if finshed training
+		if (lossValue == null)
+		{
+			// Done training
+			document.getElementById('upperText').innerHTML = "Done Training!";
+			
+			// Enables the buttons
+			able(false);
+		}
+		else
+		{
+			// Still training
+			document.getElementById('upperText').innerHTML = "Still Training, Loss: " + lossValue;
+		}
+	});
 }
 
 // Starts or Stops predicting
