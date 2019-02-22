@@ -61,6 +61,9 @@ function setup() {
 	
 	alert("Warning: If the page or buttons don't load right: keep the site, but leave your browser, then return back in and zoom out if need be.\nPress the 'Instructions' button for instructions");
 	
+	// Will preload the model from the 'model' folder
+	//preLoad();
+	
 	// Will call modelLoad when files are loaded into the webpage
 	document.getElementById('files').addEventListener('change', modelLoad, false);
 	
