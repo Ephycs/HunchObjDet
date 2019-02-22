@@ -1,0 +1,66 @@
+body {
+	background-color: black;
+	color: #f1f1f1;
+	font-family: Arial;
+}
+
+.upper {
+	position: fixed;
+	top: -16px;
+	left: 0px;
+	background: rgba(0, 0, 0, 0.5);
+	width: 100%;
+	padding: 1em;
+}
+
+.content {
+    position: fixed;
+    bottom: 0;
+	left: -20px;
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    padding: 20px;
+	text-align: center;
+}
+
+button {
+	font-size: 1em;
+	padding: .5em;
+	border-radius: 8px;
+	background-color: silver;
+}
+
+input {
+	font-size: 1em;
+	border-radius: 8px;
+}
+
+/***********************/
+
+table {
+	width: 80%;
+	padding: .5em;
+}
+
+table, th, td {
+	padding: 0.1em;
+	text-align: center;
+}
+
+.addInput {
+	width: 96%;
+}
+#addButton {
+	width: 98%;
+	height: 4em;
+}
+
+.infoTable {
+	border-collapse: collapse;
+}
+.infoTable, .infoTh, .infoTd {
+	border: 2px solid white;
+}
+.infoTd, p {
+	font-size: 1.5em;
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Platt Object Recognition Training</title>
+	
+	<link rel="stylesheet" type="text/css" href="style.css">
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.1/p5.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.1/addons/p5.dom.min.js"></script>
+	<script src="https://unpkg.com/ml5@0.1.3/dist/ml5.min.js"></script>
+	<script src="FileSaver.js"></script>
+	<script src="sketchTrain.js"></script>
+</head>
+
+<body>
+	<div class="upper">
+		<table style="width: 100%;">
+			<tr>
+				<td style="width: 2em;"><button onClick="goTo('indexDemo.html')">Demo</button></td>
+				<td><h1 id="upperText" style="text-align: left;">No Images Trained</h1></td>
+			</tr>
+		</table>
+	</div>
+	
+	<div class="content">
+		<button id="camButton" onClick="changeCamera()">Change Cam</button>
+		<button id="instrButton" onClick="alertInstr()">Instructions</button>
+		<button id="toggleButton" onClick="togglePredicting()">Predict</button>
+		
+		<br><br>
+		
+		<center>
+		<table>
+			<tr>
+				<td><input type="text" id="inputText" class="addInput" value="name"></td>
+				<td rowspan="2" style="width: 2em;"><button id="addButton" onClick="modelAddImage()">Add Image</button></td>
+			</tr>
+			<tr>
+				<td><input type="text" id="inputInfo" class="addInput" value="description"></td>
+			</tr>
+		</table>
+		</center>
+		
+		<div id="info"><p>Information about the object goes here</p></div>
+		
+		<br>
+		
+		<button id="trainButton" onClick="modelTrain()">Train</button>
+		<button id="saveButton" onClick="modelSave()">Download Model</button>
+	</div>
+</body>
+
+</html>
