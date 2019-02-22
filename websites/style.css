@@ -24,14 +24,14 @@ body {
 }
 
 button {
-	font-size: 0.8em;
+	font-size: 0.9em;
 	padding: .5em;
 	border-radius: 8px;
 	background-color: silver;
 }
 
 input {
-	font-size: 0.8em;
+	font-size: 0.9em;
 	border-radius: 8px;
 }
 
@@ -62,5 +62,5 @@ table, th, td {
 	border: 2px solid white;
 }
 .infoTd, p {
-	font-size: 0.8em;
+	font-size: 1em;
 }
