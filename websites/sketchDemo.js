@@ -105,11 +105,11 @@ function preLoad() {
             }
         }
     }
-	rawFile.open("GET", "./model/model.descriptions.txt", false);
+	rawFile.open("GET", "model/model.descriptions.txt", true);
     rawFile.send(null);
 	
 	// Loads the other files by ml5 built in functions
-	classifier.load('./model/model.json', function() 
+	classifier.load('model/model.json', function() 
 	{
 		// Enables the buttons
 		able(false);
