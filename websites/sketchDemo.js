@@ -240,18 +240,18 @@ function findData(r) {
 function searchStringInArray(s, a) {
 	
 	var name = "N_" + s + ":";
-	console.log("Does desData have: " + name + "?");
+	//console.log("Does desData have: " + name + "?");
 	
     for (var i = 0; i < a.length; i++) 
 	{
         if (a[i].includes(name))
 		{
-			console.log("It does at position: " + i);
+			//console.log("It does at position: " + i);
 			return i;
 		}
     }
 	
-	console.log("It does not");
+	//console.log("It does not");
     return -1;
 }
 /*******************************/
@@ -328,19 +328,5 @@ function able(bool) {
 function goTo(toLink) {
 	
 	location.href = toLink;
-}
-
-
-/*******************************/
-// Preloading
-/*******************************/
-
-
-
-// Gives time for the preload to actually load 
-function unlock() {
-	
-	// Enables the buttons
-	able(false);
 }
 
