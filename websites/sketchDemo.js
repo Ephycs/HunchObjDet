@@ -26,8 +26,6 @@ function setup() {
 	able(true);
 	
 	// Sets up some variables
-	countStr = 0;
-	preStr = "";
 	isPredicting = false;
 	
 	// Sets up the cameraOptions
@@ -59,10 +57,10 @@ function setup() {
 	model = ml5.featureExtractor('MobileNet', modelReady);
 	classifier = model.classification(camera, cameraReady);
 	
-	alert("Warning: If the page or buttons don't load right: keep the site, but leave your browser, then return back in and zoom out if need be.\nPress the 'Instructions' button for instructions");
+	alert("Warning: If the page or buttons don't load right: keep the site, but leave your browser, then return back in.\nPress the 'Instructions' button for instructions");
 	
 	// Will preload the model from the 'model' folder
-	//preLoad();
+	preLoad();
 	
 	// Will call modelLoad when files are loaded into the webpage
 	document.getElementById('files').addEventListener('change', modelLoad, false);
@@ -81,9 +79,6 @@ function modelReady() {
 function cameraReady() {
 	
 	console.log('Camera is ready!!!');
-	
-	// There is a bug that calls windowResized() before a Chrome page is loaded, so this is called a second later to compensate
-	//windowResized();
 	
 	// Enables the buttons
 	able(false);
@@ -303,3 +298,35 @@ function goTo(toLink) {
 }
 
 
+/*******************************/
+// Preloading
+/*******************************/
+
+// This will upload preloaded models into the page to begin with
+function preLoad() {
+	
+	// Loads the txt file by XMLHttpRequest
+	var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", "./model/model.descriptions.txt", true);
+    rawFile.onreadystatechange = function ()
+    {
+        if(this.readyState === 4)
+        {
+            if(this.status === 200 || this.status == 0)
+            {
+				// Gets the data
+                var data = this.responseText;
+				
+				// Puts into the desData
+				// This will overwrite perious data in the webpage's session
+				desData = data.split(",");
+				
+				console.log(desData);
+            }
+        }
+    }
+    rawFile.send();
+	
+	// Loads the other files by ml5 built in functions
+	classifier.load('./model/model.json', modelReady);
+}
