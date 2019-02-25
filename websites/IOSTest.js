@@ -68,6 +68,9 @@ function setup() {
 function modelReady() {
 	
 	console.log('Model is ready!!!');
+	
+	document.getElementById("upperText").innerHTML = "MobileNet loaded!";
+	
 	model.predict(gotResults);
 }
 
@@ -256,5 +259,36 @@ function modelLoad(evt) {
 	model.load(files, modelReady);
 	
 	document.getElementById('upperText').innerHTML = 'Model & Descriptions Loaded!';
+}
+
+
+/*******************************/
+// Extra
+/*******************************/
+
+// This will call when the window is resized
+function windowResized() {
+	
+	// Gets new width and height
+	w = window.innerWidth * 0.98;
+	h = window.innerHeight * 0.96;
+	
+	// Resizes the canvas, w, and h when the user tilts the screen
+	resizeCanvas(w, h);
+	
+	console.log("Window was resized");
+}
+
+// Becuase I disable and enable the buttons alot
+function able(bool) {
+	
+	document.getElementById('camButton').disabled = bool;
+	document.getElementById('instrButton').disabled = bool;
+	document.getElementById('toggleButton').disabled = bool;
+}
+
+function goTo(toLink) {
+	
+	location.href = toLink;
 }
 
