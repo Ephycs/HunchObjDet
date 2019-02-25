@@ -71,7 +71,7 @@ function modelReady() {
 	
 	document.getElementById("upperText").innerHTML = "MobileNet loaded!";
 	
-	model.predict(gotResult);
+	able(false);
 }
 
 // Starts or Stops predicting
