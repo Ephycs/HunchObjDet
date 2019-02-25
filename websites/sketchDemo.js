@@ -108,6 +108,11 @@ function preLoad() {
 	rawFile.open("GET", "./model/model.descriptions.txt", true);
     rawFile.send(null);
 	
+	premodelLoad();
+}
+
+function premodelLoad() {
+	
 	// Loads the other files by ml5 built in functions
 	classifier.load('./model/model.json', function() 
 	{
