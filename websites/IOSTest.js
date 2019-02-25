@@ -207,20 +207,28 @@ function findData(r) {
 	// Finds the index of the result
 	var index = searchStringInArray(r, desData);
 	
-	// Gets the full text
-	var fullText = desData[index];
+	if (n == -1)
+	{
+		document.getElementById('info').innerHTML = "nothing";
+	}
+	else
+	{
+		// Gets the full text
+		var fullText = desData[index];
+		
+		// Get the position of : in the fullText
+		var n = fullText.indexOf(":");
+		
+		// Adds 4 to get ride of ': D_'
+		n = n + 4;
+		
+		// Gets the substring of fullText, aka, the description of the result
+		var s = fullText.substr(n);
+		
+		// Prints the text
+		document.getElementById('info').innerHTML = s;
+	}
 	
-	// Get the position of : in the fullText
-	var n = fullText.indexOf(":");
-	
-	// Adds 4 to get ride of ': D_'
-	n = n + 4;
-	
-	// Gets the substring of fullText, aka, the description of the result
-	var s = fullText.substr(n);
-	
-	// Prints the text
-	document.getElementById('info').innerHTML = s;
 }
 
 // Searches the names in the array
