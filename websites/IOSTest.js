@@ -54,73 +54,21 @@ function setup() {
 	
 	// Gets the 'MobileNet' model through ml5
 	// Gets the model classification libraries from ml5 and will use the camera
-	model = ml5.featureExtractor('MobileNet', modelReady);
+	model = ml5.imageClassifier('MobileNet', camera, modelReady);
 	
 	alert("Warning: If the page or buttons don't load right: keep the site, but leave your browser, then return back in.\nPress the 'Instructions' button for instructions");
 	
 	// Will call modelLoad when files are loaded into the webpage
-	document.getElementById('files').addEventListener('change', modelLoad, true);
+	document.getElementById('files').addEventListener('change', modelLoad, false);
 	
 	// There is a bug that calls windowResized() before a Chrome page is loaded, so this is called a second later to compensate
 	windowResized();
 }
 
-// Called after the model is loaded
 function modelReady() {
 	
 	console.log('Model is ready!!!');
-	
-	// Gets the camera ready for object classification
-	classifier = model.classification(camera, cameraReady);
-}
-
-// Called after the camera is loaded
-function cameraReady() {
-	
-	console.log('Camera is ready!!!');
-	
-	// Loads the preload
-	preLoad();
-}
-
-// This will upload preloaded models into the page to begin with
-function preLoad() {
-	
-	// Loads the txt file by XMLHttpRequest
-	var rawFile = new XMLHttpRequest();
-    rawFile.onreadystatechange = function ()
-    {
-        if(this.readyState === 4)
-        {
-            if(this.status === 200 || this.status == 0)
-            {
-				// Gets the data
-                var data = this.responseText;
-				
-				// Puts into the desData
-				// This will overwrite perious data in the webpage's session
-				desData = data.split(",");
-				
-				console.log(desData);
-            }
-        }
-    }
-	rawFile.open("GET", "./model/model.descriptions.txt", true);
-    rawFile.send(null);
-	
-	premodelLoad();
-}
-
-function premodelLoad() {
-	
-	// Loads the other files by ml5 built in functions
-	classifier.load('./model/model.json', function() 
-	{
-		document.getElementById("upperText").innerHTML = "Objects detected go here";
-		
-		// Enables the buttons
-		able(false);
-	});
+	model.predict(gotResults);
 }
 
 // Starts or Stops predicting
@@ -177,12 +125,12 @@ function gotResult(err, res) {
 		else
 		{
 			// Gets the top result
-			document.getElementById('upperText').innerHTML = res;
+			document.getElementById('upperText').innerHTML = res[0].className;
 			
-			findData(res);
+			findData(res[0].className);
 			
 			// Predicts again
-			classifier.classify(gotResult);
+			model.predict(gotResults);
 		}
 	}
 }
@@ -205,7 +153,8 @@ function draw() {
 // Intructions button
 function alertInstr() {
 	
-	alert("1) Press the 'Predict' button to start or stop predicting objects.\n2) At the bottom, you can load models into the page by clicking the 'Choose Files' button and selecting: 'model.json', 'model.weights.bin', and 'model.descriptions.txt' all at once.");
+	alert("This is a test for IOS");
+	//alert("1) Press the 'Predict' button to start or stop predicting objects.\n2) At the bottom, you can load models into the page by clicking the 'Choose Files' button and selecting: 'model.json', 'model.weights.bin', and 'model.descriptions.txt' all at once.");
 }
 
 // Sets & changes the camera used
@@ -213,6 +162,7 @@ function changeCamera() {
 	
 	alert("Work in progress");
 }
+
 
 /*******************************/
 // Finding Data
@@ -303,39 +253,8 @@ function modelLoad(evt) {
 	}
 	
 	// Loads the model
-	classifier.load(files, modelReady);
+	model.load(files, modelReady);
 	
 	document.getElementById('upperText').innerHTML = 'Model & Descriptions Loaded!';
-}
-
-
-/*******************************/
-// Extra
-/*******************************/
-
-// This will call when the window is resized
-function windowResized() {
-	
-	// Gets new width and height
-	w = window.innerWidth * 0.98;
-	h = window.innerHeight * 0.96;
-	
-	// Resizes the canvas, w, and h when the user tilts the screen
-	resizeCanvas(w, h);
-	
-	console.log("Window was resized");
-}
-
-// Becuase I disable and enable the buttons alot
-function able(bool) {
-	
-	document.getElementById('camButton').disabled = bool;
-	document.getElementById('instrButton').disabled = bool;
-	document.getElementById('toggleButton').disabled = bool;
-}
-
-function goTo(toLink) {
-	
-	location.href = toLink;
 }
 
