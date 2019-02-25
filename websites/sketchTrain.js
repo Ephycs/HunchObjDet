@@ -57,10 +57,8 @@ function setup() {
 	
 	background(0);
 	
-	// Gets the 'MobileNet' model through ml5
-	// Gets the model classification libraries from ml5 and will use the camera
+	// Gets the 'MobileNet' model featureExtractor libraries from ml5 ready
 	model = ml5.featureExtractor('MobileNet', modelReady);
-	classifier = model.classification(camera, cameraReady);
 	
 	alert("Warning: If the page or buttons don't load right: keep the site, but leave your browser, then return back in and zoom out if need be.\nPress the 'Instructions' button for instructions");
 	
@@ -72,6 +70,9 @@ function setup() {
 function modelReady() {
 	
 	console.log('Model is ready!!!');
+	
+	// Gets the camera ready for object classification
+	classifier = model.classification(camera, cameraReady);
 }
 
 // Called after the camera is loaded

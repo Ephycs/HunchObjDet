@@ -54,8 +54,7 @@ function setup() {
 	
 	// Gets the 'MobileNet' model through ml5
 	// Gets the model classification libraries from ml5 and will use the camera
-	model = ml5.featureExtractor('MobileNet', modelReady);
-	classifier = model.classification(camera, cameraReady);
+	model = ml5.featureExtractor('MobileNet', preLoad);
 	
 	alert("Warning: If the page or buttons don't load right: keep the site, but leave your browser, then return back in.\nPress the 'Instructions' button for instructions");
 	
@@ -66,10 +65,40 @@ function setup() {
 	windowResized();
 }
 
+// This will upload preloaded models into the page to begin with
+function preLoad() {
+	
+	// Loads the txt file by XMLHttpRequest
+	var rawFile = new XMLHttpRequest();
+    rawFile.onreadystatechange = function ()
+    {
+        if(this.readyState === 4)
+        {
+            if(this.status === 200 || this.status == 0)
+            {
+				// Gets the data
+                var data = this.responseText;
+				
+				// Puts into the desData
+				// This will overwrite perious data in the webpage's session
+				desData = data.split(",");
+				
+				console.log(desData);
+            }
+        }
+    }
+	rawFile.open("GET", "./model/model.descriptions.txt", true);
+    rawFile.send();
+	
+	// Loads the other files by ml5 built in functions
+	classifier.load('./model/model.json', modelReady);
+}
+
 // Called after the model is loaded
 function modelReady() {
 	
 	console.log('Model is ready!!!');
+	classifier = model.classification(camera, cameraReady);
 }
 
 // Called after the camera is loaded
@@ -77,9 +106,8 @@ function cameraReady() {
 	
 	console.log('Camera is ready!!!');
 	
-	// Will preload the model from the 'model' folder
-	// This has to be done after the camera is ready for some reason on IOS
-	preLoad();
+	// Enables the buttons
+	able(false);
 }
 
 // Starts or Stops predicting
@@ -301,34 +329,7 @@ function goTo(toLink) {
 // Preloading
 /*******************************/
 
-// This will upload preloaded models into the page to begin with
-function preLoad() {
-	
-	// Loads the txt file by XMLHttpRequest
-	var rawFile = new XMLHttpRequest();
-    rawFile.onreadystatechange = function ()
-    {
-        if(this.readyState === 4)
-        {
-            if(this.status === 200 || this.status == 0)
-            {
-				// Gets the data
-                var data = this.responseText;
-				
-				// Puts into the desData
-				// This will overwrite perious data in the webpage's session
-				desData = data.split(",");
-				
-				console.log(desData);
-            }
-        }
-    }
-	rawFile.open("GET", "./model/model.descriptions.txt", true);
-    rawFile.send();
-	
-	// Loads the other files by ml5 built in functions
-	classifier.load('./model/model.json', unlock);
-}
+
 
 // Gives time for the preload to actually load 
 function unlock() {
