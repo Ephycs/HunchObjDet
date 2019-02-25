@@ -71,7 +71,7 @@ function modelReady() {
 	
 	document.getElementById("upperText").innerHTML = "MobileNet loaded!";
 	
-	model.predict(gotResults);
+	model.predict(gotResult);
 }
 
 // Starts or Stops predicting
@@ -89,7 +89,7 @@ function togglePredicting() {
 		document.getElementById('toggleButton').innerHTML = "Stop";
 		
 		// Actual predicting
-		classifier.classify(gotResult);
+		model.predict(gotResult);
 	}
 	else
 	{
