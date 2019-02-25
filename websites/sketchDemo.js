@@ -54,7 +54,7 @@ function setup() {
 	
 	// Gets the 'MobileNet' model through ml5
 	// Gets the model classification libraries from ml5 and will use the camera
-	model = ml5.featureExtractor('MobileNet', preLoad);
+	model = ml5.featureExtractor('MobileNet', modelReady);
 	
 	alert("Warning: If the page or buttons don't load right: keep the site, but leave your browser, then return back in.\nPress the 'Instructions' button for instructions");
 	
@@ -63,6 +63,24 @@ function setup() {
 	
 	// There is a bug that calls windowResized() before a Chrome page is loaded, so this is called a second later to compensate
 	windowResized();
+}
+
+// Called after the model is loaded
+function modelReady() {
+	
+	console.log('Model is ready!!!');
+	
+	// Gets the camera ready for object classification
+	classifier = model.classification(camera, cameraReady);
+}
+
+// Called after the camera is loaded
+function cameraReady() {
+	
+	console.log('Camera is ready!!!');
+	
+	// Loads the preload
+	preload();
 }
 
 // This will upload preloaded models into the page to begin with
@@ -91,23 +109,11 @@ function preLoad() {
     rawFile.send();
 	
 	// Loads the other files by ml5 built in functions
-	classifier.load('./model/model.json', modelReady);
-}
-
-// Called after the model is loaded
-function modelReady() {
-	
-	console.log('Model is ready!!!');
-	classifier = model.classification(camera, cameraReady);
-}
-
-// Called after the camera is loaded
-function cameraReady() {
-	
-	console.log('Camera is ready!!!');
-	
-	// Enables the buttons
-	able(false);
+	classifier.load('./model/model.json', function() 
+	{
+		// Enables the buttons
+		able(false);
+	});
 }
 
 // Starts or Stops predicting

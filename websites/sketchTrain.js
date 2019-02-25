@@ -84,69 +84,6 @@ function cameraReady() {
 	able(false);
 }
 
-// Adds an image using the model, BUT THIS WILL NOT ADD TO THE ORIGINAL MODEL
-function modelAddImage() {
-	
-	// Gets what you typed into the input box
-	// Makes it lowercase
-	// IT WILL GET RID OF ALL SPACES
-	var str = document.getElementById('inputText').value;
-	str = str.toLowerCase();
-	str = str.replace(/\s/g,'');
-	
-	// Gets what you typed into the info box
-	// Makes it lowercase
-	var des = document.getElementById('inputInfo').value;
-	des = des.toLowerCase();
-	
-	// Checks to see if the name or description of the object is empty or includes bad special characters
-	if (str == '')
-	{
-		alert("Please input a name");
-	}
-	else if (str.includes("'") || str.includes('"') || str.includes(',') || str.includes(';') || str.includes(":"))
-	{
-		alert("Names can't have ' '' , ; or : in it");
-	}
-	else if (des.includes("'") || des.includes('"') || des.includes(',') || des.includes(';') || des.includes(":"))
-	{
-		alert("Descriptions can't have ' '' , ; or : in it");
-	}
-	else
-	{
-		console.log("Took a picture");
-		
-		// This will check if you have not pressed the button multiple times with the same name
-		if (preStr != str)
-		{
-			countStr = 0;
-			preStr = str;
-		}
-		
-		// Adds 1 to how many times you press the Add Image button with the same string
-		countStr++;
-		
-		if (des == '' || des == 'description')
-		{
-			// In case you just want to add more images without changing the description
-			// Just make the description box '' or 'description'
-			console.log("The description was not changed");
-			
-			des = 'null';
-		}
-		else
-		{
-			// Adds the description to desData
-			addDesData(str, des);
-		}
-		
-		document.getElementById('info').innerHTML = `<center><table class='infoTable'><tr><th class='infoTh' style='width: 4em;'>Count</th><th class='infoTh' style='width: 8em;'>Name</th><th class='infoTh'>Description</th></tr><tr><td class='infoTd' style='width: 4em;'>${countStr}</td><td class='infoTd' style='width: 8em;'>${str}</td><td class='infoTd'>${des}</td></tr></table></center>`;
-		
-		// Adds the image to our model
-		classifier.addImage(str);
-	}
-}
-
 // Starts or Stops predicting
 function togglePredicting() {
 	
@@ -252,6 +189,69 @@ function changeCamera() {
 // Training
 // Saving
 /*******************************/
+
+// Adds an image using the model, BUT THIS WILL NOT ADD TO THE ORIGINAL MODEL
+function modelAddImage() {
+	
+	// Gets what you typed into the input box
+	// Makes it lowercase
+	// IT WILL GET RID OF ALL SPACES
+	var str = document.getElementById('inputText').value;
+	str = str.toLowerCase();
+	str = str.replace(/\s/g,'');
+	
+	// Gets what you typed into the info box
+	// Makes it lowercase
+	var des = document.getElementById('inputInfo').value;
+	des = des.toLowerCase();
+	
+	// Checks to see if the name or description of the object is empty or includes bad special characters
+	if (str == '')
+	{
+		alert("Please input a name");
+	}
+	else if (str.includes("'") || str.includes('"') || str.includes(',') || str.includes(';') || str.includes(":"))
+	{
+		alert("Names can't have ' '' , ; or : in it");
+	}
+	else if (des.includes("'") || des.includes('"') || des.includes(',') || des.includes(';') || des.includes(":"))
+	{
+		alert("Descriptions can't have ' '' , ; or : in it");
+	}
+	else
+	{
+		console.log("Took a picture");
+		
+		// This will check if you have not pressed the button multiple times with the same name
+		if (preStr != str)
+		{
+			countStr = 0;
+			preStr = str;
+		}
+		
+		// Adds 1 to how many times you press the Add Image button with the same string
+		countStr++;
+		
+		if (des == '' || des == 'description')
+		{
+			// In case you just want to add more images without changing the description
+			// Just make the description box '' or 'description'
+			console.log("The description was not changed");
+			
+			des = 'null';
+		}
+		else
+		{
+			// Adds the description to desData
+			addDesData(str, des);
+		}
+		
+		document.getElementById('info').innerHTML = `<center><table class='infoTable'><tr><th class='infoTh' style='width: 4em;'>Count</th><th class='infoTh' style='width: 8em;'>Name</th><th class='infoTh'>Description</th></tr><tr><td class='infoTd' style='width: 4em;'>${countStr}</td><td class='infoTd' style='width: 8em;'>${str}</td><td class='infoTd'>${des}</td></tr></table></center>`;
+		
+		// Adds the image to our model
+		classifier.addImage(str);
+	}
+}
 
 // Adds an description to the 
 function addDesData(s, d) {
