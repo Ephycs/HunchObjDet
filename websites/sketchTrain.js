@@ -79,9 +79,6 @@ function cameraReady() {
 	
 	console.log('Camera is ready!!!');
 	
-	// There is a bug that calls windowResized() before a Chrome page is loaded, so this is called a second later to compensate
-	//windowResized();
-	
 	// Enables the buttons
 	able(false);
 }

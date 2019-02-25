@@ -59,9 +59,6 @@ function setup() {
 	
 	alert("Warning: If the page or buttons don't load right: keep the site, but leave your browser, then return back in.\nPress the 'Instructions' button for instructions");
 	
-	// Will preload the model from the 'model' folder
-	preLoad();
-	
 	// Will call modelLoad when files are loaded into the webpage
 	document.getElementById('files').addEventListener('change', modelLoad, false);
 	
@@ -79,6 +76,10 @@ function modelReady() {
 function cameraReady() {
 	
 	console.log('Camera is ready!!!');
+	
+	// Will preload the model from the 'model' folder
+	// This has to be done after the camera is ready for some reason on IOS
+	preLoad();
 }
 
 // Starts or Stops predicting
