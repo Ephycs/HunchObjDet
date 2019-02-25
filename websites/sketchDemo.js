@@ -305,7 +305,6 @@ function preLoad() {
 	
 	// Loads the txt file by XMLHttpRequest
 	var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", "./model/model.descriptions.txt", true);
     rawFile.onreadystatechange = function ()
     {
         if(this.readyState === 4)
@@ -323,6 +322,7 @@ function preLoad() {
             }
         }
     }
+	rawFile.open("GET", "./model/model.descriptions.txt", true);
     rawFile.send();
 	
 	// Loads the other files by ml5 built in functions
