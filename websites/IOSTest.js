@@ -69,8 +69,35 @@ function modelReady() {
 	
 	console.log('Model is ready!!!');
 	
-	document.getElementById("upperText").innerHTML = "MobileNet loaded!";
+	preLoad()
+}
+
+// This will upload preloaded models into the page to begin with
+function preLoad() {
 	
+	// Loads the txt file by XMLHttpRequest
+	var rawFile = new XMLHttpRequest();
+    rawFile.onreadystatechange = function ()
+    {
+        if(this.readyState === 4)
+        {
+            if(this.status === 200 || this.status == 0)
+            {
+				// Gets the data
+                var data = this.responseText;
+				
+				// Puts into the desData
+				// This will overwrite perious data in the webpage's session
+				desData = data.split(",");
+				
+				console.log(desData);
+            }
+        }
+    }
+	rawFile.open("GET", "./model/model.descriptions.txt", true);
+    rawFile.send(null);
+	
+	document.getElementById("upperText").innerHTML = "MobileNet loaded!";
 	able(false);
 }
 
