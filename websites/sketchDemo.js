@@ -105,7 +105,7 @@ function preLoad() {
             }
         }
     }
-	rawFile.open("GET", "./model/model.descriptions.txt", true);
+	rawFile.open("GET", "./model/model.descriptions.txt", false);
     rawFile.send(null);
 	
 	// Loads the other files by ml5 built in functions
