@@ -80,11 +80,11 @@ function cameraReady() {
 	console.log('Camera is ready!!!');
 	
 	// Loads the preload
-	//preLoad();
+	preLoad();
 }
 
 // This will upload preloaded models into the page to begin with
-function preload() {
+function preLoad() {
 	
 	// Loads the txt file by XMLHttpRequest
 	var rawFile = new XMLHttpRequest();
@@ -105,13 +105,11 @@ function preload() {
             }
         }
     }
-	rawFile.open("GET", "model/model.descriptions.txt", true);
+	rawFile.open("GET", "./model/model.descriptions.txt", true);
     rawFile.send(null);
 	
-	alert("Txt file good");
-	
 	// Loads the other files by ml5 built in functions
-	classifier.load('model/model.json', function() 
+	classifier.load('./model/model.json', function() 
 	{
 		// Enables the buttons
 		able(false);
