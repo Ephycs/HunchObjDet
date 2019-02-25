@@ -79,9 +79,6 @@ function modelReady() {
 function cameraReady() {
 	
 	console.log('Camera is ready!!!');
-	
-	// Enables the buttons
-	able(false);
 }
 
 // Starts or Stops predicting
@@ -329,5 +326,13 @@ function preLoad() {
     rawFile.send();
 	
 	// Loads the other files by ml5 built in functions
-	classifier.load('./model/model.json', modelReady);
+	classifier.load('./model/model.json', unlock);
 }
+
+// Gives time for the preload to actually load 
+function unlock() {
+	
+	// Enables the buttons
+	able(false);
+}
+
