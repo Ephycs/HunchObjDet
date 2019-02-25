@@ -80,7 +80,7 @@ function cameraReady() {
 	console.log('Camera is ready!!!');
 	
 	// Loads the preload
-	preload();
+	preLoad();
 }
 
 // This will upload preloaded models into the page to begin with
