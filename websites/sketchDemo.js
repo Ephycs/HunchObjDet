@@ -80,11 +80,11 @@ function cameraReady() {
 	console.log('Camera is ready!!!');
 	
 	// Loads the preload
-	preLoad();
+	//preLoad();
 }
 
 // This will upload preloaded models into the page to begin with
-function preLoad() {
+function preload() {
 	
 	// Loads the txt file by XMLHttpRequest
 	var rawFile = new XMLHttpRequest();
@@ -262,7 +262,7 @@ function searchStringInArray(s, a) {
 // Loading Models
 /*******************************/
 
-// You have the select both the model.json, model.weights.bin, & model.descriptions.txt files into at the sametime!
+// You have the select the model.json, model.weights.bin, & model.descriptions.txt files into at the sametime!
 function modelLoad(evt) {
 	
 	// Creates the FileList object
