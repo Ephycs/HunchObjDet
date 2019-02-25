@@ -72,15 +72,15 @@ function modelReady() {
 	
 	// Gets the camera ready for object classification
 	classifier = model.classification(camera, cameraReady);
-	
-	// Loads the preload
-	preLoad();
 }
 
 // Called after the camera is loaded
 function cameraReady() {
 	
 	console.log('Camera is ready!!!');
+	
+	// Loads the preload
+	preLoad();
 }
 
 // This will upload preloaded models into the page to begin with
