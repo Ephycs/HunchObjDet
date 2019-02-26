@@ -235,12 +235,12 @@ function findData(r) {
 // Searches the names in the array
 function searchStringInArray(s, a) {
 	
-	var name = "N_" + s + ":";
+	//var name = "N_" + s + ":";
 	//console.log("Does desData have: " + name + "?");
 	
     for (var i = 0; i < a.length; i++) 
 	{
-        if (a[i].includes(name))
+        if (a[i].includes(s))
 		{
 			//console.log("It does at position: " + i);
 			return i;
