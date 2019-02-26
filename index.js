@@ -2,7 +2,6 @@ var http = require("http"),
 url = require("url"),
 path = require("path"),
 fs = require("fs"),
-global.fetch = require('node-fetch'),
 port = process.env.PORT || 8080;
 
 http.createServer(function(request, response) {
