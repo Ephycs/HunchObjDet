@@ -47,14 +47,16 @@ function setup() {
 	// IOS needs that 'playsinline' thing
 	// Hides the camera, so that it can be used on the canvas instead
 	camera = createCapture(cameraOptions);
-	camera.elt.setAttribute('playsinline', '');
+	camera.elt.setAttribute('playsinline', true);
+	camera.elt.setAttribute('controls', true);
+	camera.elt.setAttribute('autoplay', true);
 	camera.hide();
 	
 	background(0);
 	
 	// Gets the 'MobileNet' model through ml5
 	// Gets the model classification libraries from ml5 and will use the camera
-	model = ml5.imageClassifier('MobileNet', camera, modelReady);
+	model = ml5.imageClassifier('.model/model.json', camera, modelReady);
 	
 	alert("Warning: If the page or buttons don't load right: keep the site, but leave your browser, then return back in.\nPress the 'Instructions' button for instructions");
 	
