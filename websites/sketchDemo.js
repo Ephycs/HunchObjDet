@@ -93,6 +93,8 @@ function preLoad() {
         {
             if(this.status === 200 || this.status == 0)
             {
+				// Everything following the load must go here
+				
 				// Gets the data
                 var data = this.responseText;
 				
