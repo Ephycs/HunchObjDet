@@ -56,7 +56,7 @@ function setup() {
 	
 	// Gets the 'MobileNet' model through ml5
 	// Gets the model classification libraries from ml5 and will use the camera
-	model = ml5.imageClassifier('.model/model.json', camera, modelReady);
+	model = ml5.imageClassifier('MobileNet', camera, modelReady);
 	
 	alert("Warning: If the page or buttons don't load right: keep the site, but leave your browser, then return back in.\nPress the 'Instructions' button for instructions");
 	
