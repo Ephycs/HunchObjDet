@@ -4,6 +4,8 @@ path = require("path"),
 fs = require("fs"),
 port = process.env.PORT || 8080;
 
+global.fetch = require('node-fetch');
+
 http.createServer(function(request, response) {
 
   var uri = url.parse(request.url).pathname
