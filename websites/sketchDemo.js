@@ -105,7 +105,8 @@ function preLoad() {
 	rawFile.open("GET", "./model/model.descriptions.txt", true);
     rawFile.send(null);
 	
-	console.log("Preload txt:" + desData);
+	console.log("Preload txt:");
+	console.log(desData);
 	
 	premodelLoad();
 }
