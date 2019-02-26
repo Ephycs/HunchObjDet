@@ -99,15 +99,13 @@ function preLoad() {
 				// Puts into the desData
 				// This will overwrite perious data in the webpage's session
 				desData = data.split(",");
-				
-				console.log(desData);
             }
         }
     }
 	rawFile.open("GET", "./model/model.descriptions.txt", true);
     rawFile.send(null);
 	
-	console.log("Preload txt was loaded!!!");
+	console.log("Preload txt:" + desData);
 	
 	premodelLoad();
 }
@@ -339,9 +337,7 @@ function modelLoad(evt) {
 
 // This will call when the window is resized
 function windowResized() {
-	
-	console.log("Window was resized");
-	
+
 	// Gets new width and height
 	w = window.innerWidth * 0.98;
 	h = window.innerHeight * 0.96;
@@ -349,7 +345,7 @@ function windowResized() {
 	// Resizes the canvas, w, and h when the user tilts the screen
 	resizeCanvas(w, h);
 	
-	console.log("Window was resized!");
+	console.log("Window was resized");
 }
 
 // Becuase I disable and enable the buttons alot
