@@ -255,7 +255,7 @@ function modelAddImage() {
 		}
 		catch(err)
 		{
-			alert("Data did not go throught");
+			alert(err + "\nData did not go throught");
 		}
 	}
 }
