@@ -141,7 +141,7 @@ function gotResult(err, res) {
 			}
 			else
 			{
-				// I have come to find out "TypeError: Cannot read property 'predict' of null" might be the only error...
+				// Else
 				alert(err);
 			}
 		}
@@ -309,7 +309,7 @@ function addDesData(s, d) {
 	}
 }
 
-// Searches the names in the array
+// Searches the names in the array, but it is simpler
 function searchStringInArray(s, a) {
     for (var i = 0; i < a.length; i++) 
 	{
@@ -332,24 +332,32 @@ function modelTrain() {
 	// Start training
 	document.getElementById('upperText').innerHTML = "Starting Training...";
 	
-	// Trains the model, this will loop
-	classifier.train(function(lossValue) 
+	try
 	{
-		// Checks if finshed training
-		if (lossValue == null)
+		// Trains the model, this will loop
+		classifier.train(function(lossValue) 
 		{
-			// Done training
-			document.getElementById('upperText').innerHTML = "Done Training!";
-			
-			// Enables the buttons
-			able(false);
-		}
-		else
-		{
-			// Still training
-			document.getElementById('upperText').innerHTML = "Still Training, Loss: " + lossValue;
-		}
-	});
+			// Checks if finshed training
+			if (lossValue == null)
+			{
+				// Done training
+				document.getElementById('upperText').innerHTML = "Done Training!";
+				
+				// Enables the buttons
+				able(false);
+			}
+			else
+			{
+				// Still training
+				document.getElementById('upperText').innerHTML = "Still Training, Loss: " + lossValue;
+			}
+		});
+	}
+	catch(err)
+	{
+		// There is an error when training on IOS
+		alert(err);
+	}
 }
 
 // Saves the model to your Downloads

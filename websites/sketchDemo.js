@@ -170,7 +170,7 @@ function gotResult(err, res) {
 			}
 			else
 			{
-				// I have come to find out "TypeError: Cannot read property 'predict' of null" might be the only error...
+				// Else
 				alert(err);
 			}
 		}
