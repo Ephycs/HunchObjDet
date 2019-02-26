@@ -62,7 +62,7 @@ function setup() {
 	document.getElementById('files').addEventListener('change', modelLoad, true);
 	
 	// There is a bug that calls windowResized() before a Chrome page is loaded, so this is called a second later to compensate
-	windowResized();
+	//windowResized();
 }
 
 // Called after the model is loaded
