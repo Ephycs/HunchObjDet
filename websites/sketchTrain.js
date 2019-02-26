@@ -55,6 +55,8 @@ function setup() {
 	camera.elt.setAttribute('playsinline', '');
 	camera.hide();
 	
+	console.log("Camera was just set!");
+	
 	background(0);
 	
 	// Gets the 'MobileNet' model featureExtractor libraries from ml5 ready
@@ -62,14 +64,12 @@ function setup() {
 	
 	alert("Warning: If the page or buttons don't load right: keep the site, but leave your browser, then return back in and zoom out if need be.\nPress the 'Instructions' button for instructions");
 	
-	// There is a bug that calls windowResized() before a Chrome page is loaded, so this is called a second later to compensate
-	windowResized();
 }
 
 // Called after the model is loaded
 function modelReady() {
 	
-	console.log('Model is ready!!!');
+	console.log("Model was loaded!!!");
 	
 	// Gets the camera ready for object classification
 	classifier = model.classification(camera, cameraReady);
@@ -78,7 +78,7 @@ function modelReady() {
 // Called after the camera is loaded
 function cameraReady() {
 	
-	console.log('Camera is ready!!!');
+	console.log("Camera was loaded!!!");
 	
 	// Enables the buttons
 	able(false);
@@ -103,6 +103,8 @@ function togglePredicting() {
 		document.getElementById('trainButton').disabled = true;
 		document.getElementById('saveButton').disabled = true;
 		
+		console.log("Starting predicting...");
+		
 		// Actual predicting
 		classifier.classify(gotResult);
 	}
@@ -123,6 +125,8 @@ function togglePredicting() {
 		
 		// Clears previous predictions
 		document.getElementById('upperText').innerHTML = "...";
+		
+		console.log("Stopping predicting...");
 	}
 }
 
@@ -219,9 +223,7 @@ function modelAddImage() {
 		alert("Descriptions can't have ' '' , ; or : in it");
 	}
 	else
-	{
-		console.log("Took a picture");
-		
+	{	
 		// This will check if you have not pressed the button multiple times with the same name
 		if (preStr != str)
 		{
@@ -236,9 +238,9 @@ function modelAddImage() {
 		{
 			// In case you just want to add more images without changing the description
 			// Just make the description box '' or 'description'
-			console.log("The description was not changed");
+			//console.log("The description was not changed");
 			
-			des = 'null';
+			des = '(nothing changed)';
 		}
 		else
 		{
@@ -248,15 +250,11 @@ function modelAddImage() {
 		
 		document.getElementById('info').innerHTML = `<center><table class='infoTable'><tr><th class='infoTh' style='width: 4em;'>Count</th><th class='infoTh' style='width: 8em;'>Name</th><th class='infoTh'>Description</th></tr><tr><td class='infoTd' style='width: 4em;'>${countStr}</td><td class='infoTd' style='width: 8em;'>${str}</td><td class='infoTd'>${des}</td></tr></table></center>`;
 		
-		try
+		// Adds the image to our model
+		classifier.addImage(str, function() 
 		{
-			// Adds the image to our model
-			classifier.addImage(str);
-		}
-		catch(err)
-		{
-			alert(err + "\nData did not go throught");
-		}
+			console.log("Took an image!");
+		});
 	}
 }
 
@@ -275,7 +273,7 @@ function addDesData(s, d) {
 		// Adds the data to the array
 		desData.push(fullText);
 		
-		console.log(desData[0]);
+		//console.log(desData[0]);
 	}
 	else
 	{
@@ -338,6 +336,7 @@ function modelTrain() {
 	
 	// Start training
 	document.getElementById('upperText').innerHTML = "Starting Training...";
+	console.log("Starting training...");
 	
 	// Trains the model, this will loop
 	classifier.train(function(lossValue) 
@@ -347,6 +346,7 @@ function modelTrain() {
 		{
 			// Done training
 			document.getElementById('upperText').innerHTML = "Done Training!";
+			console.log("Done training!");
 			
 			// Enables the buttons
 			able(false);
@@ -362,14 +362,17 @@ function modelTrain() {
 // Saves the model to your Downloads
 function modelSave() {
 	
-	console.log(desData);
-	
-	// Saves the model & weights
-	classifier.save();
+	console.log("Saving txt data: " + desData);
 	
 	// Saves the description file, with the desData
 	var blob = new Blob([desData], {type: "text/plain;charset=utf-8"});
 	saveAs(blob, "model.descriptions.txt");
+	
+	// Saves the model & weights
+	classifier.save(function()
+	{
+		console.log("Model was saved!");
+	});
 }
 
 

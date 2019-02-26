@@ -50,6 +50,8 @@ function setup() {
 	camera.elt.setAttribute('playsinline', '');
 	camera.hide();
 	
+	console.log("Camera was just set!");
+	
 	background(0);
 	
 	// Gets the 'MobileNet' model through ml5
@@ -60,15 +62,12 @@ function setup() {
 	
 	// Will call modelLoad when files are loaded into the webpage
 	document.getElementById('files').addEventListener('change', modelLoad, true);
-	
-	// There is a bug that calls windowResized() before a Chrome page is loaded, so this is called a second later to compensate
-	//windowResized();
 }
 
 // Called after the model is loaded
 function modelReady() {
 	
-	console.log('Model is ready!!!');
+	console.log("Model was loaded!!!");
 	
 	// Gets the camera ready for object classification
 	classifier = model.classification(camera, cameraReady);
@@ -77,7 +76,7 @@ function modelReady() {
 // Called after the camera is loaded
 function cameraReady() {
 	
-	console.log('Camera is ready!!!');
+	console.log("Camera was loaded!!!");
 	
 	// Loads the preload
 	preLoad();
@@ -108,6 +107,8 @@ function preLoad() {
 	rawFile.open("GET", "./model/model.descriptions.txt", true);
     rawFile.send(null);
 	
+	console.log("Preload txt was loaded!!!");
+	
 	premodelLoad();
 }
 
@@ -117,6 +118,8 @@ function premodelLoad() {
 	classifier.load('./model/model.json', function() 
 	{
 		document.getElementById("upperText").innerHTML = "Objects detected go here";
+		
+		console.log("Preload was loaded!!!");
 		
 		// Enables the buttons
 		able(false);
@@ -130,12 +133,14 @@ function togglePredicting() {
 	if (isPredicting == false)
 	{
 		// It is not predicting
-		
+
 		// Turns predicting to true
 		isPredicting = true;
 		
 		// Changes the predict button to "Stop"
 		document.getElementById('toggleButton').innerHTML = "Stop";
+		
+		console.log("Starting predicting");
 		
 		// Actual predicting
 		classifier.classify(gotResult);
@@ -152,6 +157,8 @@ function togglePredicting() {
 		
 		// Clears previous predictions
 		document.getElementById('upperText').innerHTML = "...";
+		
+		console.log("Stopping predicting");
 	}
 }
 
@@ -287,7 +294,7 @@ function modelLoad(evt) {
 	
 	// Creates the FileList object
 	var files = evt.target.files;
-	console.log(files);
+	console.log("Starting to load files: " + files);
 	
 	// Checks for the certain file
 	for (var i = 0, f; f = files[i]; i++) 
@@ -309,13 +316,15 @@ function modelLoad(evt) {
 					// This will overwrite perious data in the webpage's session
 					desData = data.split(",");
 					
-					console.log(desData);
+					console.log("Text data: " + desData);
 				}
 				
 				reader.readAsText(f);
 			}
 		}
 	}
+	
+	console.log("Loading the new Model");
 	
 	// Loads the model
 	classifier.load(files, modelReady);
@@ -331,6 +340,8 @@ function modelLoad(evt) {
 // This will call when the window is resized
 function windowResized() {
 	
+	console.log("Window was resized");
+	
 	// Gets new width and height
 	w = window.innerWidth * 0.98;
 	h = window.innerHeight * 0.96;
@@ -338,7 +349,7 @@ function windowResized() {
 	// Resizes the canvas, w, and h when the user tilts the screen
 	resizeCanvas(w, h);
 	
-	console.log("Window was resized");
+	console.log("Window was resized!");
 }
 
 // Becuase I disable and enable the buttons alot
