@@ -203,7 +203,7 @@ function findData(r) {
 
 	// Finds the index of the result
 	var index = searchString(r, desData);
-	console.log(index);
+	//console.log(index);
 	
 	if (index != -1)
 	{
@@ -224,9 +224,8 @@ function findData(r) {
 	}
 	else
 	{
-		document.getElementById('info').innerHTML = "nothing";
+		document.getElementById('info').innerHTML = "no description";
 	}
-	
 }
 
 // Searches the names in the array
@@ -235,15 +234,18 @@ function searchString(s, a) {
 	// Just in case
 	s = s.toLowerCase();
 	
+	// Checks the entire array
 	for (var i = 0; i < a.length; i++)
 	{
+		// Isolates the name
 		var name = a[i].substring(
 			a[i].lastIndexOf("N_") + 2, 
 			a[i].lastIndexOf(":")
 		);
 		
-		console.log("The name to find is: " + name);
+		//console.log("The name to find is: " + name);
 		
+		// tries to find name in the result s
 		if (s.includes(name))
 		{
 			//console.log("It does at position: " + i);
@@ -253,23 +255,6 @@ function searchString(s, a) {
 	
 	//console.log("It does not");
     return -1;
-	
-	/*var name = "N_" + s + ":";
-	//console.log("Does desData have: " + name + "?");
-	
-	console.log(s);
-	
-    for (var i = 0; i < a.length; i++) 
-	{
-        if (a[i].includes(s))
-		{
-			//console.log("It does at position: " + i);
-			return i;
-		}
-    }
-	
-	//console.log("It does not");
-    return -1;*/
 }
 
 

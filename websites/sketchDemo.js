@@ -220,43 +220,58 @@ function changeCamera() {
 
 // Find the data from desData by the res from gotResult
 function findData(r) {
-	
-	// Just in case
-	r = r.toLowerCase();
-	
+
 	// Finds the index of the result
-	var index = searchStringInArray(r, desData);
+	var index = searchString(r, desData);
+	//console.log(index);
 	
-	// Gets the full text
-	var fullText = desData[index];
-	
-	// Get the position of : in the fullText
-	var n = fullText.indexOf(":");
-	
-	// Adds 4 to get ride of ': D_'
-	n = n + 4;
-	
-	// Gets the substring of fullText, aka, the description of the result
-	var s = fullText.substr(n);
-	
-	// Prints the text
-	document.getElementById('info').innerHTML = s;
+	if (index != -1)
+	{
+		// Gets the full text
+		var fullText = desData[index];
+		
+		// Get the position of : in the fullText
+		var n = fullText.indexOf(":");
+		
+		// Adds 4 to get ride of ': D_'
+		n = n + 4;
+		
+		// Gets the substring of fullText, aka, the description of the result
+		var s = fullText.substr(n);
+		
+		// Prints the text
+		document.getElementById('info').innerHTML = s;
+	}
+	else
+	{
+		document.getElementById('info').innerHTML = "no description";
+	}
 }
 
 // Searches the names in the array
-function searchStringInArray(s, a) {
+function searchString(s, a) {
 	
-	var name = "N_" + s + ":";
-	//console.log("Does desData have: " + name + "?");
+	// Just in case
+	s = s.toLowerCase();
 	
-    for (var i = 0; i < a.length; i++) 
+	// Checks the entire array
+	for (var i = 0; i < a.length; i++)
 	{
-        if (a[i].includes(name))
+		// Isolates the name
+		var name = a[i].substring(
+			a[i].lastIndexOf("N_") + 2, 
+			a[i].lastIndexOf(":")
+		);
+		
+		//console.log("The name to find is: " + name);
+		
+		// tries to find name in the result s
+		if (s.includes(name))
 		{
 			//console.log("It does at position: " + i);
 			return i;
 		}
-    }
+	}
 	
 	//console.log("It does not");
     return -1;
