@@ -99,16 +99,17 @@ function preLoad() {
 				// Puts into the desData
 				// This will overwrite perious data in the webpage's session
 				desData = data.split(",");
+				
+				console.log("Preload txt:");
+				console.log(desData);
+				
+				premodelLoad();
             }
         }
     }
 	rawFile.open("GET", "./model/model.descriptions.txt", true);
     rawFile.send(null);
 	
-	console.log("Preload txt:");
-	console.log(desData);
-	
-	premodelLoad();
 }
 
 function premodelLoad() {
