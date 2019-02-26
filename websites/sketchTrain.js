@@ -248,8 +248,15 @@ function modelAddImage() {
 		
 		document.getElementById('info').innerHTML = `<center><table class='infoTable'><tr><th class='infoTh' style='width: 4em;'>Count</th><th class='infoTh' style='width: 8em;'>Name</th><th class='infoTh'>Description</th></tr><tr><td class='infoTd' style='width: 4em;'>${countStr}</td><td class='infoTd' style='width: 8em;'>${str}</td><td class='infoTd'>${des}</td></tr></table></center>`;
 		
-		// Adds the image to our model
-		classifier.addImage(str);
+		try
+		{
+			// Adds the image to our model
+			classifier.addImage(str);
+		}
+		catch(err)
+		{
+			alert("Data did not go throught");
+		}
 	}
 }
 
@@ -332,33 +339,24 @@ function modelTrain() {
 	// Start training
 	document.getElementById('upperText').innerHTML = "Starting Training...";
 	
-	try
+	// Trains the model, this will loop
+	classifier.train(function(lossValue) 
 	{
-		// Trains the model, this will loop
-		classifier.train(function(lossValue) 
+		// Checks if finshed training
+		if (lossValue == null)
 		{
-			// Checks if finshed training
-			if (lossValue == null)
-			{
-				// Done training
-				document.getElementById('upperText').innerHTML = "Done Training!";
-				
-				// Enables the buttons
-				able(false);
-			}
-			else
-			{
-				// Still training
-				document.getElementById('upperText').innerHTML = "Still Training, Loss: " + lossValue;
-			}
-		});
-	}
-	catch(err)
-	{
-		// There is an error when training on IOS
-		alert(err);
-	}
-	
+			// Done training
+			document.getElementById('upperText').innerHTML = "Done Training!";
+			
+			// Enables the buttons
+			able(false);
+		}
+		else
+		{
+			// Still training
+			document.getElementById('upperText').innerHTML = "Still Training, Loss: " + lossValue;
+		}
+	});
 }
 
 // Saves the model to your Downloads
