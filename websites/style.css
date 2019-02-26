@@ -2,6 +2,7 @@ body {
 	background-color: black;
 	color: #f1f1f1;
 	font-family: Arial;
+	font-weight: bold;
 }
 
 .upper {
@@ -10,7 +11,7 @@ body {
 	left: 0px;
 	background: rgba(0, 0, 0, 0.5);
 	width: 100%;
-	padding: 1em;
+	padding: 0.5em;
 }
 
 .content {
@@ -24,14 +25,14 @@ body {
 }
 
 button {
-	font-size: 0.9em;
-	padding: .5em;
+	font-size: 1em;
+	padding: .4em;
 	border-radius: 8px;
 	background-color: silver;
 }
 
 input {
-	font-size: 0.9em;
+	font-size: 1em;
 	border-radius: 8px;
 }
 
