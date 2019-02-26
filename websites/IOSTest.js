@@ -144,7 +144,7 @@ function gotResult(err, res) {
 		{	
 			if (err == "TypeError: Cannot read property 'predict' of null")
 			{
-				alert("You have not trained any images!\nPress the 'Stop' button.");
+				alert("No images were trained!\nPress the 'Stop' button.");
 			}
 			else
 			{
@@ -160,7 +160,7 @@ function gotResult(err, res) {
 			findData(res[0].className);
 			
 			// Predicts again
-			model.predict(gotResults);
+			model.predict(gotResult);
 		}
 	}
 }
