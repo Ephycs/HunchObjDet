@@ -332,10 +332,10 @@ function modelTrain() {
 	// Start training
 	document.getElementById('upperText').innerHTML = "Starting Training...";
 	
-	try
+	// Trains the model, this will loop
+	classifier.train(function(lossValue) 
 	{
-		// Trains the model, this will loop
-		classifier.train(function(lossValue) 
+		try
 		{
 			// Checks if finshed training
 			if (lossValue == null)
@@ -351,13 +351,13 @@ function modelTrain() {
 				// Still training
 				document.getElementById('upperText').innerHTML = "Still Training, Loss: " + lossValue;
 			}
-		});
-	}
-	catch(err)
-	{
-		// There is an error when training on IOS
-		alert(err);
-	}
+		}
+		catch(err)
+		{
+			// There is an error when training on IOS
+			alert(err);
+		}
+	});
 }
 
 // Saves the model to your Downloads
