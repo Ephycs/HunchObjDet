@@ -208,11 +208,7 @@ function findData(r) {
 	var index = searchStringInArray(r, desData);
 	console.log(index);
 	
-	if (n == -1)
-	{
-		document.getElementById('info').innerHTML = "nothing";
-	}
-	else
+	if (index != -1)
 	{
 		// Gets the full text
 		var fullText = desData[index];
@@ -228,6 +224,10 @@ function findData(r) {
 		
 		// Prints the text
 		document.getElementById('info').innerHTML = s;
+	}
+	else
+	{
+		document.getElementById('info').innerHTML = "nothing";
 	}
 	
 }
