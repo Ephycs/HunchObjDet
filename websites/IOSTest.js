@@ -233,7 +233,7 @@ function findData(r) {
 function searchString(s, a) {
 	
 	// Just in case
-	r = r.toLowerCase();
+	s = s.toLowerCase();
 	
 	for (var i = 0; i < a.length; i++)
 	{
