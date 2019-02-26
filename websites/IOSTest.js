@@ -206,6 +206,7 @@ function findData(r) {
 	
 	// Finds the index of the result
 	var index = searchStringInArray(r, desData);
+	console.log(index);
 	
 	if (n == -1)
 	{
