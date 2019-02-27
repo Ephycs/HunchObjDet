@@ -57,7 +57,7 @@ function setup() {
 	// Gets the model classification libraries from ml5 and will use the camera
 	model = ml5.imageClassifier('MobileNet', camera, modelReady);
 	
-	alert("Warning: If the page or buttons don't load right: keep the site, but leave your browser, then return back in.\nPress the 'Instructions' button for instructions");
+	alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nWarning: Older versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\nThis demo uses the default MobileNet model that I did not train!\nPress the 'Instructions' button for instructions");
 	
 	// Will call modelLoad when files are loaded into the webpage
 	document.getElementById('files').addEventListener('change', modelLoad, false);
@@ -177,8 +177,8 @@ function draw() {
 // Intructions button
 function alertInstr() {
 	
-	alert("This is a test for IOS");
-	//alert("1) Press the 'Predict' button to start or stop predicting objects.\n2) At the bottom, you can load models into the page by clicking the 'Choose Files' button and selecting: 'model.json', 'model.weights.bin', and 'model.descriptions.txt' all at once.");
+	//alert("This is a test for IOS");
+	alert("1) Press the 'Predict' button to start or stop predicting objects.");
 }
 
 // Sets & changes the camera used

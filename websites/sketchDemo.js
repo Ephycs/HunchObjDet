@@ -59,7 +59,7 @@ function setup() {
 	// Gets the model classification libraries from ml5 and will use the camera
 	model = ml5.featureExtractor('MobileNet', modelReady);
 	
-	alert("Warning: If the page or buttons don't load right: keep the site, but leave your browser, then return back in.\nPress the 'Instructions' button for instructions");
+	alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nWarning: Older versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\nPress the 'Instructions' button for instructions");
 	
 	// Will call modelLoad when files are loaded into the webpage
 	document.getElementById('files').addEventListener('change', modelLoad, true);
