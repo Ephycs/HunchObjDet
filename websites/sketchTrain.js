@@ -17,6 +17,7 @@ var desData = [];
 
 var countStr;
 var preStr;
+var amount;
 
 
 /*******************************/
@@ -32,6 +33,7 @@ function setup() {
 	countStr = 0;
 	preStr = "";
 	isPredicting = false;
+	amount = 3;
 	
 	// Creates the canvas to draw everything on
 	w = window.innerWidth * 0.98;
@@ -60,8 +62,11 @@ function setup() {
 	
 	background(0);
 	
+	document.getElementById('amount').innerHTML = amount;
+	
 	// Gets the 'MobileNet' model featureExtractor libraries from ml5 ready
 	model = ml5.featureExtractor('mobilenet', modelReady);
+	model.numClasses = amount;
 	
 	alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nWarning: Older versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\nPress the 'Instructions' button for instructions");
 	
