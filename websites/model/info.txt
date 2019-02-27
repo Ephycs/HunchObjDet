@@ -1,1 +1,0 @@
-Put your trained models in here and edit the sketch.js file to use them
