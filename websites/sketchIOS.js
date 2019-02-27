@@ -146,6 +146,8 @@ function gotResult(err, res) {
 		}
 		else
 		{
+			console.log(res[0].className);
+			
 			// Gets the top result
 			document.getElementById('upperText').innerHTML = res[0].className;
 			
