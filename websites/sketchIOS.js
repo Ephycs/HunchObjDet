@@ -128,6 +128,8 @@ function togglePredicting() {
 // Predicts what's in front of your webcam
 function gotResult(err, res) {
 	
+	console.log("Predicting");
+	
 	// Sees if it is preicting
 	if (isPredicting)
 	{
