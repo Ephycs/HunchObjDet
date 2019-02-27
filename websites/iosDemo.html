@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Platt Object Recognition Training</title>
+	
+	<link rel="stylesheet" type="text/css" href="style.css">
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.1/p5.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.1/addons/p5.dom.min.js"></script>
+	<script src="https://unpkg.com/ml5@0.1.3/dist/ml5.min.js"></script>
+	<script src="FileSaver.js"></script>
+	<script src="iosTest.js"></script>
+</head>
+
+<body>
+	<div class="upper">
+		<table style="width: 100%;">
+			<tr>
+				<td style="width: 2em;"><button onClick="goBack()">Train</button></td>
+				<td><h2 id="upperText" style="text-align: left;">Loading...</h2></td>
+			</tr>
+		</table>
+	</div>
+	
+	<div class="content">
+		<button id="camButton" onClick="changeCamera()">Change Cam</button>
+		<button id="instrButton" onClick="alertInstr()">Instructions</button>
+		<button id="toggleButton" onClick="togglePredicting()">Predict</button>
+		
+		<p id="info">Information about the object goes here</p>
+
+		<input type="file" id="files" name="files[]" multiple/>
+	</div>
+</body>
+
+</html>

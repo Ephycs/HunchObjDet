@@ -66,8 +66,6 @@ function setup() {
 
 function modelReady() {
 	
-	console.log('Model is ready!!!');
-	
 	preLoad()
 }
 
@@ -89,15 +87,13 @@ function preLoad() {
 				// This will overwrite perious data in the webpage's session
 				desData = data.split(",");
 				
-				console.log(desData);
+				document.getElementById("upperText").innerHTML = "MobileNet loaded!";
+				able(false);
             }
         }
     }
 	rawFile.open("GET", "./model/model.descriptions.txt", true);
     rawFile.send(null);
-	
-	document.getElementById("upperText").innerHTML = "MobileNet loaded!";
-	able(false);
 }
 
 // Starts or Stops predicting
@@ -202,7 +198,6 @@ function findData(r) {
 
 	// Finds the index of the result
 	var index = searchString(r, desData);
-	//console.log(index);
 	
 	if (index != -1)
 	{
@@ -242,17 +237,12 @@ function searchString(s, a) {
 			a[i].lastIndexOf(":")
 		);
 		
-		//console.log("The name to find is: " + name);
-		
 		// tries to find name in the result s
 		if (s.includes(name))
 		{
-			//console.log("It does at position: " + i);
 			return i;
 		}
 	}
-	
-	//console.log("It does not");
     return -1;
 }
 
@@ -266,7 +256,6 @@ function modelLoad(evt) {
 	
 	// Creates the FileList object
 	var files = evt.target.files;
-	console.log(files);
 	
 	// Checks for the certain file
 	for (var i = 0, f; f = files[i]; i++) 
@@ -287,10 +276,7 @@ function modelLoad(evt) {
 					// Puts into the desData
 					// This will overwrite perious data in the webpage's session
 					desData = data.split(",");
-					
-					console.log(desData);
 				}
-				
 				reader.readAsText(f);
 			}
 		}
@@ -316,8 +302,6 @@ function windowResized() {
 	
 	// Resizes the canvas, w, and h when the user tilts the screen
 	resizeCanvas(w, h);
-	
-	console.log("Window was resized");
 }
 
 // Becuase I disable and enable the buttons alot
@@ -328,8 +312,8 @@ function able(bool) {
 	document.getElementById('toggleButton').disabled = bool;
 }
 
-function goTo(toLink) {
+function goBack() {
 	
-	location.href = toLink;
+	window.history.back();
 }
 

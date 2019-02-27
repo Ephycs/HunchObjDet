@@ -113,7 +113,6 @@ function preLoad() {
     }
 	rawFile.open("GET", "./model/model.descriptions.txt", true);
     rawFile.send(null);
-	
 }
 
 function premodelLoad() {
