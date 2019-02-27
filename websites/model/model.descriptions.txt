@@ -1,0 +1,1 @@
+N_monitor: D_this is used to show a user interface,N_keyboard: D_this is used to type,N_mouse: D_this is used to move around in a computer
