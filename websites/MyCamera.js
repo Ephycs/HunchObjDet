@@ -15,6 +15,29 @@ var cameraOptions;
 var isPredicting;
 var desData = [];
 
+let currentStream;
+
+function stopMediaTracks(stream) {
+  stream.getTracks().forEach(track => {
+    track.stop();
+  });
+}
+
+function gotDevices(mediaDevices) {
+  document.getElementById('select').innerHTML = '';
+  document.getElementById('select').appendChild(document.createElement('option'));
+  let count = 1;
+  mediaDevices.forEach(mediaDevice => {
+    if (mediaDevice.kind === 'videoinput') {
+      document.createElement('option').value = mediaDevice.deviceId;
+      const label = mediaDevice.label || `Camera ${count++}`;
+      const textNode = document.createTextNode(label);
+      document.createElement('option').appendChild(textNode);
+      document.getElementById('select').appendChild(document.createElement('option'));
+    }
+  });
+}
+
 
 /*******************************/
 // Core Features
@@ -31,12 +54,13 @@ function setup() {
 	// Creates the canvas to draw everything on
 	w = window.innerWidth * 0.98;
 	h = window.innerHeight * 0.96;
-	createCanvas(w, h);
+	//createCanvas(w, h);
 	
 	// Sets up the cameraOptions
-	cameraOptions = 
+	/*cameraOptions = 
 	{
 		audio: false,
+		controls: true,
 		video: 
 		{
 			facingMode: "environment"
@@ -48,11 +72,11 @@ function setup() {
 	// Hides the camera, so that it can be used on the canvas instead
 	camera = createCapture(cameraOptions);
 	camera.elt.setAttribute('playsinline', true);
-	camera.elt.setAttribute('controls', true);
 	camera.elt.setAttribute('autoplay', true);
+	camera.elt.setAttribute('controls', true);
 	camera.hide();
 	
-	background(0);
+	background(0);*/
 	
 	// Gets the 'MobileNet' model through ml5
 	// Gets the model classification libraries from ml5 and will use the camera
@@ -62,6 +86,37 @@ function setup() {
 	
 	// Will call modelLoad when files are loaded into the webpage
 	document.getElementById('files').addEventListener('change', modelLoad, false);
+	
+	document.getElementById('camButton').addEventListener('click', event => {
+	  if (typeof currentStream !== 'undefined') {
+		stopMediaTracks(currentStream);
+	  }
+	  const videoConstraints = {};
+	  if (document.getElementById('select').value === '') {
+		videoConstraints.facingMode = 'environment';
+	  } else {
+		videoConstraints.deviceId = { exact: document.getElementById('select').value };
+	  }
+	  const constraints = {
+		video: videoConstraints,
+		audio: false,
+		width: window.innerWidth * 0.98,
+		height: window.innerHeight * 0.96
+	  };
+	  navigator.mediaDevices
+		.getUserMedia(constraints)
+		.then(stream => {
+		  currentStream = stream;
+		  document.getElementById('video').srcObject = stream;
+		  return navigator.mediaDevices.enumerateDevices();
+		})
+		.then(gotDevices)
+		.catch(error => {
+		  console.error(error);
+		});
+	});
+
+	navigator.mediaDevices.enumerateDevices().then(gotDevices);
 }
 
 function modelReady() {
@@ -167,11 +222,11 @@ function gotResult(err, res) {
 // draws the camera to the canvas
 function draw() {
 	
-	background(0);
+	/*background(0);
 	
 	// Draws the camera to the canvas
 	image(camera, 0, 0, w, h);
-	fill(255);
+	fill(255);*/
 }
 
 
@@ -307,7 +362,7 @@ function modelLoad(evt) {
 // Extra
 /*******************************/
 
-// This will call when the window is resized
+/*// This will call when the window is resized
 function windowResized() {
 	
 	// Gets new width and height
@@ -318,12 +373,11 @@ function windowResized() {
 	resizeCanvas(w, h);
 	
 	console.log("Window was resized");
-}
+}*/
 
 // Becuase I disable and enable the buttons alot
 function able(bool) {
 	
-	document.getElementById('camButton').disabled = bool;
 	document.getElementById('instrButton').disabled = bool;
 	document.getElementById('toggleButton').disabled = bool;
 }

@@ -33,6 +33,11 @@ function setup() {
 	preStr = "";
 	isPredicting = false;
 	
+	// Creates the canvas to draw everything on
+	w = window.innerWidth * 0.98;
+	h = window.innerHeight * 0.96;
+	createCanvas(w, h);
+	
 	// Sets up the cameraOptions
 	cameraOptions = 
 	{
@@ -42,11 +47,6 @@ function setup() {
 			facingMode: "environment"
 		}
 	};
-	
-	// Creates the canvas to draw everything on
-	w = window.innerWidth * 0.98;
-	h = window.innerHeight * 0.96;
-	createCanvas(w, h);
 	
 	// Creates the capture using cameraOptions
 	// IOS needs that 'playsinline' thing
