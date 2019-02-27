@@ -19,12 +19,17 @@
 
 <body>
 	<div class="upper">
-		<table style="width: 90%;">
+		<center>
+		<table style="width: 100%">
 			<tr>
 				<td style="width: 2em;"><button onClick="goBack()">Back</button></td>
-				<td><h2 id="upperText" style="text-align: left;">No Images Trained</h2></td>
+				<td id="upperText" style="text-align: center; font-size: 2em;">Nothing Trained</td>
+			</tr>
+			<tr>
+				<td colspan="2" id="upperInfo" style="font-size: 1.5em;">Object info goes here</td>
 			</tr>
 		</table>
+		</center>
 	</div>
 	
 	<div class="content">
@@ -34,7 +39,7 @@
 		
 		<br>
 		
-		<p>You can train: <b id="amount"></b> images</p>
+		<p>You can train: <b id="maxAmount"></b> objects. You currently have: <b id="currentAmount"></b> objects.</p>
 		
 		<center>
 		<table>
@@ -48,7 +53,7 @@
 		</table>
 		</center>
 		
-		<div id="info"><p>Information about the object goes here</p></div>
+		<div id="table"><p>Current Object data goes here</p></div>
 		
 		<br>
 		

@@ -19,12 +19,17 @@
 
 <body>
 	<div class="upper">
-		<table style="width: 100%;">
+		<center>
+		<table style="width: 100%">
 			<tr>
 				<td style="width: 2em;"><button onClick="goBack()">Back</button></td>
-				<td><h2 id="upperText" style="text-align: left;">Loading...</h2></td>
+				<td id="upperText" style="text-align: center; font-size: 2em;">Loading...</td>
+			</tr>
+			<tr>
+				<td colspan="2" id="upperInfo" style="font-size: 1.5em;">Object info goes here</td>
 			</tr>
 		</table>
+		</center>
 	</div>
 	
 	<div class="content">
@@ -32,7 +37,9 @@
 		<button id="instrButton" onClick="alertInstr()">Instructions</button>
 		<button id="toggleButton" onClick="togglePredicting()">Predict</button>
 		
-		<p id="info">Information about the object goes here</p>
+		<br>
+		
+		<p>You currently have: <b id="currentAmount"></b> objects/object descriptions in this model.</p>
 
 		<input type="file" id="files" name="files[]" multiple/>
 	</div>

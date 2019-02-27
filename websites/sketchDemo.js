@@ -249,11 +249,11 @@ function findData(r) {
 		var s = fullText.substr(n);
 		
 		// Prints the text
-		document.getElementById('info').innerHTML = s;
+		document.getElementById('upperInfo').innerHTML = s;
 	}
 	else
 	{
-		document.getElementById('info').innerHTML = "no description";
+		document.getElementById('upperInfo').innerHTML = "no description";
 	}
 }
 
@@ -326,12 +326,14 @@ function modelLoad(evt) {
 		}
 	}
 	
-	console.log("Loading the new Model");
+	console.log("Loading the new Model...");
 	
 	// Loads the model
-	classifier.load(files, modelReady);
-	
-	document.getElementById('upperText').innerHTML = 'Model & Descriptions Loaded!';
+	classifier.load(files, function()
+	{
+		document.getElementById('upperText').innerHTML = 'Model & Descriptions Loaded!';
+		document.getElementById('currentAmount').innerHTML = desData.length;
+	});
 }
 
 

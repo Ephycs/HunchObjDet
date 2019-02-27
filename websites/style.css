@@ -7,7 +7,6 @@ body {
 
 .upper {
 	position: fixed;
-	top: -16px;
 	left: 0px;
 	background: rgba(0, 0, 0, 0.5);
 	width: 100%;
@@ -41,7 +40,6 @@ input {
 
 table {
 	width: 80%;
-	padding: .5em;
 }
 
 table, th, td {

@@ -17,7 +17,7 @@ var desData = [];
 
 var countStr;
 var preStr;
-var amount;
+var maxAmount;
 
 
 /*******************************/
@@ -33,7 +33,7 @@ function setup() {
 	countStr = 0;
 	preStr = "";
 	isPredicting = false;
-	amount = 3;
+	maxAmount = 3;
 	
 	// Creates the canvas to draw everything on
 	w = window.innerWidth * 0.98;
@@ -62,11 +62,11 @@ function setup() {
 	
 	background(0);
 	
-	document.getElementById('amount').innerHTML = amount;
+	document.getElementById('maxAmount').innerHTML = maxAmount;
 	
 	// Gets the 'MobileNet' model featureExtractor libraries from ml5 ready
 	model = ml5.featureExtractor('mobilenet', modelReady);
-	model.numClasses = amount;
+	model.numClasses = maxAmount;
 	
 	alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nWarning: Older versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\nPress the 'Instructions' button for instructions");
 	
@@ -160,6 +160,8 @@ function gotResult(err, res) {
 			// Gets the top result
 			document.getElementById('upperText').innerHTML = res;
 			
+			findData(res);
+			
 			// Predicts again
 			classifier.classify(gotResult);
 		}
@@ -191,6 +193,70 @@ function alertInstr() {
 function changeCamera() {
 	
 	alert("Work in progress");
+}
+
+
+/*******************************/
+// Finding Data
+/*******************************/
+
+// Find the data from desData by the res from gotResult
+function findData(r) {
+
+	// Finds the index of the result
+	var index = searchString(r, desData);
+	//console.log(index);
+	
+	if (index != -1)
+	{
+		// Gets the full text
+		var fullText = desData[index];
+		
+		// Get the position of : in the fullText
+		var n = fullText.indexOf(":");
+		
+		// Adds 4 to get ride of ': D_'
+		n = n + 4;
+		
+		// Gets the substring of fullText, aka, the description of the result
+		var s = fullText.substr(n);
+		
+		// Prints the text
+		document.getElementById('upperInfo').innerHTML = s;
+	}
+	else
+	{
+		document.getElementById('upperInfo').innerHTML = "no description";
+	}
+}
+
+// Searches the names in the array
+function searchString(s, a) {
+	
+	// Just in case
+	s = s.toLowerCase();
+	
+	// Checks the entire array
+	for (var i = 0; i < a.length; i++)
+	{
+		// Isolates the name
+		var name = a[i].substring(
+			a[i].lastIndexOf("N_") + 2, 
+			a[i].lastIndexOf(":")
+		);
+		
+		//console.log("The name to find is: " + name);
+		
+		// tries to find name in the result s
+		if (s.includes(name))
+		{
+			//console.log("It does at position: " + i);
+			return i;
+		}
+	}
+	
+	//console.log("It does not");
+    return -1;
 }
 
 
@@ -254,7 +320,7 @@ function modelAddImage() {
 			addDesData(str, des);
 		}
 		
-		document.getElementById('info').innerHTML = `<center><table class='infoTable'><tr><th class='infoTh' style='width: 4em;'>Count</th><th class='infoTh' style='width: 8em;'>Name</th><th class='infoTh'>Description</th></tr><tr><td class='infoTd' style='width: 4em;'>${countStr}</td><td class='infoTd' style='width: 8em;'>${str}</td><td class='infoTd'>${des}</td></tr></table></center>`;
+		document.getElementById('table').innerHTML = `<center><table class='infoTable'><tr><th class='infoTh' style='width: 4em;'>Count</th><th class='infoTh' style='width: 8em;'>Name</th><th class='infoTh'>Description</th></tr><tr><td class='infoTd' style='width: 4em;'>${countStr}</td><td class='infoTd' style='width: 8em;'>${str}</td><td class='infoTd'>${des}</td></tr></table></center>`;
 		
 		// Adds the image to our model
 		classifier.addImage(str, function() 
