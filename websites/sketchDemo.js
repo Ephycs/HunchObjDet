@@ -106,7 +106,17 @@ function preLoad() {
 				console.log("Preload txt:");
 				console.log(desData);
 				
-				premodelLoad();
+				// Loads the other files by ml5 built in functions
+				classifier.load('./model/model.json', function() 
+				{
+					console.log("Preload was loaded!");
+					
+					document.getElementById("upperText").innerHTML = "Objects detected go here";
+					document.getElementById('currentAmount').innerHTML = desData.length;
+					
+					// Enables the buttons
+					able(false);
+				});
             }
         }
     }
@@ -116,16 +126,7 @@ function preLoad() {
 
 function premodelLoad() {
 	
-	// Loads the other files by ml5 built in functions
-	classifier.load('./model/model.json', function() 
-	{
-		document.getElementById("upperText").innerHTML = "Objects detected go here";
-		
-		console.log("Preload was loaded!!!");
-		
-		// Enables the buttons
-		able(false);
-	});
+	
 }
 
 // Starts or Stops predicting
@@ -331,6 +332,8 @@ function modelLoad(evt) {
 	// Loads the model
 	classifier.load(files, function()
 	{
+		console.log("Model & Descriptions Loaded!");
+		
 		document.getElementById('upperText').innerHTML = 'Model & Descriptions Loaded!';
 		document.getElementById('currentAmount').innerHTML = desData.length;
 	});
