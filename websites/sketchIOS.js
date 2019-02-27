@@ -55,7 +55,7 @@ function setup() {
 	
 	// Gets the 'MobileNet' model through ml5
 	// Gets the model classification libraries from ml5 and will use the camera
-	model = ml5.imageClassifier('MobileNet', camera, modelReady);
+	model = ml5.imageClassifier('mobilenet', camera, modelReady);
 	
 	alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nWarning: Older versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\nThis demo uses the default MobileNet model that I did not train!\nPress the 'Instructions' button for instructions");
 	
@@ -127,8 +127,6 @@ function togglePredicting() {
 
 // Predicts what's in front of your webcam
 function gotResult(err, res) {
-	
-	console.log("Predicting");
 	
 	// Sees if it is preicting
 	if (isPredicting)
