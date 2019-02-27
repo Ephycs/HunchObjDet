@@ -61,7 +61,7 @@ function setup() {
 	background(0);
 	
 	// Gets the 'MobileNet' model featureExtractor libraries from ml5 ready
-	model = ml5.featureExtractor('MobileNet', modelReady);
+	model = ml5.featureExtractor('mobilenet', modelReady);
 	
 	alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nWarning: Older versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\nPress the 'Instructions' button for instructions");
 	
@@ -409,4 +409,10 @@ function goTo(toLink) {
 	
 	location.href = toLink;
 }
+
+function goBack() {
+	
+	window.history.back();
+}
+
 

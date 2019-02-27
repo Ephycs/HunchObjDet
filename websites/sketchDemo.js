@@ -57,7 +57,7 @@ function setup() {
 	
 	// Gets the 'MobileNet' model through ml5
 	// Gets the model classification libraries from ml5 and will use the camera
-	model = ml5.featureExtractor('MobileNet', modelReady);
+	model = ml5.featureExtractor('mobilenet', modelReady);
 	
 	alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nWarning: Older versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\nPress the 'Instructions' button for instructions");
 	
@@ -363,5 +363,10 @@ function able(bool) {
 function goTo(toLink) {
 	
 	location.href = toLink;
+}
+
+function goBack() {
+	
+	window.history.back();
 }
 
