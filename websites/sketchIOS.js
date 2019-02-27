@@ -59,8 +59,6 @@ function setup() {
 	
 	alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nWarning: Older versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\nThis demo uses the default MobileNet model that I did not train!\nPress the 'Instructions' button for instructions");
 	
-	// Will call modelLoad when files are loaded into the webpage
-	document.getElementById('files').addEventListener('change', modelLoad, false);
 }
 
 function modelReady() {
@@ -243,48 +241,6 @@ function searchString(s, a) {
 		}
 	}
     return -1;
-}
-
-
-/*******************************/
-// Loading Models
-/*******************************/
-
-// You have the select the model.json, model.weights.bin, & model.descriptions.txt files into at the sametime!
-function modelLoad(evt) {
-	
-	// Creates the FileList object
-	var files = evt.target.files;
-	
-	// Checks for the certain file
-	for (var i = 0, f; f = files[i]; i++) 
-	{
-		// Checks for a .txt file
-		if (f.type.match(/text.*/))
-		{
-			// Checks for the name 'model.descriptions.txt'
-			if (f.name.includes('model.descriptions.txt'))
-			{
-				var reader = new FileReader();
-				
-				reader.onload = function(e)
-				{
-					// Gets the data from the file
-					var data = reader.result;
-					
-					// Puts into the desData
-					// This will overwrite perious data in the webpage's session
-					desData = data.split(",");
-				}
-				reader.readAsText(f);
-			}
-		}
-	}
-	
-	// Loads the model
-	model.load(files, modelReady);
-	
-	document.getElementById('upperText').innerHTML = 'Model & Descriptions Loaded!';
 }
 
 

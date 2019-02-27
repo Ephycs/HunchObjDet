@@ -406,6 +406,7 @@ function able(bool) {
 }
 
 function goTo(toLink) {
+	
 	location.href = toLink;
 }
 
