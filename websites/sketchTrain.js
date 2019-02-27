@@ -412,7 +412,6 @@ function goTo(toLink) {
 
 function goBack() {
 	
-	window.history.back();
+	location.href = "..\index.html";
 }
-
 

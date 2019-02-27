@@ -271,6 +271,6 @@ function able(bool) {
 
 function goBack() {
 	
-	window.history.back();
+	location.href = "..\index.html";
 }
 
