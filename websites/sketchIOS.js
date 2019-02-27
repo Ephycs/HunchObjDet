@@ -271,6 +271,6 @@ function able(bool) {
 
 function goBack() {
 	
-	location.href = "..\index.html";
+	location.href = "../index.html";
 }
 
