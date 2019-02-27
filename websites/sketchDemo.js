@@ -48,7 +48,6 @@ function setup() {
 	// Hides the camera, so that it can be used on the canvas instead
 	camera = createCapture(cameraOptions);
 	camera.elt.setAttribute('playsinline', true);
-	camera.elt.setAttribute('controls', true);
 	camera.elt.setAttribute('autoplay', true);
 	camera.hide();
 	
