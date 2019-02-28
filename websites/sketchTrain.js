@@ -67,6 +67,10 @@ function setup() {
 	{
 		maxAmount = 2;
 	}
+	else if (maxAmount < 2)
+	{
+		maxAmount = 2;
+	}
 	maxAmount = maxAmount.match(/\d/g);
 	maxAmount = maxAmount.join("");
 	Number(maxAmount);
