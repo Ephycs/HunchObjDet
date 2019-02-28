@@ -20,6 +20,7 @@ var preStr = "";
 var maxAmount;
 var currentAmount = 0;
 var trainAble = false;
+var trained = false;
 
 var namesData = [];
 
@@ -48,7 +49,6 @@ function setup() {
 			facingMode: "environment"
 		}
 	};
-	
 	// Creates the capture using cameraOptions
 	// IOS needs that 'playsinline' thing
 	// Hides the camera, so that it can be used on the canvas instead
@@ -62,7 +62,7 @@ function setup() {
 	background(0);
 	
 	//Asks for how many images you would like to train
-	maxAmount = prompt("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nWarning: Older versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\nThis is website trains objects in your browser, before we start enter how many objects you would like to train:");
+	maxAmount = prompt("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nOlder versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\n\nThis is website trains objects in your browser, before we start enter how many objects you would like to train:");
 	if (maxAmount == null)
 	{
 		maxAmount = 2;
@@ -72,6 +72,7 @@ function setup() {
 	Number(maxAmount);
 	if (maxAmount < 2)
 	{
+		// Can't get away with training negative, 0, or 1 images
 		maxAmount = 2;
 	}
 	
@@ -107,51 +108,60 @@ function cameraReady() {
 // Starts or Stops predicting
 function togglePredicting() {
 	
-	// Checks if it is predicting
-	if (isPredicting == false)
+	// If this was false you would not have trained any images to test
+	if (trained == false)
 	{
-		// It is not predicting
-		
-		// Turns predicting to true
-		isPredicting = true;
-		
-		// Changes the predict button to "Stop"
-		document.getElementById('toggleButton').innerHTML = "Stop";
-		
-		// Disables all buttons except the 'camButton', 'toggleButton', & 'instrButton'
-		document.getElementById('addButton').disabled = true;
-		document.getElementById('trainButton').disabled = true;
-		document.getElementById('saveButton').disabled = true;
-		
-		console.log("Starting predicting...");
-		
-		// Actual predicting
-		classifier.classify(gotResult);
+		document.getElementById('upperText').innerHTML = "No Images Trained!";
+		document.getElementById('upperInfo').innerHTML = "Press the 'Instructions' button for instructions";
 	}
 	else
 	{
-		// It is predicting
-		
-		// Turns predicting to false
-		isPredicting = false;
-		
-		// Changes the predict button to "Predict"
-		document.getElementById('toggleButton').innerHTML = "Predict";
-		
-		// Enables all buttons except the 'camButton', 'toggleButton', & 'instrButton'
-		document.getElementById('addButton').disabled = false;
-		document.getElementById('trainButton').disabled = false;
-		document.getElementById('saveButton').disabled = false;
-		
-		if (trainAble)
+		// Checks if it is predicting
+		if (isPredicting == false)
 		{
-			document.getElementById('trainButton').disabled = false;
+			// It is not predicting
+			
+			// Turns predicting to true
+			isPredicting = true;
+			
+			// Changes the predict button to "Stop"
+			document.getElementById('toggleButton').innerHTML = "Stop";
+			
+			// Disables all buttons except the 'camButton', 'toggleButton', & 'instrButton'
+			document.getElementById('addButton').disabled = true;
+			document.getElementById('trainButton').disabled = true;
+			document.getElementById('saveButton').disabled = true;
+			
+			console.log("Starting predicting...");
+			
+			// Actual predicting
+			classifier.classify(gotResult);
 		}
-		
-		// Clears previous predictions
-		document.getElementById('upperText').innerHTML = "...";
-		
-		console.log("Stopping predicting...");
+		else
+		{
+			// It is predicting
+			
+			// Turns predicting to false
+			isPredicting = false;
+			
+			// Changes the predict button to "Predict"
+			document.getElementById('toggleButton').innerHTML = "Predict";
+			
+			// Enables all buttons except the 'camButton', 'toggleButton', & 'instrButton'
+			document.getElementById('addButton').disabled = false;
+			document.getElementById('trainButton').disabled = false;
+			document.getElementById('saveButton').disabled = false;
+			
+			if (trainAble)
+			{
+				document.getElementById('trainButton').disabled = false;
+			}
+			
+			// Clears previous predictions
+			document.getElementById('upperText').innerHTML = "...";
+			
+			console.log("Stopping predicting...");
+		}
 	}
 }
 
@@ -164,15 +174,7 @@ function gotResult(err, res) {
 		// Checks for errors
 		if (err) 
 		{	
-			if (err == "TypeError: Cannot read property 'predict' of null")
-			{
-				alert("You have not trained any images!\nPress the 'Stop' button.");
-			}
-			else
-			{
-				// Else
-				alert(err);
-			}
+			alert(err + "\nPress the 'Stop' button.");
 		}
 		else
 		{
@@ -240,11 +242,8 @@ function findData(r) {
 		// Adds 4 to get ride of ': D_'
 		n = n + 4;
 		
-		// Gets the substring of fullText, aka, the description of the result
-		var s = fullText.substr(n);
-		
-		// Prints the text
-		document.getElementById('upperInfo').innerHTML = s;
+		// Prints the substring of fullText, aka, the description of the result
+		document.getElementById('upperInfo').innerHTML = fullText.substr(n);
 	}
 	else
 	{
@@ -276,7 +275,6 @@ function searchStringInArray(s, a) {
 /*******************************/
 // Adding Data
 // Training
-// Saving
 /*******************************/
 
 // Adds an image using the model, BUT THIS WILL NOT ADD TO THE ORIGINAL MODEL
@@ -318,6 +316,8 @@ function modelAddImage() {
 			// Checks if this is an already added image
 			if (namesData.includes(str) == false)
 			{
+				// Did not find the name in the namesData
+				
 				namesData.push(str);
 				//console.log(namesData);
 				
@@ -336,7 +336,7 @@ function modelAddImage() {
 			// Just make the description box '' or 'description'
 			//console.log("The description was not changed");
 			
-			des = '(nothing changed)';
+			des = '(description was not changed)';
 		}
 		else
 		{
@@ -344,6 +344,7 @@ function modelAddImage() {
 			addDesData(str, des);
 		}
 		
+		// Makes the table with all the info of the new object
 		document.getElementById('table').innerHTML = `<center><table class='infoTable'><tr><th class='infoTh' style='width: 4em;'>Count</th><th class='infoTh' style='width: 8em;'>Name</th><th class='infoTh'>Description</th></tr><tr><td class='infoTd' style='width: 4em;'>${countStr}</td><td class='infoTd' style='width: 8em;'>${str}</td><td class='infoTd'>${des}</td></tr></table></center>`;
 		
 		// Adds the image to our model
@@ -432,6 +433,9 @@ function modelTrain() {
 			document.getElementById('upperText').innerHTML = "Done Training!";
 			console.log("Done training!");
 			
+			// You have trained
+			trained = true;
+			
 			// Enables the buttons
 			able(false);
 		}
@@ -442,6 +446,11 @@ function modelTrain() {
 		}
 	});
 }
+
+/*******************************/
+// Saving
+// Downloading
+/*******************************/
 
 // Saves the model to your Downloads
 function modelSave() {

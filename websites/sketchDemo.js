@@ -12,7 +12,7 @@ let canvas;
 var w;
 var h;
 var cameraOptions;
-var isPredicting;
+var isPredicting = false;
 var desData = [];
 
 
@@ -24,9 +24,6 @@ function setup() {
 	
 	// Disables the buttons
 	able(true);
-	
-	// Sets up some variables
-	isPredicting = false;
 	
 	// Creates the canvas to draw everything on
 	w = window.innerWidth * 0.98;
@@ -42,7 +39,6 @@ function setup() {
 			facingMode: "environment"
 		}
 	};
-	
 	// Creates the capture using cameraOptions
 	// IOS needs that 'playsinline' thing
 	// Hides the camera, so that it can be used on the canvas instead
@@ -55,11 +51,11 @@ function setup() {
 	
 	background(0);
 	
+	alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nOlder versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\n\nPress the 'Instructions' button for instructions");
+	
 	// Gets the 'MobileNet' model through ml5
 	// Gets the model classification libraries from ml5 and will use the camera
 	model = ml5.featureExtractor('mobilenet', modelReady);
-	
-	alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nWarning: Older versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\nPress the 'Instructions' button for instructions");
 	
 	// Will call modelLoad when files are loaded into the webpage
 	document.getElementById('files').addEventListener('change', modelLoad, true);
@@ -124,11 +120,6 @@ function preLoad() {
     rawFile.send(null);
 }
 
-function premodelLoad() {
-	
-	
-}
-
 // Starts or Stops predicting
 function togglePredicting() {
 	
@@ -174,15 +165,7 @@ function gotResult(err, res) {
 		// Checks for errors
 		if (err) 
 		{	
-			if (err == "TypeError: Cannot read property 'predict' of null")
-			{
-				alert("No images were trained!\nPress the 'Stop' button.");
-			}
-			else
-			{
-				// Else
-				alert(err);
-			}
+			alert(err + "\nPress the 'Stop' button.");
 		}
 		else
 		{
@@ -249,11 +232,8 @@ function findData(r) {
 		// Adds 4 to get ride of ': D_'
 		n = n + 4;
 		
-		// Gets the substring of fullText, aka, the description of the result
-		var s = fullText.substr(n);
-		
-		// Prints the text
-		document.getElementById('upperInfo').innerHTML = s;
+		// Prints the substring of fullText, aka, the description of the result
+		document.getElementById('upperInfo').innerHTML = fullText.substr(n);
 	}
 	else
 	{
@@ -359,11 +339,13 @@ function able(bool) {
 	document.getElementById('toggleButton').disabled = bool;
 }
 
+// Used to go to another page
 function goTo(toLink) {
 	
 	location.href = toLink;
 }
 
+// Used to g back to the hub
 function goBack() {
 	
 	location.href = "../index.html";
