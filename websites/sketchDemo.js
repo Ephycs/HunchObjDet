@@ -99,8 +99,7 @@ function preLoad() {
 				// This will overwrite perious data in the webpage's session
 				desData = data.split(",");
 				
-				console.log("Preload txt:");
-				console.log(desData);
+				//console.log("Preload txt:" + desData);
 				
 				// Loads the other files by ml5 built in functions
 				classifier.load('./model/model.json', function() 
@@ -295,26 +294,26 @@ function modelLoad(evt) {
 					// This will overwrite perious data in the webpage's session
 					desData = data.split(",");
 					
-					console.log("Text data: " + desData);
+					//console.log("Text data: " + desData);
 					
 					document.getElementById('currentAmount').innerHTML = desData.length;
-					
-					// Loads the model
-					classifier.load(files, function()
-					{
-						console.log("New Model was Loaded!");
-					
-						document.getElementById('upperText').innerHTML = 'Model & Descriptions Loaded!';
-						
-						// Enables the buttons
-						able(false);
-					});
 				}
 				
 				reader.readAsText(f);
 			}
 		}
-	}	
+	}
+	
+	// Loads the model
+	classifier.load(files, function()
+	{
+		console.log("New Model was Loaded!");
+		
+		document.getElementById('upperText').innerHTML = 'Model & Descriptions Loaded!';
+		
+		// Enables the buttons
+		able(false);
+	});
 }
 
 
