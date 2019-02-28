@@ -107,7 +107,7 @@ function preLoad() {
 				{
 					console.log("Preload was loaded!");
 					
-					document.getElementById("upperText").innerHTML = "Model was loaded";
+					document.getElementById("upperText").innerHTML = "Objects detect go here";
 					document.getElementById('currentAmount').innerHTML = desData.length;
 					
 					// Enables the buttons
@@ -296,25 +296,25 @@ function modelLoad(evt) {
 					desData = data.split(",");
 					
 					console.log("Text data: " + desData);
+					
+					document.getElementById('currentAmount').innerHTML = desData.length;
+					
+					// Loads the model
+					classifier.load(files, function()
+					{
+						console.log("New Model was Loaded!");
+					
+						document.getElementById('upperText').innerHTML = 'Model & Descriptions Loaded!';
+						
+						// Enables the buttons
+						able(false);
+					});
 				}
 				
 				reader.readAsText(f);
 			}
 		}
-	}
-	
-	console.log("Loading the new Model...");
-	
-	// Loads the model
-	classifier.load(files);
-	
-	console.log("Model & Descriptions Loaded!");
-	
-	document.getElementById('upperText').innerHTML = 'Model & Descriptions Loaded!';
-	document.getElementById('currentAmount').innerHTML = desData.length;
-	
-	// Enables the buttons
-	able(false);
+	}	
 }
 
 
