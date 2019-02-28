@@ -306,16 +306,15 @@ function modelLoad(evt) {
 	console.log("Loading the new Model...");
 	
 	// Loads the model
-	classifier.load(files, function()
-	{
-		console.log("Model & Descriptions Loaded!");
-		
-		document.getElementById('upperText').innerHTML = 'Model & Descriptions Loaded!';
-		document.getElementById('currentAmount').innerHTML = desData.length;
-		
-		// Enables the buttons
-		able(false);
-	});
+	classifier.load(files);
+	
+	console.log("Model & Descriptions Loaded!");
+	
+	document.getElementById('upperText').innerHTML = 'Model & Descriptions Loaded!';
+	document.getElementById('currentAmount').innerHTML = desData.length;
+	
+	// Enables the buttons
+	able(false);
 }
 
 
