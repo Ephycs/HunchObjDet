@@ -231,8 +231,11 @@ function changeCamera() {
 // Find the data from desData by the res from gotResult
 function findData(r) {
 
+	// Just in case
+	r = r.toLowerCase();
+	
 	// Finds the index of the result
-	var index = searchString(r, desData);
+	var index = searchStringInArray(r, desData);
 	//console.log(index);
 	
 	if (index != -1)
@@ -258,32 +261,23 @@ function findData(r) {
 	}
 }
 
-// Searches the names in the array
-function searchString(s, a) {
+// Searches the names in the array, but it is simpler
+function searchStringInArray(s, a) {
 	
-	// Just in case
-	s = s.toLowerCase();
+	//Creates the name to check for later
+	var name = 'N_' + s + ':';
+	//console.log("Searching for: " + name + " in array:");
+	//console.log(a);
 	
-	// Checks the entire array
-	for (var i = 0; i < a.length; i++)
+    for (var i = 0; i < a.length; i++) 
 	{
-		// Isolates the name
-		var name = a[i].substring(
-			a[i].lastIndexOf("N_") + 2, 
-			a[i].lastIndexOf(":")
-		);
-		
-		//console.log("The name to find is: " + name);
-		
-		// tries to find name in the result s
-		if (s.includes(name))
+		//console.log("a[" + i + "]: " + a[i] + ", name: " + name);
+        
+		if (a[i].includes(name))
 		{
-			//console.log("It does at position: " + i);
 			return i;
 		}
-	}
-	
-	//console.log("It does not");
+    }
     return -1;
 }
 

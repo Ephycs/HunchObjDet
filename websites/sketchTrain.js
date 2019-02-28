@@ -12,12 +12,16 @@ let canvas;
 var w;
 var h;
 var cameraOptions;
-var isPredicting;
+var isPredicting = false;
 var desData = [];
 
-var countStr;
-var preStr;
+var countStr = 0;
+var preStr = "";
 var maxAmount;
+var currentAmount = 0;
+var trainAble = false;
+
+var namesData = [];
 
 
 /*******************************/
@@ -28,12 +32,7 @@ function setup() {
 	
 	// Disables the buttons
 	able(true);
-	
-	// Sets up some variables
-	countStr = 0;
-	preStr = "";
-	isPredicting = false;
-	maxAmount = 3;
+	document.getElementById('trainButton').disabled = true;
 	
 	// Creates the canvas to draw everything on
 	w = window.innerWidth * 0.98;
@@ -62,13 +61,24 @@ function setup() {
 	
 	background(0);
 	
+	//Asks for how many images you would like to train
+	maxAmount = prompt("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nWarning: Older versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\nThis is website trains objects in your browser, before we start enter how many objects you would like to train:");
+	if (maxAmount == null)
+	{
+		maxAmount = 2;
+	}
+	maxAmount = maxAmount.match(/\d/g);
+	maxAmount = maxAmount.join("");
+	Number(maxAmount);
+	
 	document.getElementById('maxAmount').innerHTML = maxAmount;
+	document.getElementById('currentAmount').innerHTML = currentAmount;
 	
 	// Gets the 'MobileNet' model featureExtractor libraries from ml5 ready
 	model = ml5.featureExtractor('mobilenet', modelReady);
 	model.numClasses = maxAmount;
 	
-	alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nWarning: Older versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\nPress the 'Instructions' button for instructions");
+	//alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nWarning: Older versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\nPress the 'Instructions' button for instructions");
 	
 }
 
@@ -128,6 +138,11 @@ function togglePredicting() {
 		document.getElementById('addButton').disabled = false;
 		document.getElementById('trainButton').disabled = false;
 		document.getElementById('saveButton').disabled = false;
+		
+		if (trainAble)
+		{
+			document.getElementById('trainButton').disabled = false;
+		}
 		
 		// Clears previous predictions
 		document.getElementById('upperText').innerHTML = "...";
@@ -203,8 +218,11 @@ function changeCamera() {
 // Find the data from desData by the res from gotResult
 function findData(r) {
 
+	// Just in case
+	r = r.toLowerCase();
+	
 	// Finds the index of the result
-	var index = searchString(r, desData);
+	var index = searchStringInArray(r, desData);
 	//console.log(index);
 	
 	if (index != -1)
@@ -230,32 +248,23 @@ function findData(r) {
 	}
 }
 
-// Searches the names in the array
-function searchString(s, a) {
+// Searches the names in the array, but it is simpler
+function searchStringInArray(s, a) {
 	
-	// Just in case
-	s = s.toLowerCase();
+	//Creates the name to check for later
+	var name = 'N_' + s + ':';
+	//console.log("Searching for: " + name + " in array:");
+	//console.log(a);
 	
-	// Checks the entire array
-	for (var i = 0; i < a.length; i++)
+    for (var i = 0; i < a.length; i++) 
 	{
-		// Isolates the name
-		var name = a[i].substring(
-			a[i].lastIndexOf("N_") + 2, 
-			a[i].lastIndexOf(":")
-		);
-		
-		//console.log("The name to find is: " + name);
-		
-		// tries to find name in the result s
-		if (s.includes(name))
+		//console.log("a[" + i + "]: " + a[i] + ", name: " + name);
+        
+		if (a[i].includes(name))
 		{
-			//console.log("It does at position: " + i);
 			return i;
 		}
-	}
-	
-	//console.log("It does not");
+    }
     return -1;
 }
 
@@ -301,6 +310,17 @@ function modelAddImage() {
 		{
 			countStr = 0;
 			preStr = str;
+			
+			// Checks if this is an already added image
+			if (namesData.includes(str) == false)
+			{
+				namesData.push(str);
+				//console.log(namesData);
+				
+				// Prints your currentAmount
+				currentAmount++;
+				document.getElementById('currentAmount').innerHTML = currentAmount;
+			}
 		}
 		
 		// Adds 1 to how many times you press the Add Image button with the same string
@@ -325,7 +345,15 @@ function modelAddImage() {
 		// Adds the image to our model
 		classifier.addImage(str, function() 
 		{
-			console.log("Took an image!");
+			//console.log("Took an image!");
+			
+			// If you have reached your maxAmount of images
+			if (currentAmount >= maxAmount) 
+			{
+				// You can now train
+				trainAble = true;
+				document.getElementById('trainButton').disabled = false;
+			}
 		});
 	}
 }
@@ -336,23 +364,18 @@ function addDesData(s, d) {
 	// Creates the fullText and description format
 	var fullText = 'N_' + s + ': D_' + d;
 	
-	//Creates the name to check for later
-	var name = 'N_' + s + ':';
-	
 	// The first time this goes throught it will always error because there is nothing in the array
 	if (desData.length == 0)
 	{
 		// Adds the data to the array
 		desData.push(fullText);
 		
-		//console.log(desData[0]);
+		//console.log("desData[0]: " + desData[0]);
 	}
 	else
 	{
 		// Searches for a atring in the array
-		var idx = searchStringInArray(name, desData);
-		
-		//console.log(idx);
+		var idx = searchStringInArray(s, desData);
 		
 		if (idx == 0)
 		{
@@ -361,8 +384,7 @@ function addDesData(s, d) {
 			// Sets it for the first one
 			desData[idx] = fullText;
 			
-			// Should be zero
-			//console.log("Replaced First one " + idx + ") " + desData[idx]);
+			//console.log("Replaced first one");
 		}
 		else if (idx == -1)
 		{
@@ -371,8 +393,8 @@ function addDesData(s, d) {
 			// Adds the data to the array
 			desData.push(fullText);
 			
-			//var last = desData.length - 1;
-			//console.log(last + ") " + desData[last]);
+			var last = desData.length - 1;
+			//console.log("Pushed one in: " + desData[last]);
 		}
 		else
 		{
@@ -381,23 +403,9 @@ function addDesData(s, d) {
 			// Sets it
 			desData[idx] = fullText;
 			
-			//console.log(idx + ") " + desData[idx]);
+			//console.log("Replaced desData[" + idx + "]: " + desData[idx]);
 		}
 	}
-}
-
-// Searches the names in the array, but it is simpler
-function searchStringInArray(s, a) {
-    for (var i = 0; i < a.length; i++) 
-	{
-		//console.log("s: " + s + ", includes thing: " + check);
-		
-        if (a[i].includes(s))
-		{
-			return i;
-		}
-    }
-    return -1;
 }
 
 // Trains the model
@@ -472,8 +480,12 @@ function able(bool) {
 	document.getElementById('instrButton').disabled = bool;
 	document.getElementById('toggleButton').disabled = bool;
 	document.getElementById('addButton').disabled = bool;
-	document.getElementById('trainButton').disabled = bool;
 	document.getElementById('saveButton').disabled = bool;
+	
+	if (trainAble)
+	{
+		document.getElementById('trainButton').disabled = bool;
+	}
 }
 
 function goTo(toLink) {
