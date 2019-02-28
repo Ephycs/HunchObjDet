@@ -106,7 +106,7 @@ function preLoad() {
 				{
 					console.log("Preload was loaded!");
 					
-					document.getElementById("upperText").innerHTML = "Objects detect go here";
+					document.getElementById("upperText").innerHTML = "Objects detected go here";
 					document.getElementById('currentAmount').innerHTML = desData.length;
 					
 					// Enables the buttons
@@ -305,15 +305,14 @@ function modelLoad(evt) {
 	}
 	
 	// Loads the model
-	classifier.load(files, function()
-	{
-		console.log("New Model was Loaded!");
-		
-		document.getElementById('upperText').innerHTML = 'Model & Descriptions Loaded!';
-		
-		// Enables the buttons
-		able(false);
-	});
+	classifier.load(files);
+	
+	console.log("New Model was Loaded!");
+	
+	document.getElementById('upperText').innerHTML = 'New Model was Loaded';
+	
+	// Enables the buttons
+	able(false);
 }
 
 
