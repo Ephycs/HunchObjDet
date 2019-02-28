@@ -101,6 +101,8 @@ function cameraReady() {
 	
 	console.log("Camera was loaded!!!");
 	
+	document.getElementById('upperText').innerHTML = "No Images Trained";
+	
 	// Enables the buttons
 	able(false);
 }
@@ -111,7 +113,6 @@ function togglePredicting() {
 	// If this was false you would not have trained any images to test
 	if (trained == false)
 	{
-		document.getElementById('upperText').innerHTML = "No Images Trained!";
 		document.getElementById('upperInfo').innerHTML = "Press the 'Instructions' button for instructions";
 	}
 	else
@@ -251,7 +252,7 @@ function findData(r) {
 	}
 }
 
-// Searches the names in the array, but it is simpler
+// Searches the names in the array
 function searchStringInArray(s, a) {
 	
 	//Creates the name to check for later

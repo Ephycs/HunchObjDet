@@ -12,7 +12,7 @@ let canvas;
 var w;
 var h;
 var cameraOptions;
-var isPredicting;
+var isPredicting = false;
 var desData = [];
 
 
@@ -24,9 +24,6 @@ function setup() {
 	
 	// Disables the buttons
 	able(true);
-	
-	// Sets up some variables
-	isPredicting = false;
 	
 	// Creates the canvas to draw everything on
 	w = window.innerWidth * 0.98;
@@ -42,7 +39,6 @@ function setup() {
 			facingMode: "environment"
 		}
 	};
-	
 	// Creates the capture using cameraOptions
 	// IOS needs that 'playsinline' thing
 	// Hides the camera, so that it can be used on the canvas instead
@@ -51,19 +47,23 @@ function setup() {
 	camera.elt.setAttribute('autoplay', true);
 	camera.hide();
 	
+	console.log("Camera was just set!");
+	
 	background(0);
+	
+	alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nWarning: Older versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\nThis demo uses the default MobileNet model that I did not train!\nPress the 'Instructions' button for instructions");
 	
 	// Gets the 'MobileNet' model through ml5
 	// Gets the model classification libraries from ml5 and will use the camera
 	model = ml5.imageClassifier('mobilenet', camera, modelReady);
-	
-	alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nWarning: Older versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\nThis demo uses the default MobileNet model that I did not train!\nPress the 'Instructions' button for instructions");
-	
 }
 
 function modelReady() {
 	
-	preLoad()
+	console.log("MobileNet was loaded!!!");
+	
+	// Gets the descriptions
+	preLoad();
 }
 
 // This will upload preloaded models into the page to begin with
@@ -77,6 +77,8 @@ function preLoad() {
         {
             if(this.status === 200 || this.status == 0)
             {
+				// Everything following the load must go here
+				
 				// Gets the data
                 var data = this.responseText;
 				
@@ -84,7 +86,10 @@ function preLoad() {
 				// This will overwrite perious data in the webpage's session
 				desData = data.split(",");
 				
-				document.getElementById("upperText").innerHTML = "MobileNet loaded!";
+				console.log("Preload txt:");
+				console.log(desData);
+				
+				document.getElementById("upperText").innerHTML = "MobileNet was loaded";
 				able(false);
             }
         }
@@ -107,6 +112,8 @@ function togglePredicting() {
 		// Changes the predict button to "Stop"
 		document.getElementById('toggleButton').innerHTML = "Stop";
 		
+		console.log("Starting predicting");
+		
 		// Actual predicting
 		model.predict(gotResult);
 	}
@@ -122,6 +129,8 @@ function togglePredicting() {
 		
 		// Clears previous predictions
 		document.getElementById('upperText').innerHTML = "...";
+		
+		console.log("Stopping predicting");
 	}
 }
 
@@ -134,15 +143,8 @@ function gotResult(err, res) {
 		// Checks for errors
 		if (err) 
 		{	
-			if (err == "TypeError: Cannot read property 'predict' of null")
-			{
-				alert("No images were trained!\nPress the 'Stop' button.");
-			}
-			else
-			{
-				// I have come to find out "TypeError: Cannot read property 'predict' of null" might be the only error...
-				alert(err);
-			}
+			// I have come to find out "TypeError: Cannot read property 'predict' of null" might be the only error...
+			alert(err+ "\nPress the 'Stop' button.");
 		}
 		else
 		{
@@ -195,8 +197,12 @@ function changeCamera() {
 // Find the data from desData by the res from gotResult
 function findData(r) {
 
+	// Just in case
+	r = r.toLowerCase();
+	
 	// Finds the index of the result
-	var index = searchString(r, desData);
+	var index = searchStringInArray(r, desData);
+	//console.log(index);
 	
 	if (index != -1)
 	{
@@ -209,39 +215,32 @@ function findData(r) {
 		// Adds 4 to get ride of ': D_'
 		n = n + 4;
 		
-		// Gets the substring of fullText, aka, the description of the result
-		var s = fullText.substr(n);
-		
-		// Prints the text
-		document.getElementById('info').innerHTML = s;
+		// Prints the substring of fullText, aka, the description of the result
+		document.getElementById('upperInfo').innerHTML = fullText.substr(n);
 	}
 	else
 	{
-		document.getElementById('info').innerHTML = "no description";
+		document.getElementById('upperInfo').innerHTML = "no description";
 	}
 }
 
 // Searches the names in the array
-function searchString(s, a) {
+function searchStringInArray(s, a) {
 	
-	// Just in case
-	s = s.toLowerCase();
+	//Creates the name to check for later
+	var name = 'N_' + s + ':';
+	//console.log("Searching for: " + name + " in array:");
+	//console.log(a);
 	
-	// Checks the entire array
-	for (var i = 0; i < a.length; i++)
+    for (var i = 0; i < a.length; i++) 
 	{
-		// Isolates the name
-		var name = a[i].substring(
-			a[i].lastIndexOf("N_") + 2, 
-			a[i].lastIndexOf(":")
-		);
-		
-		// tries to find name in the result s
-		if (s.includes(name))
+		//console.log("a[" + i + "]: " + a[i] + ", name: " + name);
+        
+		if (a[i].includes(name))
 		{
 			return i;
 		}
-	}
+    }
     return -1;
 }
 
@@ -252,13 +251,15 @@ function searchString(s, a) {
 
 // This will call when the window is resized
 function windowResized() {
-	
+
 	// Gets new width and height
 	w = window.innerWidth * 0.98;
 	h = window.innerHeight * 0.96;
 	
 	// Resizes the canvas, w, and h when the user tilts the screen
 	resizeCanvas(w, h);
+	
+	console.log("Window was resized");
 }
 
 // Becuase I disable and enable the buttons alot
@@ -269,6 +270,13 @@ function able(bool) {
 	document.getElementById('toggleButton').disabled = bool;
 }
 
+// Used to go to another page
+function goTo(toLink) {
+	
+	location.href = toLink;
+}
+
+// Used to g back to the hub
 function goBack() {
 	
 	location.href = "../index.html";

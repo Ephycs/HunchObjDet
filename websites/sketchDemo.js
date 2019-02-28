@@ -107,7 +107,7 @@ function preLoad() {
 				{
 					console.log("Preload was loaded!");
 					
-					document.getElementById("upperText").innerHTML = "Objects detected go here";
+					document.getElementById("upperText").innerHTML = "Model was loaded";
 					document.getElementById('currentAmount').innerHTML = desData.length;
 					
 					// Enables the buttons
@@ -241,7 +241,7 @@ function findData(r) {
 	}
 }
 
-// Searches the names in the array, but it is simpler
+// Searches the names in the array
 function searchStringInArray(s, a) {
 	
 	//Creates the name to check for later
