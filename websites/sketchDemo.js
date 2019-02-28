@@ -269,9 +269,11 @@ function searchStringInArray(s, a) {
 // You have the select the model.json, model.weights.bin, & model.descriptions.txt files into at the sametime!
 function modelLoad(evt) {
 	
+	// Disables the buttons
+	able(true);
+	
 	// Creates the FileList object
 	var files = evt.target.files;
-	console.log("Starting to load files: " + files);
 	
 	// Checks for the certain file
 	for (var i = 0, f; f = files[i]; i++) 
@@ -310,6 +312,9 @@ function modelLoad(evt) {
 		
 		document.getElementById('upperText').innerHTML = 'Model & Descriptions Loaded!';
 		document.getElementById('currentAmount').innerHTML = desData.length;
+		
+		// Enables the buttons
+		able(false);
 	});
 }
 
