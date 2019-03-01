@@ -148,7 +148,7 @@ function togglePredicting() {
 		
 		// Changes the predict button to "Predict"
 		document.getElementById('toggleButton').innerHTML = "<i class='fas fa-play'></i> Predict";
-		document.getElementById('toggleButton').style.filter = "invert(1)";
+		document.getElementById('toggleButton').style.filter = "invert(0)";
 		
 		// Clears previous predictions
 		document.getElementById('upperText').innerHTML = "...";
@@ -283,7 +283,7 @@ function modelLoad(evt) {
 		if (f.type.match(/text.*/))
 		{
 			// Checks for the name 'model.descriptions.txt'
-			if (f.name.includes('model.descriptions.txt'))
+			if (f.name.includes('model.descriptions'))
 			{
 				var reader = new FileReader();
 				
@@ -306,14 +306,14 @@ function modelLoad(evt) {
 		}
 		else if (f.type.match(/json.*/))
 		{
-			if (f.name.includes('model.json'))
+			if (f.name.includes('model'))
 			{
 				f.name = 'model.json';
 			}
 		}
 		else if (f.type.match(/bin.*/))
 		{
-			if (f.name.includes('model.weights.bin'))
+			if (f.name.includes('model.weights'))
 			{
 				f.name = 'model.weights.bin';
 			}

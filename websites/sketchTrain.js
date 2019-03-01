@@ -154,7 +154,7 @@ function togglePredicting() {
 			
 			// Changes the predict button to "Predict"
 			document.getElementById('toggleButton').innerHTML = "<i class='fas fa-play'></i> Predict";
-			document.getElementById('toggleButton').style.filter = "invert(1)";
+			document.getElementById('toggleButton').style.filter = "invert(0)";
 			
 			// Enables all buttons except the 'camButton', 'toggleButton', & 'instrButton'
 			document.getElementById('addButton').disabled = false;
