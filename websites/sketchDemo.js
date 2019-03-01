@@ -304,20 +304,20 @@ function modelLoad(evt) {
 				reader.readAsText(f);
 			}
 		}
-		else if (f.type.match(/json.*/))
-		{
+		//else if (f.type.match(/json.*/))
+		/*{
 			if (f.name.includes('model'))
 			{
 				f.name = 'model.json';
 			}
-		}
-		else if (f.type.match(/bin.*/))
-		{
+		}*/
+		//else if (f.type.match(/bin.*/))
+		/*{
 			if (f.name.includes('model.weights'))
 			{
 				f.name = 'model.weights.bin';
 			}
-		}
+		}*/
 	}
 	
 	// Loads the model
