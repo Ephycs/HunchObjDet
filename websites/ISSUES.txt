@@ -1,3 +1,0 @@
-Training on older IOS doesn't wrk
-
-Uploading a model.weigths or bin file with () in the name doesn't work
