@@ -113,7 +113,7 @@ function togglePredicting() {
 	// If this was false you would not have trained any images to test
 	if (trained == false)
 	{
-		document.getElementById('upperInfo').innerHTML = "Press the 'Instructions' button for instructions";
+		document.getElementById('upperInfo').innerHTML = "Press the 'Info' button for instructions";
 	}
 	else
 	{
@@ -126,7 +126,7 @@ function togglePredicting() {
 			isPredicting = true;
 			
 			// Changes the predict button to "Stop"
-			document.getElementById('toggleButton').innerHTML = "Stop";
+			document.getElementById('toggleButton').innerHTML = "<i class='fas fa-stop'></i> Stop";
 			
 			// Disables all buttons except the 'camButton', 'toggleButton', & 'instrButton'
 			document.getElementById('addButton').disabled = true;
@@ -146,7 +146,7 @@ function togglePredicting() {
 			isPredicting = false;
 			
 			// Changes the predict button to "Predict"
-			document.getElementById('toggleButton').innerHTML = "Predict";
+			document.getElementById('toggleButton').innerHTML = "<i class='fas fa-play'></i> Predict";
 			
 			// Enables all buttons except the 'camButton', 'toggleButton', & 'instrButton'
 			document.getElementById('addButton').disabled = false;

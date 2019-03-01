@@ -51,7 +51,7 @@ function setup() {
 	
 	background(0);
 	
-	alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nWarning: Older versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\nThis demo uses the default MobileNet model that I did not train!\nPress the 'Instructions' button for instructions");
+	alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nWarning: Older versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\nThis demo uses the default MobileNet model that I did not train!\nPress the 'Info' button for instructions");
 	
 	// Gets the 'MobileNet' model through ml5
 	// Gets the model classification libraries from ml5 and will use the camera
@@ -110,7 +110,7 @@ function togglePredicting() {
 		isPredicting = true;
 		
 		// Changes the predict button to "Stop"
-		document.getElementById('toggleButton').innerHTML = "Stop";
+		document.getElementById('toggleButton').innerHTML = "<i class='fas fa-stop'></i> Stop";
 		
 		console.log("Starting predicting");
 		
@@ -125,7 +125,7 @@ function togglePredicting() {
 		isPredicting = false;
 		
 		// Changes the predict button to "Predict"
-		document.getElementById('toggleButton').innerHTML = "Predict";
+		document.getElementById('toggleButton').innerHTML = "<i class='fas fa-play'></i> Predict";
 		
 		// Clears previous predictions
 		document.getElementById('upperText').innerHTML = "...";

@@ -9,6 +9,7 @@
 	<title>Platt Object Recognition Training</title>
 	
 	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.1/p5.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.1/addons/p5.dom.min.js"></script>
@@ -22,7 +23,7 @@
 		<center>
 		<table style="width: 100%">
 			<tr>
-				<td style="width: 2em;"><button onClick="goBack()">Back</button></td>
+				<td style="width: 2em;"><button onClick="goBack()"><i class="fas fa-chevron-left"></i></button></td>
 				<td id="upperText" style="text-align: center; font-size: 2em;">Loading...</td>
 			</tr>
 			<tr>
@@ -33,9 +34,9 @@
 	</div>
 	
 	<div class="content">
-		<button id="camButton" onClick="changeCamera()">Change Cam</button>
-		<button id="instrButton" onClick="alertInstr()">Instructions</button>
-		<button id="toggleButton" onClick="togglePredicting()">Predict</button>
+		<button id="camButton" onClick="changeCamera()"><i class="fas fa-camera"></i> Change</button>
+		<button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button>
+		<button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-play"></i> Predict</button>
 		
 		<br>
 		
@@ -45,7 +46,7 @@
 		<table>
 			<tr>
 				<td><input type="text" id="inputText" class="addInput" value="name"></td>
-				<td rowspan="2" style="width: 2em;"><button id="addButton" onClick="modelAddImage()">Add Image</button></td>
+				<td rowspan="2" style="width: 2em;"><button id="addButton" onClick="modelAddImage()"><i class="fas fa-plus"></i> Image</button></td>
 			</tr>
 			<tr>
 				<td><input type="text" id="inputInfo" class="addInput" value="description"></td>
@@ -57,8 +58,8 @@
 		
 		<br>
 		
-		<button id="trainButton" onClick="modelTrain()">Train</button>
-		<button id="saveButton" onClick="modelSave()">Download Model</button>
+		<button id="trainButton" onClick="modelTrain()"><i class="fas fa-cogs"></i> Train</button>
+		<button id="saveButton" onClick="modelSave()"><i class="fas fa-download"></i> Download Model</button>
 	</div>
 </body>
 
