@@ -28,6 +28,9 @@ button {
 	padding: .4em;
 	border-radius: 8px;
 	background-color: silver;
+	/*border-color: #ccffff;
+	background-color: #ccffff;
+	Color: white;*/
 	font-weight: bold;
 }
 
@@ -66,4 +69,17 @@ table, th, td {
 }
 
 /************************/
+
+/*
+Colors:
+Yellow - #fff5b3
+Green - #ccffcc
+Blue - #ccffff
+*/
+
+#maxAmount, #currentAmount {
+	border: 2px solid white;
+	border-radius: 4px;
+	padding: 2px;
+}
 

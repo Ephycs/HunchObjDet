@@ -24,6 +24,8 @@ var trained = false;
 
 var namesData = [];
 
+var timeout;
+
 
 /*******************************/
 // Core Features
@@ -34,6 +36,7 @@ function setup() {
 	// Disables the buttons
 	able(true);
 	document.getElementById('trainButton').disabled = true;
+	document.getElementById('saveButton').disabled = true;
 	
 	// Creates the canvas to draw everything on
 	w = window.innerWidth * 0.98;
@@ -63,17 +66,20 @@ function setup() {
 	
 	//Asks for how many images you would like to train
 	maxAmount = prompt("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nOlder versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\n\nThis is website trains objects in your browser, before we start enter how many objects you would like to train:");
+	maxAmount = maxAmount.match(/\d/g);
 	if (maxAmount == null)
 	{
 		maxAmount = 2;
 	}
-	maxAmount = maxAmount.match(/\d/g);
-	maxAmount = maxAmount.join("");
-	Number(maxAmount);
-	if (maxAmount < 2)
+	else
 	{
-		// Can't get away with training negative, 0, or 1 images
-		maxAmount = 2;
+		maxAmount = maxAmount.join("");
+		Number(maxAmount);
+		if (maxAmount < 2)
+		{
+			// Can't get away with training negative, 0, or 1 images
+			maxAmount = 2;
+		}
 	}
 	
 	document.getElementById('maxAmount').innerHTML = maxAmount;
@@ -278,6 +284,12 @@ function searchStringInArray(s, a) {
 // Training
 /*******************************/
 
+//Stops adding images
+function stopRepeat() {
+	
+	clearTimeout(timeout);
+}
+
 // Adds an image using the model, BUT THIS WILL NOT ADD TO THE ORIGINAL MODEL
 function modelAddImage() {
 	
@@ -354,12 +366,14 @@ function modelAddImage() {
 			//console.log("Took an image!");
 			
 			// If you have reached your maxAmount of images
-			if (currentAmount >= maxAmount) 
+			if (currentAmount == maxAmount) 
 			{
 				// You can now train
 				trainAble = true;
 				document.getElementById('trainButton').disabled = false;
 			}
+			
+			timeout = setTimeout(modelAddImage, 100);
 		});
 	}
 }
@@ -456,17 +470,24 @@ function modelTrain() {
 // Saves the model to your Downloads
 function modelSave() {
 	
-	console.log("Saving txt data: " + desData);
-	
-	// Saves the description file, with the desData
-	var blob = new Blob([desData], {type: "text/plain;charset=utf-8"});
-	saveAs(blob, "model.descriptions.txt");
-	
-	// Saves the model & weights
-	classifier.save(function()
+	if (trained == false)
 	{
-		console.log("Model was saved!");
-	});
+		document.getElementById('upperInfo').innerHTML = "Press the 'Info' button for instructions";
+	}
+	else
+	{
+		console.log("Saving txt data: " + desData);
+		
+		// Saves the description file, with the desData
+		var blob = new Blob([desData], {type: "text/plain;charset=utf-8"});
+		saveAs(blob, "model.descriptions.txt");
+		
+		// Saves the model & weights
+		classifier.save(function()
+		{
+			console.log("Model was saved!");
+		});
+	}
 }
 
 
@@ -494,11 +515,11 @@ function able(bool) {
 	document.getElementById('instrButton').disabled = bool;
 	document.getElementById('toggleButton').disabled = bool;
 	document.getElementById('addButton').disabled = bool;
-	document.getElementById('saveButton').disabled = bool;
 	
 	if (trainAble)
 	{
 		document.getElementById('trainButton').disabled = bool;
+		document.getElementById('saveButton').disabled = bool;
 	}
 }
 

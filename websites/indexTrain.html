@@ -46,7 +46,7 @@
 		<table>
 			<tr>
 				<td><input type="text" id="inputText" class="addInput" value="name"></td>
-				<td rowspan="2" style="width: 2em;"><button id="addButton" onClick="modelAddImage()"><i class="fas fa-plus"></i> Image</button></td>
+				<td rowspan="2" style="width: 2em;"><button id="addButton" onMouseDown="modelAddImage()" onMouseUp="stopRepeat()" onMouseOut="stopRepeat()"><i class="fas fa-plus"></i> Image</button></td>
 			</tr>
 			<tr>
 				<td><input type="text" id="inputInfo" class="addInput" value="description"></td>
