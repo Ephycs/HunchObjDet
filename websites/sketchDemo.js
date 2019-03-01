@@ -132,6 +132,7 @@ function togglePredicting() {
 		
 		// Changes the predict button to "Stop"
 		document.getElementById('toggleButton').innerHTML = "<i class='fas fa-stop'></i> Stop";
+		document.getElementById('toggleButton').style.filter = "invert(1)";
 		
 		console.log("Starting predicting");
 		
@@ -147,6 +148,7 @@ function togglePredicting() {
 		
 		// Changes the predict button to "Predict"
 		document.getElementById('toggleButton').innerHTML = "<i class='fas fa-play'></i> Predict";
+		document.getElementById('toggleButton').style.filter = "invert(1)";
 		
 		// Clears previous predictions
 		document.getElementById('upperText').innerHTML = "...";

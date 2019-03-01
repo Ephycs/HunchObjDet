@@ -133,6 +133,7 @@ function togglePredicting() {
 			
 			// Changes the predict button to "Stop"
 			document.getElementById('toggleButton').innerHTML = "<i class='fas fa-stop'></i> Stop";
+			document.getElementById('toggleButton').style.filter = "invert(1)";
 			
 			// Disables all buttons except the 'camButton', 'toggleButton', & 'instrButton'
 			document.getElementById('addButton').disabled = true;
@@ -153,6 +154,7 @@ function togglePredicting() {
 			
 			// Changes the predict button to "Predict"
 			document.getElementById('toggleButton').innerHTML = "<i class='fas fa-play'></i> Predict";
+			document.getElementById('toggleButton').style.filter = "invert(1)";
 			
 			// Enables all buttons except the 'camButton', 'toggleButton', & 'instrButton'
 			document.getElementById('addButton').disabled = false;
@@ -349,7 +351,7 @@ function modelAddImage() {
 			// Just make the description box '' or 'description'
 			//console.log("The description was not changed");
 			
-			des = '(description was not changed)';
+			des = '(nothing changed)';
 		}
 		else
 		{
