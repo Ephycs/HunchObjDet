@@ -270,6 +270,9 @@ function searchStringInArray(s, a) {
 // You have the select the model.json, model.weights.bin, & model.descriptions.txt files into at the sametime!
 function modelLoad(evt) {
 	
+	// New files are stored here
+	var newFiles = [];
+	
 	// Disables the buttons
 	able(true);
 	
@@ -306,29 +309,23 @@ function modelLoad(evt) {
 		}
 		else if (f.type.match(/json.*/))
 		{
-			console.log("Found json");
-			
 			if (f.name.includes('model'))
 			{
-				console.log("Found model.json");
+				var modelJson = new File([f], 'model.json');
 				
-				files[i].name = 'model.json';
-				
-				console.log("New name: " + f.name);
+				newFiles.push(modelJson);
 			}
 		}
 		if (f.name.includes('model.weights'))
 		{
-			console.log("Found model.weights.bin");
+			var modelBin = new File([f], 'model.weights.bin');
 			
-			files[i].name = 'model.weights.bin';
-			
-			console.log("New name: " + f.name);
+			newFiles.push(modelBin);
 		}
 	}
 	
 	// Loads the model
-	classifier.load(files);
+	classifier.load(newFiles);
 	
 	document.getElementById('upperText').innerHTML = 'New Model was Loaded';
 	console.log("New Model was Loaded!");

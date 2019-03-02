@@ -488,6 +488,7 @@ function modelSave() {
 		classifier.save(function()
 		{
 			console.log("Model was saved!");
+			
 		});
 	}
 }
