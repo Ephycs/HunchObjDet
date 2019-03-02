@@ -23,6 +23,7 @@ var h;
 var isPredicting;
 var desData;
 
+alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nOlder versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\n\nPress the 'Info' button for instructions");
 
 /*******************************/
 // Core Features
@@ -54,8 +55,6 @@ function setup() {
 	console.log("Camera was just set!");
 	
 	background(0);
-	
-	alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nOlder versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\n\nPress the 'Info' button for instructions");
 	
 	// Gets the 'MobileNet' model through ml5
 	// Gets the model classification libraries from ml5 and will use the camera
