@@ -27,7 +27,7 @@ var desData;
 
 // Begining Alert //
 
-alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nOlder versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\n\nPress the 'Info' button for instructions");
+alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nOlder versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\nIt will take a little bit Load.\n\nPress the 'Info' button for instructions");
 
 /*******************************/
 // Core Features
