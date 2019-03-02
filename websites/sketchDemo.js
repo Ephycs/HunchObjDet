@@ -3,18 +3,31 @@
 // Platt Tech NASA HUNCH TEAM
 /*****************************/
 
-// Inital variables
+// Inital variables //
+
 let model;
 let classifier;
 let camera;
 let canvas;
 
+var cameraOptions = {
+	audio: false,
+	video: 
+	{
+		facingMode: "environment"
+	}
+};
+var backCam = true;
+
 var w;
 var h;
-var cameraOptions;
-var isPredicting = false;
-var desData = [];
+var isPredicting;
+var desData;
 
+
+// Begining Alert //
+
+alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nOlder versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\n\nPress the 'Info' button for instructions");
 
 /*******************************/
 // Core Features
@@ -25,20 +38,16 @@ function setup() {
 	// Disables the buttons
 	able(true);
 	
+	isPredicting = false;
+	desData = [];
+	
 	// Creates the canvas to draw everything on
 	w = window.innerWidth * 0.98;
 	h = window.innerHeight * 0.96;
 	createCanvas(w, h);
 	
-	// Sets up the cameraOptions
-	cameraOptions = 
-	{
-		audio: false,
-		video: 
-		{
-			facingMode: "environment"
-		}
-	};
+	console.log(cameraOptions);
+	
 	// Creates the capture using cameraOptions
 	// IOS needs that 'playsinline' thing
 	// Hides the camera, so that it can be used on the canvas instead
@@ -50,8 +59,6 @@ function setup() {
 	console.log("Camera was just set!");
 	
 	background(0);
-	
-	alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nOlder versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\n\nPress the 'Info' button for instructions");
 	
 	// Gets the 'MobileNet' model through ml5
 	// Gets the model classification libraries from ml5 and will use the camera
@@ -205,8 +212,39 @@ function alertInstr() {
 // Sets & changes the camera used
 function changeCamera() {
 	
-	alert("Work in progress");
+	if (confirm("Chnaging the camera will reload the page and loose your training data!")) 
+	{
+		// Pressed 'ok'
+		
+		// Bool for whether it is using the back camera already
+		if (backCam)
+		{
+			cameraOptions.video.facingMode = "user";
+			
+			document.getElementById('camButton').innerHTML = "<i class='fas fa-camera'></i> Front";
+			document.getElementById('camButton').style.filter = "invert(1)";
+			
+			backCam = false;
+		}
+		else
+		{
+			cameraOptions.video.facingMode = "environment";
+			
+			document.getElementById('camButton').innerHTML = "<i class='fas fa-camera'></i> Back";
+			document.getElementById('camButton').style.filter = "invert(0)";
+			
+			backCam = true;
+		}
+		
+		// Calls the setup again
+		setup();
+	} 
+	else 
+	{
+		// Pressed 'cancel'
+	}
 }
+
 
 /*******************************/
 // Finding Data

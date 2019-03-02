@@ -3,28 +3,57 @@
 // Platt Tech NASA HUNCH TEAM
 /*****************************/
 
-// Inital variables
+// Inital variables //
+
 let model;
 let classifier;
 let camera;
 let canvas;
 
+var cameraOptions = {
+	audio: false,
+	video: 
+	{
+		facingMode: "environment"
+	}
+};
+var backCam = true;
+
 var w;
 var h;
-var cameraOptions;
-var isPredicting = false;
-var desData = [];
+var isPredicting;
+var desData;
 
-var countStr = 0;
-var preStr = "";
+var countStr;
+var preStr;
 var maxAmount;
-var currentAmount = 0;
-var trainAble = false;
-var trained = false;
+var currentAmount;
+var trainAble;
+var trained;
 
-var namesData = [];
-
+var namesData;
 var timeout;
+
+
+// Begining Alert //
+
+//Asks for how many images you would like to train
+maxAmount = prompt("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nOlder versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\n\nThis is website trains objects in your browser, before we start enter how many objects you would like to train:");
+maxAmount = maxAmount.match(/\d/g);
+if (maxAmount == null)
+{
+	maxAmount = 2;
+}
+else
+{
+	maxAmount = maxAmount.join("");
+	Number(maxAmount);
+	if (maxAmount < 2)
+	{
+		// Can't get away with training negative, 0, or 1 images
+		maxAmount = 2;
+	}
+}
 
 
 /*******************************/
@@ -38,20 +67,22 @@ function setup() {
 	document.getElementById('trainButton').disabled = true;
 	document.getElementById('saveButton').disabled = true;
 	
+	isPredicting = false;
+	desData = [];
+	countStr = 0;
+	preStr = "";
+	currentAmount = 0;
+	trainAble = false;
+	trained = false;
+	namesData = [];
+	
 	// Creates the canvas to draw everything on
 	w = window.innerWidth * 0.98;
 	h = window.innerHeight * 0.96;
 	createCanvas(w, h);
 	
-	// Sets up the cameraOptions
-	cameraOptions = 
-	{
-		audio: false,
-		video: 
-		{
-			facingMode: "environment"
-		}
-	};
+	console.log(cameraOptions);
+	
 	// Creates the capture using cameraOptions
 	// IOS needs that 'playsinline' thing
 	// Hides the camera, so that it can be used on the canvas instead
@@ -63,24 +94,6 @@ function setup() {
 	console.log("Camera was just set!");
 	
 	background(0);
-	
-	//Asks for how many images you would like to train
-	maxAmount = prompt("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nOlder versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\n\nThis is website trains objects in your browser, before we start enter how many objects you would like to train:");
-	maxAmount = maxAmount.match(/\d/g);
-	if (maxAmount == null)
-	{
-		maxAmount = 2;
-	}
-	else
-	{
-		maxAmount = maxAmount.join("");
-		Number(maxAmount);
-		if (maxAmount < 2)
-		{
-			// Can't get away with training negative, 0, or 1 images
-			maxAmount = 2;
-		}
-	}
 	
 	document.getElementById('maxAmount').innerHTML = maxAmount;
 	document.getElementById('currentAmount').innerHTML = currentAmount;
@@ -222,7 +235,37 @@ function alertInstr() {
 // Sets & changes the camera used
 function changeCamera() {
 	
-	alert("Work in progress");
+	if (confirm("Chnaging the camera will reload the page and loose your training data!")) 
+	{
+		// Pressed 'ok'
+		
+		// Bool for whether it is using the back camera already
+		if (backCam)
+		{
+			cameraOptions.video.facingMode = "user";
+			
+			document.getElementById('camButton').innerHTML = "<i class='fas fa-camera'></i> Front";
+			document.getElementById('camButton').style.filter = "invert(1)";
+			
+			backCam = false;
+		}
+		else
+		{
+			cameraOptions.video.facingMode = "environment";
+			
+			document.getElementById('camButton').innerHTML = "<i class='fas fa-camera'></i> Back";
+			document.getElementById('camButton').style.filter = "invert(0)";
+			
+			backCam = true;
+		}
+		
+		// Calls the setup again
+		setup();
+	} 
+	else 
+	{
+		// Pressed 'cancel'
+	}
 }
 
 

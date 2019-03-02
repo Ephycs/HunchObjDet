@@ -3,7 +3,8 @@
 // Platt Tech NASA HUNCH TEAM
 /*****************************/
 
-// Inital variables
+// Inital variables //
+
 let model;
 let classifier;
 let camera;
@@ -22,6 +23,9 @@ var w;
 var h;
 var isPredicting;
 var desData;
+
+
+// Begining Alert //
 
 alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nOlder versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\n\nPress the 'Info' button for instructions");
 
@@ -184,7 +188,6 @@ function draw() {
 // Intructions button
 function alertInstr() {
 	
-	//alert("This is a test for IOS");
 	alert("1) Press the 'Predict' button to start or stop predicting objects.");
 }
 
@@ -198,29 +201,24 @@ function changeCamera() {
 		// Bool for whether it is using the back camera already
 		if (backCam)
 		{
-			cameraOptions = {
-				audio: false,
-				video: 
-				{
-					facingMode: "user"
-				}
-			};
+			cameraOptions.video.facingMode = "user";
+			
+			document.getElementById('camButton').innerHTML = "<i class='fas fa-camera'></i> Front";
+			document.getElementById('camButton').style.filter = "invert(1)";
 			
 			backCam = false;
 		}
 		else
 		{
-			cameraOptions = {
-				audio: false,
-				video: 
-				{
-					facingMode: "environment"
-				}
-			};
+			cameraOptions.video.facingMode = "environment";
+			
+			document.getElementById('camButton').innerHTML = "<i class='fas fa-camera'></i> Back";
+			document.getElementById('camButton').style.filter = "invert(0)";
 			
 			backCam = true;
 		}
 		
+		// Calls the setup again
 		setup();
 	} 
 	else 
