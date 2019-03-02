@@ -70,6 +70,16 @@ table, th, td {
 
 /************************/
 
+#maxAmount, #currentAmount {
+	border: 2px solid white;
+	border-radius: 4px;
+	padding: 1px;
+	background-color: white;
+	Color: black;
+}
+
+/************************/
+
 /*
 Colors:
 Yellow - #fff5b3
@@ -77,9 +87,5 @@ Green - #ccffcc
 Blue - #ccffff
 */
 
-#maxAmount, #currentAmount {
-	border: 2px solid white;
-	border-radius: 4px;
-	padding: 2px;
-}
+
 
