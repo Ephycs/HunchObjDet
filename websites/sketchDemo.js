@@ -1,5 +1,5 @@
 /*****************************/
-// Ethan Feldman
+// Ethan R Feldman
 // Platt Tech NASA HUNCH TEAM
 /*****************************/
 

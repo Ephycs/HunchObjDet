@@ -1,5 +1,5 @@
 /*****************************/
-// Ethan Feldman
+// Ethan R Feldman
 // Platt Tech NASA HUNCH TEAM
 /*****************************/
 
@@ -9,11 +9,19 @@ let classifier;
 let camera;
 let canvas;
 
+var cameraOptions = {
+	audio: false,
+	video: 
+	{
+		facingMode: "environment"
+	}
+};
+var backCam = true;
+
 var w;
 var h;
-var cameraOptions;
-var isPredicting = false;
-var desData = [];
+var isPredicting;
+var desData;
 
 
 /*******************************/
@@ -25,20 +33,16 @@ function setup() {
 	// Disables the buttons
 	able(true);
 	
+	isPredicting = false;
+	desData = [];
+	
 	// Creates the canvas to draw everything on
 	w = window.innerWidth * 0.98;
 	h = window.innerHeight * 0.96;
-	createCanvas(w, h);
+	canvas = createCanvas(w, h);
 	
-	// Sets up the cameraOptions
-	cameraOptions = 
-	{
-		audio: false,
-		video: 
-		{
-			facingMode: "environment"
-		}
-	};
+	console.log(cameraOptions);
+	
 	// Creates the capture using cameraOptions
 	// IOS needs that 'playsinline' thing
 	// Hides the camera, so that it can be used on the canvas instead
@@ -188,7 +192,42 @@ function alertInstr() {
 // Sets & changes the camera used
 function changeCamera() {
 	
-	alert("Work in progress");
+	if (confirm("Chnaging the camera will reload the page and loose your training data!")) 
+	{
+		// Pressed 'ok'
+		
+		// Bool for whether it is using the back camera already
+		if (backCam)
+		{
+			cameraOptions = {
+				audio: false,
+				video: 
+				{
+					facingMode: "user"
+				}
+			};
+			
+			backCam = false;
+		}
+		else
+		{
+			cameraOptions = {
+				audio: false,
+				video: 
+				{
+					facingMode: "environment"
+				}
+			};
+			
+			backCam = true;
+		}
+		
+		setup();
+	} 
+	else 
+	{
+		// Pressed 'cancel'
+	}
 }
 
 
