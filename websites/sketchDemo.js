@@ -312,7 +312,7 @@ function modelLoad(evt) {
 			{
 				console.log("Found model.json");
 				
-				file[i].name = 'model.json';
+				files[i].name = 'model.json';
 				
 				console.log("New name: " + f.name);
 			}
@@ -321,7 +321,7 @@ function modelLoad(evt) {
 		{
 			console.log("Found model.weights.bin");
 			
-			file[i].name = 'model.weights.bin';
+			files[i].name = 'model.weights.bin';
 			
 			console.log("New name: " + f.name);
 		}
