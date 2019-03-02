@@ -313,18 +313,17 @@ function modelLoad(evt) {
 				console.log("Found model.json");
 				
 				f.name = 'model.json';
+				
+				console.log("New name: " + f.name);
 			}
 		}
-		else if (f.type.match(/bin.*/))
+		if (f.name.includes('model.weights'))
 		{
-			console.log("Found bin");
+			console.log("Found model.weights.bin");
 			
-			if (f.name.includes('model.weights'))
-			{
-				console.log("Found model.weights.bin");
-				
-				f.name = 'model.weights.bin';
-			}
+			f.name = 'model.weights.bin';
+			
+			console.log("New name: " + f.name);
 		}
 	}
 	
