@@ -180,12 +180,12 @@ function gotResult(err, res) {
 		{	
 			alert(err + "\nPress the 'Stop' button.");
 		}
-		else
+		if (res && res[0]) 
 		{
 			// Gets the top result
-			document.getElementById('upperText').innerHTML = res;
+			document.getElementById('upperText').innerHTML = res[0].label;
 			
-			findData(res);
+			findData(res[0].label);
 			
 			// Predicts again
 			classify();
