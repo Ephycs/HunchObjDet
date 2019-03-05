@@ -51,18 +51,20 @@ function setup() {
 	// Creates the capture using cameraOptions
 	// IOS needs that 'playsinline' thing
 	// Hides the camera, so that it can be used on the canvas instead
-	camera = createCapture(cameraOptions);
-	camera.elt.setAttribute('playsinline', true);
-	camera.elt.setAttribute('autoplay', true);
-	camera.hide();
-	
-	console.log("Camera was just set!");
-	
-	background(0);
-	
-	// Gets the 'MobileNet' model through ml5
-	// Gets the model classification libraries from ml5 and will use the camera
-	model = ml5.featureExtractor('mobilenet', modelReady);
+	camera = createCapture(cameraOptions, function() {
+		
+		camera.elt.setAttribute('playsinline', true);
+		camera.elt.setAttribute('autoplay', true);
+		camera.hide();
+		
+		console.log("Camera was just set!");
+		
+		background(0);
+		
+		// Gets the 'MobileNet' model through ml5
+		// Gets the model classification libraries from ml5 and will use the camera
+		model = ml5.featureExtractor('mobilenet', modelReady);
+	});
 	
 	// Will call modelLoad when files are loaded into the webpage
 	document.getElementById('files').addEventListener('change', modelLoad, true);

@@ -91,21 +91,23 @@ function setup() {
 	// Creates the capture using cameraOptions
 	// IOS needs that 'playsinline' thing
 	// Hides the camera, so that it can be used on the canvas instead
-	camera = createCapture(cameraOptions);
-	camera.elt.setAttribute('playsinline', true);
-	camera.elt.setAttribute('autoplay', true);
-	camera.hide();
-	
-	console.log("Camera was just set!");
-	
-	background(0);
-	
-	document.getElementById('maxAmount').innerHTML = maxAmount;
-	document.getElementById('currentAmount').innerHTML = currentAmount;
-	
-	// Gets the 'MobileNet' model featureExtractor libraries from ml5 ready
-	model = ml5.featureExtractor('mobilenet', modelReady);
-	model.numClasses = maxAmount;
+	camera = createCapture(cameraOptions, function() {
+		
+		camera.elt.setAttribute('playsinline', true);
+		camera.elt.setAttribute('autoplay', true);
+		camera.hide();
+		
+		console.log("Camera was just set!");
+		
+		background(0);
+
+		document.getElementById('maxAmount').innerHTML = maxAmount;
+		document.getElementById('currentAmount').innerHTML = currentAmount;
+		
+		// Gets the 'MobileNet' model featureExtractor libraries from ml5 ready
+		model = ml5.featureExtractor('mobilenet', modelReady);
+		model.numClasses = maxAmount;
+	});
 	
 	//alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nWarning: Older versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\nPress the 'Instructions' button for instructions");
 	
