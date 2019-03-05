@@ -208,14 +208,16 @@ function gotResult(err, res) {
 		{	
 			alert(err + "\nPress the 'Stop' button.");
 		}
-		
-		// Gets the top result
-		document.getElementById('upperText').innerHTML = res;
-		
-		findData(res);
-		
-		// Predicts again
-		classify();
+		else
+		{
+			// Gets the top result
+			document.getElementById('upperText').innerHTML = res;
+			
+			findData(res);
+			
+			// Predicts again
+			classify();
+		}
 	}
 }
 

@@ -162,16 +162,18 @@ function gotResult(err, res) {
 		{	
 			alert(err+ "\nPress the 'Stop' button.");
 		}
-		
-		console.log(res[0].className);
-		
-		// Gets the top result
-		document.getElementById('upperText').innerHTML = res[0].className;
-		
-		findData(res[0].className);
-		
-		// Predicts again
-		predict();
+		else
+		{
+			console.log(res[0].className);
+			
+			// Gets the top result
+			document.getElementById('upperText').innerHTML = res[0].className;
+			
+			findData(res[0].className);
+			
+			// Predicts again
+			predict();
+		}
 	}
 }
 
