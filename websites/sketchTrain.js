@@ -39,6 +39,10 @@ var timeout;
 
 //Asks for how many images you would like to train
 maxAmount = prompt("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nOlder versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\n\nThis is website trains objects in your browser, before we start enter how many objects you would like to train:");
+if (maxAmount == null)
+{
+	maxAmount = "jgu2";
+}
 maxAmount = maxAmount.match(/\d/g);
 if (maxAmount == null)
 {
@@ -55,6 +59,7 @@ else
 	}
 }
 
+console.log("maxAmount: " + maxAmount);
 
 /*******************************/
 // Core Features
@@ -203,16 +208,14 @@ function gotResult(err, res) {
 		{	
 			alert(err + "\nPress the 'Stop' button.");
 		}
-		else
-		{
-			// Gets the top result
-			document.getElementById('upperText').innerHTML = res;
-			
-			findData(res);
-			
-			// Predicts again
-			classify();
-		}
+		
+		// Gets the top result
+		document.getElementById('upperText').innerHTML = res;
+		
+		findData(res);
+		
+		// Predicts again
+		classify();
 	}
 }
 

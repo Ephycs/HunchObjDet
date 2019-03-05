@@ -180,16 +180,14 @@ function gotResult(err, res) {
 		{	
 			alert(err + "\nPress the 'Stop' button.");
 		}
-		if (res && res[0]) 
-		{
-			// Gets the top result
-			document.getElementById('upperText').innerHTML = res[0].label;
-			
-			findData(res[0].label);
-			
-			// Predicts again
-			classify();
-		}
+		
+		// Gets the top result
+		document.getElementById('upperText').innerHTML = res;
+		
+		findData(res);
+		
+		// Predicts again
+		classify();
 	}
 }
 

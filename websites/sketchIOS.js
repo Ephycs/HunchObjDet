@@ -160,21 +160,18 @@ function gotResult(err, res) {
 		// Checks for errors
 		if (err) 
 		{	
-			// I have come to find out "TypeError: Cannot read property 'predict' of null" might be the only error...
 			alert(err+ "\nPress the 'Stop' button.");
 		}
-		else
-		{
-			console.log(res[0].className);
-			
-			// Gets the top result
-			document.getElementById('upperText').innerHTML = res[0].className;
-			
-			findData(res[0].className);
-			
-			// Predicts again
-			predict();
-		}
+		
+		console.log(res[0].className);
+		
+		// Gets the top result
+		document.getElementById('upperText').innerHTML = res[0].className;
+		
+		findData(res[0].className);
+		
+		// Predicts again
+		predict();
 	}
 }
 
