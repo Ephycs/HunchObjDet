@@ -156,7 +156,7 @@ function togglePredicting() {
 			console.log("Starting predicting...");
 			
 			// Actual predicting
-			classifier.classify(gotResult);
+			classify();
 		}
 		else
 		{
@@ -187,6 +187,11 @@ function togglePredicting() {
 	}
 }
 
+function classify() {
+	
+	classifier.classify(gotResult);
+}
+
 // Predicts what's in front of your webcam
 function gotResult(err, res) {
 	
@@ -206,7 +211,7 @@ function gotResult(err, res) {
 			findData(res);
 			
 			// Predicts again
-			classifier.classify(gotResult);
+			classify();
 		}
 	}
 }

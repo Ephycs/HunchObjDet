@@ -123,7 +123,8 @@ function togglePredicting() {
 		console.log("Starting predicting");
 		
 		// Actual predicting
-		model.predict(gotResult);
+		predict();
+		
 	}
 	else
 	{
@@ -141,6 +142,12 @@ function togglePredicting() {
 		
 		console.log("Stopping predicting");
 	}
+}
+
+// Predicting 
+function predict() {
+	
+	model.predict(gotResult);
 }
 
 // Predicts what's in front of your webcam
@@ -165,7 +172,7 @@ function gotResult(err, res) {
 			findData(res[0].className);
 			
 			// Predicts again
-			model.predict(gotResult);
+			predict();
 		}
 	}
 }
