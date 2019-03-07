@@ -227,7 +227,7 @@ function changeCamera() {
 		}
 		
 		// Calls the setup again
-		setup();
+		//setup();
 	} 
 	else 
 	{
