@@ -283,7 +283,7 @@ function draw() {
 // Sets & changes the camera used
 function changeCamera() {
 	
-	if (confirm("Chnaging the camera will reload the page and loose your training data!")) 
+	if (confirm("Changing the camera will reload the page and loose your training data!")) 
 	{
 		// Pressed 'ok'
 		
