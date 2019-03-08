@@ -7,16 +7,11 @@
 
 let model;
 let classifier;
-let camera;
+let back;
+let front;
 let canvas;
 
-var cameraOptions = {
-	audio: false,
-	video: 
-	{
-		facingMode: "environment"
-	}
-};
+var cameraOptions;
 var backCam = true;
 
 var w;
@@ -61,6 +56,7 @@ else
 
 console.log("maxAmount: " + maxAmount);
 
+
 /*******************************/
 // Core Features
 /*******************************/
@@ -81,45 +77,82 @@ function setup() {
 	trained = false;
 	namesData = [];
 	
+	document.getElementById('maxAmount').innerHTML = maxAmount;
+	document.getElementById('currentAmount').innerHTML = currentAmount;
+	
 	// Creates the canvas to draw everything on
 	w = window.innerWidth * 0.98;
 	h = window.innerHeight * 0.96;
 	createCanvas(w, h);
-	
+
+	// Uses the options for a front camera
+	cameraOptions = {
+		audio: false,
+		video: 
+		{
+			facingMode: "user"
+		}
+	};
+
 	console.log(cameraOptions);
-	
+
 	// Creates the capture using cameraOptions
 	// IOS needs that 'playsinline' thing
 	// Hides the camera, so that it can be used on the canvas instead
-	camera = createCapture(cameraOptions, function() {
+	front = createCapture(cameraOptions, function() {
 		
-		camera.elt.setAttribute('playsinline', true);
-		camera.elt.setAttribute('autoplay', true);
-		camera.hide();
+		front.elt.setAttribute('playsinline', true);
+		front.elt.setAttribute('autoplay', true);
+		front.hide();
 		
-		console.log("Camera was just set!");
-		
-		background(0);
-
-		document.getElementById('maxAmount').innerHTML = maxAmount;
-		document.getElementById('currentAmount').innerHTML = currentAmount;
-		
-		// Gets the 'MobileNet' model featureExtractor libraries from ml5 ready
-		model = ml5.featureExtractor('mobilenet', modelReady);
-		model.numClasses = maxAmount;
+		console.log("Front Camera was just set!");
 	});
-	
-	//alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nWarning: Older versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\nPress the 'Instructions' button for instructions");
-	
+		
+	// Uses the options for a back camera
+	cameraOptions = {
+		audio: false,
+		video: 
+		{
+			facingMode: "environment"
+		}
+	};
+
+	console.log(cameraOptions);
+
+	// Creates the capture using cameraOptions
+	// IOS needs that 'playsinline' thing
+	// Hides the camera, so that it can be used on the canvas instead
+	back = createCapture(cameraOptions, function() {
+		
+		back.elt.setAttribute('playsinline', true);
+		back.elt.setAttribute('autoplay', true);
+		back.hide();
+		
+		console.log("Back Camera was just set!");
+	});
+
+	if (backCam)
+	{
+		next(back);
+	}
+	else if (backCam == false)
+	{
+		next(front);
+	}
 }
 
-// Called after the model is loaded
-function modelReady() {
+function next(mode) {
 	
-	console.log("Model was loaded!!!");
-	
-	// Gets the camera ready for object classification
-	classifier = model.classification(camera, cameraReady);
+	// Gets the 'MobileNet' model featureExtractor libraries from ml5 ready
+	model = ml5.featureExtractor('mobilenet', function() {
+		
+		model.numClasses = maxAmount;
+		
+		console.log("Model was loaded!!!");
+		
+		// Gets the camera ready for object classification
+		classifier = model.classification(mode, cameraReady);
+	});
 }
 
 // Called after the camera is loaded
@@ -228,21 +261,24 @@ function draw() {
 	
 	background(0);
 	
-	// Draws the camera to the canvas
-	image(camera, 0, 0, w, h);
+	if (backCam) 
+	{
+		// Draws the camera to the canvas
+		image(back, 0, 0, w, h);
+	}
+	else if (backCam == false)
+	{
+		// Draws the camera to the canvas
+		image(front, 0, 0, w, h);
+	}
+	
 	fill(255);
 }
 
 
 /*******************************/
-// 2 Buttons
+// Camera
 /*******************************/
-
-// Intructions button
-function alertInstr() {
-	
-	alert("1) Start training the model by entering the 'name' & 'description' of the object, then press the '+' button.\n2) To train another object, just simply change the 'name' & 'description' and take pictures of the new object.\n3) Try to have roughly the same amount of images for each of your pictures.\n4) When ready, tap the 'Train' button to train the model, wait until it says 'Done Training'.\n5) Once done, you can press the 'Predict' button to start or stop predicting objects.\n6) You can download the model to your computer's Downloads folder with the 'Download' button.");
-}
 
 // Sets & changes the camera used
 function changeCamera() {
@@ -251,28 +287,20 @@ function changeCamera() {
 	{
 		// Pressed 'ok'
 		
-		// Bool for whether it is using the back camera already
+		backCam = false;
+		
 		if (backCam)
 		{
-			cameraOptions.video.facingMode = "user";
+			next(back);
 			
-			document.getElementById('camButton').innerHTML = "<i class='fas fa-camera'></i> Front";
-			document.getElementById('camButton').style.filter = "invert(1)";
-			
-			backCam = false;
+			redraw();
 		}
-		else
+		else if (backCam == false)
 		{
-			cameraOptions.video.facingMode = "environment";
+			next(front);
 			
-			document.getElementById('camButton').innerHTML = "<i class='fas fa-camera'></i> Back";
-			document.getElementById('camButton').style.filter = "invert(0)";
-			
-			backCam = true;
+			redraw();
 		}
-		
-		// Calls the setup again
-		setup();
 	} 
 	else 
 	{
@@ -552,6 +580,12 @@ function modelSave() {
 /*******************************/
 // Extra
 /*******************************/
+
+// Intructions button
+function alertInstr() {
+	
+	alert("1) Start training the model by entering the 'name' & 'description' of the object, then press the '+' button.\n2) To train another object, just simply change the 'name' & 'description' and take pictures of the new object.\n3) Try to have roughly the same amount of images for each of your pictures.\n4) When ready, tap the 'Train' button to train the model, wait until it says 'Done Training'.\n5) Once done, you can press the 'Predict' button to start or stop predicting objects.\n6) You can download the model to your computer's Downloads folder with the 'Download' button.");
+}
 
 // This will call when the window is resized
 function windowResized() {
