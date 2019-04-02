@@ -254,17 +254,6 @@ function draw() {
 
 
 /*******************************/
-// Buttons
-/*******************************/
-
-// Intructions button
-function alertInstr() {
-	
-	alert("1) Press the 'Predict' button to start or stop predicting objects.\n2) At the bottom, you can load models into the page by clicking the 'Choose Files' button and selecting: 'model.json', 'model.weights.bin', and 'model.descriptions.txt' all at once.");
-}
-
-
-/*******************************/
 // Finding Data
 /*******************************/
 
@@ -394,6 +383,12 @@ function modelLoad(evt) {
 /*******************************/
 // Extra
 /*******************************/
+
+// Intructions button
+function alertInstr() {
+	
+	alert("1) Press the 'Predict' button to start or stop predicting objects.\n2) At the bottom, you can load models into the page by clicking the 'Choose Files' button and selecting: 'model.json', 'model.weights.bin', and 'model.descriptions.txt' all at once.\n3)The top-right button will take you to the training page.");
+}
 
 // This will call when the window is resized
 function windowResized() {

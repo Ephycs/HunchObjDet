@@ -578,7 +578,7 @@ function modelSave() {
 // Intructions button
 function alertInstr() {
 	
-	alert("1) Start training the model by entering the 'name' & 'description' of the object, then press the '+' button.\n2) To train another object, just simply change the 'name' & 'description' and take pictures of the new object.\n3) Try to have roughly the same amount of images for each of your pictures.\n4) When ready, tap the 'Train' button to train the model, wait until it says 'Done Training'.\n5) Once done, you can press the 'Predict' button to start or stop predicting objects.\n6) You can download the model to your computer's Downloads folder with the 'Download' button.");
+	alert("1) Start training the model by entering the 'name' & 'description' of the object, then press the '+' button.\n2) To train another object, just simply change the 'name' & 'description' and take pictures of the new object.\n3) Try to have roughly the same amount of images for each of your pictures.\n4) When ready, tap the 'Train' button to train the model, wait until it says 'Done Training'.\n5) Once done, you can press the 'Predict' button to start or stop predicting objects.\n6) You can download the model to your computer's Downloads folder with the 'Download' button.\n7) The top-right button will take you to the demo page.");
 }
 
 // This will call when the window is resized
