@@ -69,8 +69,8 @@ function changeCamera() {
 		{
 			cameraOptions.video.facingMode = "user";
 			
-			document.getElementById('camButton').innerHTML = "<i class='fas fa-camera'></i> Front";
-			document.getElementById('camButton').style.filter = "invert(1)";
+			//document.getElementById('camButton').innerHTML = "<i class='fas fa-camera'></i> Front";
+			//document.getElementById('camButton').style.filter = "invert(1)";
 			
 			backCam = false;
 		}
@@ -78,8 +78,8 @@ function changeCamera() {
 		{
 			cameraOptions.video.facingMode = "environment";
 			
-			document.getElementById('camButton').innerHTML = "<i class='fas fa-camera'></i> Back";
-			document.getElementById('camButton').style.filter = "invert(0)";
+			//document.getElementById('camButton').innerHTML = "<i class='fas fa-camera'></i> Back";
+			//document.getElementById('camButton').style.filter = "invert(0)";
 			
 			backCam = true;
 		}
@@ -411,7 +411,7 @@ function windowResized() {
 // Becuase I disable and enable the buttons alot
 function able(bool) {
 	
-	document.getElementById('camButton').disabled = bool;
+	//document.getElementById('camButton').disabled = bool;
 	document.getElementById('instrButton').disabled = bool;
 	document.getElementById('toggleButton').disabled = bool;
 }

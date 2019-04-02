@@ -597,7 +597,7 @@ function windowResized() {
 // Becuase I disable and enable the buttons alot
 function able(bool) {
 	
-	document.getElementById('camButton').disabled = bool;
+	//document.getElementById('camButton').disabled = bool;
 	document.getElementById('instrButton').disabled = bool;
 	document.getElementById('toggleButton').disabled = bool;
 	document.getElementById('addButton').disabled = bool;
