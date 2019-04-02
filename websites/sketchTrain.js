@@ -67,7 +67,7 @@ console.log("maxAmount: " + maxAmount);
 /*******************************/
 
 // Creates the Camera
-function camera() {
+function cameraFun() {
 	
 	console.log("cameraOptions1: " + cameraOptions);
 
@@ -159,7 +159,7 @@ function setup() {
 	createCanvas(w, h);
 	
 	// Creates camera
-	camera();
+	cameraFun();
 	
 	// Uses camera
 	next(back);

@@ -34,7 +34,7 @@ alert("Warning: If the page is black: KEEP the site, but leave your browser, the
 /*******************************/
 
 // This creates the camera
-function camera() {
+function cameraFun() {
 	
 	console.log(cameraOptions);
 	
@@ -111,7 +111,7 @@ function setup() {
 	h = window.innerHeight * 0.96;
 	canvas = createCanvas(w, h);
 	
-	camera();
+	cameraFun();
 }
 
 function modelReady() {
