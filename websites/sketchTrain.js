@@ -11,7 +11,13 @@ let back;
 let front;
 let canvas;
 
-var cameraOptions;
+var cameraOptions = {
+	audio: false,
+	video: 
+	{
+		facingMode: "environment"
+	}
+};
 var backCam = true;
 
 var w;
@@ -28,7 +34,6 @@ var trained;
 
 var namesData;
 var timeout;
-
 
 // Begining Alert //
 
@@ -58,6 +63,74 @@ console.log("maxAmount: " + maxAmount);
 
 
 /*******************************/
+// Camera
+/*******************************/
+
+// Creates the Camera
+function camera() {
+	
+	console.log("cameraOptions1: " + cameraOptions);
+
+	// Creates the capture using cameraOptions
+	// IOS needs that 'playsinline' thing
+	// Hides the camera, so that it can be used on the canvas instead
+	front = createCapture(cameraOptions, function() {
+		
+		front.elt.setAttribute('playsinline', true);
+		front.elt.setAttribute('autoplay', true);
+		front.hide();
+		
+		console.log("Front Camera was just set!");
+	});
+		
+	// Uses the options for a back camera
+	cameraOptions = {
+		audio: false,
+		video: 
+		{
+			facingMode: "environment"
+		}
+	};
+
+	console.log("cameraOptions2: " + cameraOptions);
+
+	// Creates the capture using cameraOptions
+	// IOS needs that 'playsinline' thing
+	// Hides the camera, so that it can be used on the canvas instead
+	back = createCapture(cameraOptions, function() {
+		
+		back.elt.setAttribute('playsinline', true);
+		back.elt.setAttribute('autoplay', true);
+		back.hide();
+		
+		console.log("Back Camera was just set!");
+	});
+}
+
+// Sets & changes the camera used
+function changeCamera() {
+	
+	if (confirm("Changing the camera will reload the page and loose your training data!")) 
+	{
+		// Pressed 'ok'
+		
+		if (backCam)
+		{
+			// Currently using the back camera
+		}
+		else if (backCam == false)
+		{
+			// Currently using the front camera
+		}
+	} 
+	else 
+	{
+		// Pressed 'cancel'
+	}
+}
+
+
+/*******************************/
 // Core Features
 /*******************************/
 
@@ -84,63 +157,16 @@ function setup() {
 	w = window.innerWidth * 0.98;
 	h = window.innerHeight * 0.96;
 	createCanvas(w, h);
-
-	// Uses the options for a front camera
-	cameraOptions = {
-		audio: false,
-		video: 
-		{
-			facingMode: "user"
-		}
-	};
-
-	console.log(cameraOptions);
-
-	// Creates the capture using cameraOptions
-	// IOS needs that 'playsinline' thing
-	// Hides the camera, so that it can be used on the canvas instead
-	front = createCapture(cameraOptions, function() {
-		
-		front.elt.setAttribute('playsinline', true);
-		front.elt.setAttribute('autoplay', true);
-		front.hide();
-		
-		console.log("Front Camera was just set!");
-	});
-		
-	// Uses the options for a back camera
-	cameraOptions = {
-		audio: false,
-		video: 
-		{
-			facingMode: "environment"
-		}
-	};
-
-	console.log(cameraOptions);
-
-	// Creates the capture using cameraOptions
-	// IOS needs that 'playsinline' thing
-	// Hides the camera, so that it can be used on the canvas instead
-	back = createCapture(cameraOptions, function() {
-		
-		back.elt.setAttribute('playsinline', true);
-		back.elt.setAttribute('autoplay', true);
-		back.hide();
-		
-		console.log("Back Camera was just set!");
-	});
-
-	if (backCam)
-	{
-		next(back);
-	}
-	else if (backCam == false)
-	{
-		next(front);
-	}
+	
+	// Creates camera
+	camera();
+	
+	// Uses camera
+	next(back);
 }
 
+// Creates the model with a parameter
+// "mode" is either "front" or "back", connecting to their respective cameras
 function next(mode) {
 	
 	// Gets the 'MobileNet' model featureExtractor libraries from ml5 ready
@@ -275,38 +301,6 @@ function draw() {
 	fill(255);
 }
 
-
-/*******************************/
-// Camera
-/*******************************/
-
-// Sets & changes the camera used
-function changeCamera() {
-	
-	if (confirm("Changing the camera will reload the page and loose your training data!")) 
-	{
-		// Pressed 'ok'
-		
-		backCam = false;
-		
-		if (backCam)
-		{
-			next(back);
-			
-			redraw();
-		}
-		else if (backCam == false)
-		{
-			next(front);
-			
-			redraw();
-		}
-	} 
-	else 
-	{
-		// Pressed 'cancel'
-	}
-}
 
 
 /*******************************/

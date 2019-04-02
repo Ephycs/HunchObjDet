@@ -24,27 +24,17 @@ var h;
 var isPredicting;
 var desData;
 
-
 // Begining Alert //
 
 alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nOlder versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\nIt will take a little bit Load.\n\nPress the 'Info' button for instructions");
 
+
 /*******************************/
-// Core Features
+// Camera
 /*******************************/
 
-function setup() {
-	
-	// Disables the buttons
-	able(true);
-	
-	isPredicting = false;
-	desData = [];
-	
-	// Creates the canvas to draw everything on
-	w = window.innerWidth * 0.98;
-	h = window.innerHeight * 0.96;
-	createCanvas(w, h);
+// This creates the camera
+function camera() {
 	
 	console.log(cameraOptions);
 	
@@ -65,6 +55,63 @@ function setup() {
 		// Gets the model classification libraries from ml5 and will use the camera
 		model = ml5.featureExtractor('mobilenet', modelReady);
 	});
+}
+
+// Sets & changes the camera used
+function changeCamera() {
+	
+	if (confirm("Changing the camera will reload the page and loose your training data!")) 
+	{
+		// Pressed 'ok'
+		
+		// Bool for whether it is using the back camera already
+		if (backCam)
+		{
+			cameraOptions.video.facingMode = "user";
+			
+			document.getElementById('camButton').innerHTML = "<i class='fas fa-camera'></i> Front";
+			document.getElementById('camButton').style.filter = "invert(1)";
+			
+			backCam = false;
+		}
+		else
+		{
+			cameraOptions.video.facingMode = "environment";
+			
+			document.getElementById('camButton').innerHTML = "<i class='fas fa-camera'></i> Back";
+			document.getElementById('camButton').style.filter = "invert(0)";
+			
+			backCam = true;
+		}
+		
+		// Calls the setup again
+		//setup();
+	} 
+	else 
+	{
+		// Pressed 'cancel'
+	}
+}
+
+
+/*******************************/
+// Core Features
+/*******************************/
+
+function setup() {
+	
+	// Disables the buttons
+	able(true);
+	
+	isPredicting = false;
+	desData = [];
+	
+	// Creates the canvas to draw everything on
+	w = window.innerWidth * 0.98;
+	h = window.innerHeight * 0.96;
+	createCanvas(w, h);
+	
+	camera();
 	
 	// Will call modelLoad when files are loaded into the webpage
 	document.getElementById('files').addEventListener('change', modelLoad, true);
@@ -214,42 +261,6 @@ function draw() {
 function alertInstr() {
 	
 	alert("1) Press the 'Predict' button to start or stop predicting objects.\n2) At the bottom, you can load models into the page by clicking the 'Choose Files' button and selecting: 'model.json', 'model.weights.bin', and 'model.descriptions.txt' all at once.");
-}
-
-// Sets & changes the camera used
-function changeCamera() {
-	
-	if (confirm("Changing the camera will reload the page and loose your training data!")) 
-	{
-		// Pressed 'ok'
-		
-		// Bool for whether it is using the back camera already
-		if (backCam)
-		{
-			cameraOptions.video.facingMode = "user";
-			
-			document.getElementById('camButton').innerHTML = "<i class='fas fa-camera'></i> Front";
-			document.getElementById('camButton').style.filter = "invert(1)";
-			
-			backCam = false;
-		}
-		else
-		{
-			cameraOptions.video.facingMode = "environment";
-			
-			document.getElementById('camButton').innerHTML = "<i class='fas fa-camera'></i> Back";
-			document.getElementById('camButton').style.filter = "invert(0)";
-			
-			backCam = true;
-		}
-		
-		// Calls the setup again
-		//setup();
-	} 
-	else 
-	{
-		// Pressed 'cancel'
-	}
 }
 
 
