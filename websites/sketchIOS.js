@@ -322,14 +322,14 @@ function windowResized() {
 		// Changes the font sizes to around half size
 		for (button of document.body.getElementsByTagName("button")) 
 		{
-			button.style.fontSize = "0.8em";
+			button.style.fontSize = "0.6em";
 		}
 		for (p of document.body.getElementsByTagName("p"))
 		{
-			p.style.fontSize = "0.8em";
+			p.style.fontSize = "0.6em";
 		}
-		document.getElementById("upperText").style.fontSize = "1.6em";
-		document.getElementById("upperInfo").style.fontSize = "1.3em";
+		document.getElementById("upperText").style.fontSize = "1.2em";
+		document.getElementById("upperInfo").style.fontSize = "1em";
 		
 		// Moves all the content to the right
 		document.getElementById("upperDiv").style.width = "35%";
@@ -360,7 +360,7 @@ function windowResized() {
 		document.getElementById("content").style.width = "100%";
 	}
 	
-	console.log("Window was resized");
+	//console.log("Window was resized, W: " + w + "H: " + h);
 }
 
 // Becuase I disable and enable the buttons alot
