@@ -436,15 +436,15 @@ function windowResized() {
 		// Changes the font sizes to regular
 		for (button of document.body.getElementsByTagName("button")) 
 		{
-			button.style.fontSize = "3em";
+			button.style.fontSize = "1em";
 		}
 		for (p of document.body.getElementsByTagName("p"))
 		{
-			p.style.fontSize = "3em";
+			p.style.fontSize = "1em";
 		}
-		document.getElementById("upperText").style.fontSize = "6em";
-		document.getElementById("upperInfo").style.fontSize = "4.5em";
-		document.getElementById("currentAmount").style.fontSize = "3.6em";
+		document.getElementById("upperText").style.fontSize = "2em";
+		document.getElementById("upperInfo").style.fontSize = "1.5em";
+		document.getElementById("currentAmount").style.fontSize = "1.2em";
 		
 		// Makes the content full width
 		document.getElementById("upperDiv").style.width = "100%";
