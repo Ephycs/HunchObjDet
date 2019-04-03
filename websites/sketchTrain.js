@@ -618,6 +618,8 @@ function windowResized() {
 		document.getElementById("inputText").style.fontSize = "0.6em";
 		document.getElementById("inputInfo").style.fontSize = "0.6em";
 		document.getElementById("addTableHeight").style.height = "2em";
+		document.getElementById("addTableHeight").style.padding = 0;
+		document.getElementById("noPadding").style.padding = 0;
 		if (document.getElementById("infoTd") != null)
 		{
 			document.getElementById("infoTd").style.fontSize = "0.6em";
@@ -654,6 +656,8 @@ function windowResized() {
 		document.getElementById("inputText").style.fontSize = "1em";
 		document.getElementById("inputInfo").style.fontSize = "1em";
 		document.getElementById("addTableHeight").style.height = "4em";
+		document.getElementById("addTableHeight").style.padding = "0.1em";
+		document.getElementById("noPadding").style.padding = "0.1em";
 		if (document.getElementById("infoTd") != null)
 		{
 			document.getElementById("infoTd").style.fontSize = "1em";
