@@ -162,7 +162,7 @@ function preLoad() {
 				{
 					console.log("Preload was loaded!");
 					
-					document.getElementById("upperText").innerHTML = "Objects detected go here";
+					document.getElementById("upperText").innerHTML = "(Objects detected)";
 					document.getElementById('currentAmount').innerHTML = desData.length;
 					
 					// Enables the buttons
@@ -208,6 +208,7 @@ function togglePredicting() {
 		
 		// Clears previous predictions
 		document.getElementById('upperText').innerHTML = "...";
+		document.getElementById('upperInfo').innerHTML = "...";
 		
 		console.log("Stopping predicting");
 	}
