@@ -40,12 +40,10 @@
 		<button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-play"></i> Predict</button>
 		</center>
 		
-		<br>
-		
 		<p>You can train: <b id="maxAmount"></b> objects.<br>You currently have: <b id="currentAmount"></b> objects.</p>
 		
 		<center>
-		<table>
+		<table id="addTableHeight">
 			<tr>
 				<td><input type="text" id="inputText" class="addInput" value="name"></td>
 				<td rowspan="2"><button id="addButton" onMouseDown="modelAddImage()" onMouseUp="stopRepeat()" onMouseOut="stopRepeat()" onTouchStart="modelAddImage()" onTouchEnd="stopRepeat()" onTouchCancel="stopRepeat()"> <i id="addIcon" class="fas fa-plus"></i> </button></td>
@@ -57,8 +55,6 @@
 		</center>
 		
 		<div id="table"><p>Current Object data goes here</p></div>
-		
-		<br>
 		
 		<button id="trainButton" onClick="modelTrain()"><i class="fas fa-cogs"></i> Train</button>
 		<button id="saveButton" onClick="modelSave()"><i class="fas fa-download"></i> Download Model</button>
