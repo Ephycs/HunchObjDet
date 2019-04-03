@@ -133,6 +133,9 @@ function cameraReady() {
 	
 	// Loads the preload
 	preLoad();
+	
+	// resizes the page just in case
+	windowResized();
 }
 
 // This will upload preloaded models into the page to begin with

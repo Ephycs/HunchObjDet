@@ -120,6 +120,9 @@ function modelReady() {
 	
 	// Gets the descriptions
 	preLoad();
+	
+	// resizes the page just in case
+	windowResized();
 }
 
 // This will upload preloaded models into the page to begin with
@@ -145,7 +148,7 @@ function preLoad() {
 				console.log("Preload txt:");
 				console.log(desData);
 				
-				document.getElementById("upperText").innerHTML = "MobileNet was loaded";
+				document.getElementById("upperText").innerHTML = "MobileNet loaded!";
 				able(false);
             }
         }
@@ -188,6 +191,7 @@ function togglePredicting() {
 		
 		// Clears previous predictions
 		document.getElementById('upperText').innerHTML = "...";
+		document.getElementById('upperinfo').innerHTML = "...";
 		
 		console.log("Stopping predicting");
 	}

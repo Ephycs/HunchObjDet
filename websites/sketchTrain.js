@@ -190,6 +190,9 @@ function cameraReady() {
 	
 	// Enables the buttons
 	able(false);
+	
+	// resizes the page just in case
+	windowResized();
 }
 
 // Starts or Stops predicting
@@ -247,6 +250,7 @@ function togglePredicting() {
 			
 			// Clears previous predictions
 			document.getElementById('upperText').innerHTML = "...";
+			document.getElementById('upperInfo').innerHTML = "...";
 			
 			console.log("Stopping predicting...");
 		}
