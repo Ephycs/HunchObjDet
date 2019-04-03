@@ -655,9 +655,9 @@ function windowResized() {
 		document.getElementById("inputText").style.fontSize = "1em";
 		document.getElementById("inputInfo").style.fontSize = "1em";
 		document.getElementById("addTableHeight").style.height = "4em";
-		if (document.getElementById("infoTd") != null)
+		if (document.getElementById("littleTable") != null)
 		{
-			document.getElementById("infoTd").style.fontSize = "1em";
+			document.getElementById("littleTable").style.fontSize = "1em";
 		}
 		
 		// Makes the content full width
