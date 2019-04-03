@@ -109,7 +109,7 @@ function setup() {
 	// Creates the canvas to draw everything on
 	w = window.innerWidth * 0.98;
 	h = window.innerHeight * 0.96;
-	createCanvas(w, h);
+	canvas = createCanvas(w, h);
 	
 	cameraFun();
 	
@@ -387,18 +387,65 @@ function modelLoad(evt) {
 // Intructions button
 function alertInstr() {
 	
-	alert("1) Press the 'Predict' button to start or stop predicting objects.\n2) At the bottom, you can load models into the page by clicking the 'Choose Files' button and selecting: 'model.json', 'model.weights.bin', and 'model.descriptions.txt' all at once.\n3)The top-right button will take you to the training page.");
+	alert("1) Press the 'Predict' button to start or stop predicting objects.\n2) At the bottom, you can load models into the page by clicking the 'Choose Files' button and selecting: 'model.json', 'model.weights.bin', and 'model.descriptions.txt' all at once.\n3)The top-left button will take you to the training page.");
 }
 
 // This will call when the window is resized
 function windowResized() {
-
+	
 	// Gets new width and height
 	w = window.innerWidth * 0.98;
 	h = window.innerHeight * 0.96;
 	
-	// Resizes the canvas, w, and h when the user tilts the screen
-	resizeCanvas(w, h);
+	// Resizes the layout when the user tilts the screen
+	if (w > h)
+	{
+		// Lanscape mode
+		resizeCanvas(w*0.6, h);
+		canvas.position(w*0.4, 5);
+		
+		// Changes the font sizes to around half size
+		for (button of document.body.getElementsByTagName("button")) 
+		{
+			button.style.fontSize = "0.8em";
+		}
+		for (p of document.body.getElementsByTagName("p"))
+		{
+			p.style.fontSize = "0.8em";
+		}
+		document.getElementById("upperText").style.fontSize = "1.6em";
+		document.getElementById("upperInfo").style.fontSize = "1.3em";
+		document.getElementById("currentAmount").style.fontSize = "1em";
+		
+		// Moves all the content to the right
+		document.getElementById("upperDiv").style.width = "35%";
+		document.getElementById("content").style.width = "35%";
+		
+	}
+	else if (w <= h)
+	{
+		// Portrait mode
+		resizeCanvas(w, h);
+		canvas.position(0, 5);
+		canvas.elt.style.zIndex = -1;
+		
+		// Changes the font sizes to regular
+		for (button of document.body.getElementsByTagName("button")) 
+		{
+			button.style.fontSize = "1em";
+		}
+		for (p of document.body.getElementsByTagName("p"))
+		{
+			p.style.fontSize = "1em";
+		}
+		document.getElementById("upperText").style.fontSize = "2em";
+		document.getElementById("upperInfo").style.fontSize = "1.5em";
+		document.getElementById("currentAmount").style.fontSize = "1.2em";
+		
+		// Makes the content full width
+		document.getElementById("upperDiv").style.width = "100%";
+		document.getElementById("content").style.width = "100%";
+	}
 	
 	console.log("Window was resized");
 }

@@ -237,17 +237,6 @@ function draw() {
 
 
 /*******************************/
-// Buttons
-/*******************************/
-
-// Intructions button
-function alertInstr() {
-	
-	alert("1) Press the 'Predict' button to start or stop predicting objects.");
-}
-
-
-/*******************************/
 // Finding Data
 /*******************************/
 
@@ -306,15 +295,66 @@ function searchStringInArray(s, a) {
 // Extra
 /*******************************/
 
+// Intructions button
+function alertInstr() {
+	
+	alert("1) Press the 'Predict' button to start or stop predicting objects.");
+}
+
 // This will call when the window is resized
 function windowResized() {
-
+	
 	// Gets new width and height
 	w = window.innerWidth * 0.98;
 	h = window.innerHeight * 0.96;
 	
-	// Resizes the canvas, w, and h when the user tilts the screen
-	resizeCanvas(w, h);
+	// Resizes the layout when the user tilts the screen
+	if (w > h)
+	{
+		// Lanscape mode
+		resizeCanvas(w*0.6, h);
+		canvas.position(w*0.4, 5);
+		
+		// Changes the font sizes to around half size
+		for (button of document.body.getElementsByTagName("button")) 
+		{
+			button.style.fontSize = "0.8em";
+		}
+		for (p of document.body.getElementsByTagName("p"))
+		{
+			p.style.fontSize = "0.8em";
+		}
+		document.getElementById("upperText").style.fontSize = "1.6em";
+		document.getElementById("upperInfo").style.fontSize = "1.3em";
+		
+		// Moves all the content to the right
+		document.getElementById("upperDiv").style.width = "35%";
+		document.getElementById("content").style.width = "35%";
+		
+	}
+	else if (w <= h)
+	{
+		// Portrait mode
+		resizeCanvas(w, h);
+		canvas.position(0, 5);
+		canvas.elt.style.zIndex = -1;
+		
+		// Changes the font sizes to regular
+		for (button of document.body.getElementsByTagName("button")) 
+		{
+			button.style.fontSize = "1em";
+		}
+		for (p of document.body.getElementsByTagName("p"))
+		{
+			p.style.fontSize = "1em";
+		}
+		document.getElementById("upperText").style.fontSize = "2em";
+		document.getElementById("upperInfo").style.fontSize = "1.5em";
+		
+		// Makes the content full width
+		document.getElementById("upperDiv").style.width = "100%";
+		document.getElementById("content").style.width = "100%";
+	}
 	
 	console.log("Window was resized");
 }

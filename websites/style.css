@@ -64,7 +64,7 @@ table, th, td {
 .infoTable, .infoTh, .infoTd {
 	border: 2px solid white;
 }
-.infoTd, p {
+#infoTd, p {
 	font-size: 1em;
 }
 
@@ -76,6 +76,25 @@ table, th, td {
 	padding: 1px;
 	background-color: white;
 	Color: black;
+}
+
+#upperText {
+	font-size: 2em;
+	text-align: center;
+}
+#upperInfo {
+	font-size: 1.5em;
+}
+#upperTable {
+	width: 100%;
+}
+
+#maxAmount, #currentAmount {
+	font-size: 1.2em;
+}
+
+#addIcon {
+	font-size: 3em;
 }
 
 /************************/

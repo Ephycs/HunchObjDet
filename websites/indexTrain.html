@@ -19,21 +19,21 @@
 </head>
 
 <body>
-	<div class="upper">
+	<div id="upperDiv" class="upper">
 		<center>
-		<table style="width: 100%">
+		<table id="upperTable">
 			<tr>
-				<td style="width: 2em; position: fixed;"><button onClick="goTo('indexDemo.html')"><i class="fas fa-chevron-left"></i><i class="fas fa-eye"></i></button></td>
-				<td id="upperText" style="text-align: center; font-size: 2em;">Loading...</td>
+				<td style="width: 2em;"><button onClick="goTo('indexDemo.html')"><i class="fas fa-chevron-left"></i><i class="fas fa-eye"></i></button></td>
+				<td id="upperText">Loading...</td>
 			</tr>
 			<tr>
-				<td colspan="2" id="upperInfo" style="font-size: 1.5em;">Object info goes here</td>
+				<td colspan="2" id="upperInfo">Object info goes here</td>
 			</tr>
 		</table>
 		</center>
 	</div>
 	
-	<div class="content">
+	<div id="content" class="content">
 		<center>
 		<!--<button id="camButton" onClick="changeCamera()"><i class="fas fa-camera"></i> Change</button>-->
 		<button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button>
@@ -42,16 +42,16 @@
 		
 		<br>
 		
-		<p>You can train: <b id="maxAmount" style="font-size: 1.2em;"></b> objects.<br>You currently have: <b id="currentAmount" style="font-size: 1.2em;"></b> objects.</p>
+		<p>You can train: <b id="maxAmount"></b> objects.<br>You currently have: <b id="currentAmount"></b> objects.</p>
 		
 		<center>
 		<table>
 			<tr>
-				<td><input type="text" id="inputText" class="addInput" value="name"></td>
-				<td rowspan="2" style="width: 3em;"><button id="addButton" onMouseDown="modelAddImage()" onMouseUp="stopRepeat()" onMouseOut="stopRepeat()" onTouchStart="modelAddImage()" onTouchEnd="stopRepeat()" onTouchCancel="stopRepeat()"> <i class="fas fa-plus" style="font-size: 3em;"></i> </button></td>
+				<td id="inputTD"><input type="text" id="inputText" class="addInput" value="name"></td>
+				<td rowspan="2"><button id="addButton" onMouseDown="modelAddImage()" onMouseUp="stopRepeat()" onMouseOut="stopRepeat()" onTouchStart="modelAddImage()" onTouchEnd="stopRepeat()" onTouchCancel="stopRepeat()"> <i id="addIcon" class="fas fa-plus"></i> </button></td>
 			</tr>
 			<tr>
-				<td><input type="text" id="inputInfo" class="addInput" value="description"></td>
+				<td id="inputTD"><input type="text" id="inputInfo" class="addInput" value="description"></td>
 			</tr>
 		</table>
 		</center>

@@ -74,7 +74,7 @@ function cameraFun() {
 	// Creates the capture using cameraOptions
 	// IOS needs that 'playsinline' thing
 	// Hides the camera, so that it can be used on the canvas instead
-	front = createCapture(cameraOptions, function() {
+	/*front = createCapture(cameraOptions, function() {
 		
 		front.elt.setAttribute('playsinline', true);
 		front.elt.setAttribute('autoplay', true);
@@ -92,7 +92,7 @@ function cameraFun() {
 		}
 	};
 
-	console.log("cameraOptions2: " + cameraOptions);
+	console.log("cameraOptions2: " + cameraOptions);*/
 
 	// Creates the capture using cameraOptions
 	// IOS needs that 'playsinline' thing
@@ -156,7 +156,7 @@ function setup() {
 	// Creates the canvas to draw everything on
 	w = window.innerWidth * 0.98;
 	h = window.innerHeight * 0.96;
-	createCanvas(w, h);
+	canvas = createCanvas(w, h);
 	
 	// Creates camera
 	cameraFun();
@@ -437,7 +437,7 @@ function modelAddImage() {
 		}
 		
 		// Makes the table with all the info of the new object
-		document.getElementById('table').innerHTML = `<center><table class='infoTable'><tr><th class='infoTh' style='width: 4em;'>Count</th><th class='infoTh' style='width: 8em;'>Name</th><th class='infoTh'>Description</th></tr><tr><td class='infoTd' style='width: 4em;'>${countStr}</td><td class='infoTd' style='width: 8em;'>${str}</td><td class='infoTd'>${des}</td></tr></table></center>`;
+		document.getElementById('table').innerHTML = `<center><table class='infoTable'><tr><th class='infoTh' style='width: 4em;'>Count</th><th class='infoTh' style='width: 8em;'>Name</th><th class='infoTh'>Description</th></tr><tr><td id='infoTd' style='width: 4em;'>${countStr}</td><td id='infoTd' style='width: 8em;'>${str}</td><td id='infoTd'>${des}</td></tr></table></center>`;
 		
 		// Adds the image to our model
 		classifier.addImage(str, function() 
@@ -578,7 +578,7 @@ function modelSave() {
 // Intructions button
 function alertInstr() {
 	
-	alert("1) Start training the model by entering the 'name' & 'description' of the object, then press the '+' button.\n2) To train another object, just simply change the 'name' & 'description' and take pictures of the new object.\n3) Try to have roughly the same amount of images for each of your pictures.\n4) When ready, tap the 'Train' button to train the model, wait until it says 'Done Training'.\n5) Once done, you can press the 'Predict' button to start or stop predicting objects.\n6) You can download the model to your computer's Downloads folder with the 'Download' button.\n7) The top-right button will take you to the demo page.");
+	alert("1) Start training the model by entering the 'name' & 'description' of the object, then press the '+' button.\n2) To train another object, just simply change the 'name' & 'description' and take pictures of the new object.\n3) Try to have roughly the same amount of images for each of your pictures.\n4) When ready, tap the 'Train' button to train the model, wait until it says 'Done Training'.\n5) Once done, you can press the 'Predict' button to start or stop predicting objects.\n6) You can download the model to your computer's Downloads folder with the 'Download' button.\n7) The top-left button will take you to the demo page.");
 }
 
 // This will call when the window is resized
@@ -588,8 +588,67 @@ function windowResized() {
 	w = window.innerWidth * 0.98;
 	h = window.innerHeight * 0.96;
 	
-	// Resizes the canvas, w, and h when the user tilts the screen
-	resizeCanvas(w, h);
+	// Resizes the layout when the user tilts the screen
+	if (w > h)
+	{
+		// Lanscape mode
+		resizeCanvas(w*0.6, h);
+		canvas.position(w*0.4, 5);
+		
+		// Changes the font sizes to around half size
+		for (button of document.body.getElementsByTagName("button")) 
+		{
+			button.style.fontSize = "0.8em";
+		}
+		for (p of document.body.getElementsByTagName("p"))
+		{
+			p.style.fontSize = "0.8em";
+		}
+		document.getElementById("upperText").style.fontSize = "1.6em";
+		document.getElementById("upperInfo").style.fontSize = "1.3em";
+		document.getElementById("maxAmount").style.fontSize = "1em";
+		document.getElementById("currentAmount").style.fontSize = "1em";
+		document.getElementById("addIcon").style.fontSize = "2.4em";
+		if (document.getElementById("infoTd") != null)
+		{
+			document.getElementById("infoTd").style.fontSize = "0.8em";
+		}
+		
+		// Moves all the content to the right
+		document.getElementById("upperDiv").style.width = "35%";
+		document.getElementById("content").style.width = "35%";
+		
+	}
+	else if (w <= h)
+	{
+		// Portrait mode
+		resizeCanvas(w, h);
+		canvas.position(0, 5);
+		canvas.elt.style.zIndex = -1;
+		
+		// Changes the font sizes to regular
+		for (button of document.body.getElementsByTagName("button")) 
+		{
+			button.style.fontSize = "1em";
+		}
+		for (p of document.body.getElementsByTagName("p"))
+		{
+			p.style.fontSize = "1em";
+		}
+		document.getElementById("upperText").style.fontSize = "2em";
+		document.getElementById("upperInfo").style.fontSize = "1.5em";
+		document.getElementById("maxAmount").style.fontSize = "1.2em";
+		document.getElementById("currentAmount").style.fontSize = "1.2em";
+		document.getElementById("addIcon").style.fontSize = "3em";
+		if (document.getElementById("infoTd") != null)
+		{
+			document.getElementById("infoTd").style.fontSize = "1em";
+		}
+		
+		// Makes the content full width
+		document.getElementById("upperDiv").style.width = "100%";
+		document.getElementById("content").style.width = "100%";
+	}
 	
 	console.log("Window was resized");
 }

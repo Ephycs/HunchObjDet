@@ -19,28 +19,28 @@
 </head>
 
 <body>
-	<div class="upper">
+	<div id="upperDiv" class="upper">
 		<center>
-		<table style="width: 100%">
+		<table id="upperTable">
 			<tr>
-				<td style="width: 2em; position: fixed;"><button onClick="goTo('indexTrain.html')"><i class="fas fa-chevron-left"></i><i class="fas fa-cogs"></i></button></td>
-				<td id="upperText" style="text-align: center; font-size: 2em;">Loading...</td>
+				<td style="width: 2em;"><button onClick="goTo('indexTrain.html')"><i class="fas fa-chevron-left"></i><i class="fas fa-cogs"></i></button></td>
+				<td id="upperText">Loading...</td>
 			</tr>
 			<tr>
-				<td colspan="2" id="upperInfo" style="font-size: 1.5em;">Object info goes here</td>
+				<td colspan="2" id="upperInfo">Object info goes here</td>
 			</tr>
 		</table>
 		</center>
 	</div>
 	
-	<div class="content">
+	<div id="content" class="content">
 		<!--<button id="camButton" onClick="changeCamera()"><i class="fas fa-camera"></i> Change</button>-->
 		<button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button>
 		<button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-play"></i> Predict</button>
 		
 		<br>
 		
-		<p>You currently have: <b id="currentAmount" style="font-size: 1.2em;"></b> objects/descriptions in this model.</p>
+		<p>You currently have: <b id="currentAmount"></b> objects/descriptions in this model.</p>
 
 		<center><p>Load Model: </p><input type="file" id="files" name="files[]" multiple/></center>
 	</div>
