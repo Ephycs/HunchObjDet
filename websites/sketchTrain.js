@@ -441,7 +441,8 @@ function modelAddImage() {
 		}
 		
 		// Makes the table with all the info of the new object
-		document.getElementById('table').innerHTML = `<center><table class='infoTable'><tr><th class='infoTh' style='width: 4em;'>Count</th><th class='infoTh' style='width: 8em;'>Name</th><th class='infoTh'>Description</th></tr><tr><td id='infoTd' style='width: 4em;'>${countStr}</td><td id='infoTd' style='width: 8em;'>${str}</td><td id='infoTd'>${des}</td></tr></table></center>`;
+		document.getElementById('table').innerHTML = `<center><table id='littleTable' class='infoTable'><tr><th class='infoTh' style='width: 4em;'>Count</th><th class='infoTh' style='width: 8em;'>Name</th><th class='infoTh'>Description</th></tr><tr><td class='infoTd' style='width: 4em;'>${countStr}</td><td class='infoTd' style='width: 8em;'>${str}</td><td class='infoTd'>${des}</td></tr></table></center>`;
+		windowResized();
 		
 		// Adds the image to our model
 		classifier.addImage(str, function() 
@@ -618,11 +619,9 @@ function windowResized() {
 		document.getElementById("inputText").style.fontSize = "0.6em";
 		document.getElementById("inputInfo").style.fontSize = "0.6em";
 		document.getElementById("addTableHeight").style.height = "2em";
-		document.getElementById("addTableHeight").style.padding = 0;
-		document.getElementById("noPadding").style.padding = 0;
-		if (document.getElementById("infoTd") != null)
+		if (document.getElementById("littleTable") != null)
 		{
-			document.getElementById("infoTd").style.fontSize = "0.6em";
+			document.getElementById("littleTable").style.fontSize = "0.6em";
 		}
 		
 		// Moves all the content to the right
@@ -656,8 +655,6 @@ function windowResized() {
 		document.getElementById("inputText").style.fontSize = "1em";
 		document.getElementById("inputInfo").style.fontSize = "1em";
 		document.getElementById("addTableHeight").style.height = "4em";
-		document.getElementById("addTableHeight").style.padding = "0.1em";
-		document.getElementById("noPadding").style.padding = "0.1em";
 		if (document.getElementById("infoTd") != null)
 		{
 			document.getElementById("infoTd").style.fontSize = "1em";
