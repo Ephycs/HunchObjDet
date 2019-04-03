@@ -476,7 +476,7 @@ function windowResized() {
 		document.getElementById("content").style.width = "100%";
 	}
 	
-	console.log("Window was resized");
+	document.getElementById("upperInfo").innerHTML = "Window was resized, W: " + w + "H: " + h;
 }
 
 // Becuase I disable and enable the buttons alot
