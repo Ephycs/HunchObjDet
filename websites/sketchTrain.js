@@ -613,6 +613,8 @@ function windowResized() {
 		document.getElementById("maxAmount").style.fontSize = "0.8em";
 		document.getElementById("currentAmount").style.fontSize = "0.8em";
 		document.getElementById("addIcon").style.fontSize = "2em";
+		document.getElementById("inputText").style.height = "0.7em";
+		document.getElementById("inputInfo").style.height = "0.7em";
 		if (document.getElementById("infoTd") != null)
 		{
 			document.getElementById("infoTd").style.fontSize = "0.6em";
