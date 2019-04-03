@@ -394,7 +394,32 @@ function alertInstr() {
 	alert("1) Press the 'Predict' button to start or stop predicting objects.\n2) At the bottom, you can load models into the page by clicking the 'Choose Files' button and selecting: 'model.json', 'model.weights.bin', and 'model.descriptions.txt' all at once.\n3)The top-left button will take you to the training page.");
 }
 
-// This will call when the window is resized
+// These will call when the window is resized
+window.onorientationchange = function() {
+	
+	// This is used to stop the zoomout when in portrait mode - by Sunil
+	
+	let htmlElement =  $("html");
+	let bodyElement = $("body");
+	
+	if($(window).innerWidth() < $(window).innerHeight()) 
+	{
+		//landscape to portrait
+		
+		htmlElement.css("overflow-x","hidden");
+		bodyElement.css("overflow-x", "hidden");
+	} 
+	else 
+	{
+		//portrait to landscape
+		
+		htmlElement.css("overflow","auto");
+		bodyElement.css("overflow", "auto");
+		//below 2 lines makes the UI not shrink in portrait mode 
+		htmlElement.css("overflow-x","auto");
+		bodyElement.css("overflow-x", "auto");
+	}
+}
 function windowResized() {
 	
 	// Gets new width and height
