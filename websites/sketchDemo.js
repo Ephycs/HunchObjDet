@@ -395,7 +395,7 @@ function alertInstr() {
 }
 
 // These will call when the window is resized
-window.onorientationchange = function() {
+/*window.onorientationchange = function() {
 	
 	// This is used to stop the zoomout when in portrait mode - by Sunil
 	
@@ -419,7 +419,7 @@ window.onorientationchange = function() {
 		htmlElement.css("overflow-x", "auto");
 		bodyElement.css("overflow-x", "auto");
 	}
-}
+}*/
 function windowResized() {
 	
 	// Gets new width and height
