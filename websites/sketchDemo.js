@@ -413,10 +413,10 @@ window.onorientationchange = function() {
 	{
 		//portrait to landscape
 		
-		htmlElement.css("overflow","auto");
+		htmlElement.css("overflow", "auto");
 		bodyElement.css("overflow", "auto");
 		//below 2 lines makes the UI not shrink in portrait mode 
-		htmlElement.css("overflow-x","auto");
+		htmlElement.css("overflow-x", "auto");
 		bodyElement.css("overflow-x", "auto");
 	}
 }
