@@ -14,18 +14,26 @@ body {
 }
 
 .content {
-    position: fixed;
-    bottom: 0;
+	position: fixed;
+	bottom: 0;
 	left: -20px;
-    background: rgba(0, 0, 0, 0.5);
-    width: 100%;
-    padding: 20px;
+	width: 100%;
+	padding: 20px;
 	text-align: center;
+}
+#content {
+	background: rgba(0, 0, 0, 0.5);
+}
+#content2 {
+	position: fixed;
+	bottom: 4px;
+	margin-left: 20%;
 }
 
 button {
 	font-size: 1em;
 	padding: .4em;
+	margin: 2px;
 	border-radius: 8px;
 	background-color: silver;
 	/*border-color: #ccffff;
@@ -42,7 +50,7 @@ input {
 /***********************/
 
 table {
-	width: 80%;
+	width: 99%;
 }
 
 table, th, td {
@@ -95,6 +103,8 @@ table, th, td {
 #addIcon {
 	font-size: 3em;
 }
+
+/************************/
 
 /************************/
 

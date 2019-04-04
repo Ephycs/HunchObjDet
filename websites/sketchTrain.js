@@ -7,18 +7,15 @@
 
 let model;
 let classifier;
-let back;
-let front;
+let camera;
 let canvas;
 
 var cameraOptions = {
-	audio: false,
 	video: 
 	{
 		facingMode: "environment"
 	}
 };
-var backCam = true;
 
 var w;
 var h;
@@ -31,6 +28,7 @@ var maxAmount;
 var currentAmount;
 var trainAble;
 var trained;
+var training;
 
 var namesData;
 var timeout;
@@ -41,97 +39,36 @@ var timeout;
 maxAmount = prompt("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nOlder versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\n\nThis is website trains objects in your browser, before we start enter how many objects you would like to train:");
 if (maxAmount == null)
 {
+	// passes a dumby answer
 	maxAmount = "jgu2";
 }
+// extracts the digits from the answer
 maxAmount = maxAmount.match(/\d/g);
 if (maxAmount == null)
 {
+	// If no digits were found, default 2
 	maxAmount = 2;
 }
 else
 {
+	// If digits were found it will join the numbers
 	maxAmount = maxAmount.join("");
+	// Changes the number to an interger
 	Number(maxAmount);
+	
+	// you need to train atleast 2 images
 	if (maxAmount < 2)
 	{
 		// Can't get away with training negative, 0, or 1 images
 		maxAmount = 2;
 	}
 }
-
+// Debugging maxAmount
 console.log("maxAmount: " + maxAmount);
 
 
 /*******************************/
-// Camera
-/*******************************/
-
-// Creates the Camera
-function cameraFun() {
-	
-	console.log("cameraOptions1: " + cameraOptions);
-
-	// Creates the capture using cameraOptions
-	// IOS needs that 'playsinline' thing
-	// Hides the camera, so that it can be used on the canvas instead
-	/*front = createCapture(cameraOptions, function() {
-		
-		front.elt.setAttribute('playsinline', true);
-		front.elt.setAttribute('autoplay', true);
-		front.hide();
-		
-		console.log("Front Camera was just set!");
-	});
-		
-	// Uses the options for a back camera
-	cameraOptions = {
-		audio: false,
-		video: 
-		{
-			facingMode: "environment"
-		}
-	};
-
-	console.log("cameraOptions2: " + cameraOptions);*/
-
-	// Creates the capture using cameraOptions
-	// IOS needs that 'playsinline' thing
-	// Hides the camera, so that it can be used on the canvas instead
-	back = createCapture(cameraOptions, function() {
-		
-		back.elt.setAttribute('playsinline', true);
-		back.elt.setAttribute('autoplay', true);
-		back.hide();
-		
-		console.log("Back Camera was just set!");
-	});
-}
-
-// Sets & changes the camera used
-function changeCamera() {
-	
-	if (confirm("Changing the camera will reload the page and loose your training data!")) 
-	{
-		// Pressed 'ok'
-		
-		if (backCam)
-		{
-			// Currently using the back camera
-		}
-		else if (backCam == false)
-		{
-			// Currently using the front camera
-		}
-	} 
-	else 
-	{
-		// Pressed 'cancel'
-	}
-}
-
-
-/*******************************/
-// Core Features
+// Setup and Draw
 /*******************************/
 
 function setup() {
@@ -158,22 +95,37 @@ function setup() {
 	h = window.innerHeight * 0.96;
 	canvas = createCanvas(w, h);
 	
-	// Creates camera
-	cameraFun();
-	
-	// Uses camera
-	next(back);
+	// Debugging cameraOptions
+	console.log("cameraOptions: " + cameraOptions);
+
+	// Creates the capture using cameraOptions
+	// With playsinline, autoplay, and muted
+	camera = createCapture(cameraOptions, function() {
+		camera.elt.setAttribute('playsinline', true);
+		camera.elt.setAttribute('autoplay', true);
+		camera.elt.setAttribute('muted', true);
+		
+		// Hides the camera, so that it can be used on the canvas instead
+		camera.hide();
+		
+		// Debugs when camera was set
+		console.log("Camera was just set!");
+		
+		// Uses camera
+		next(camera);
+	});
 }
 
 // Creates the model with a parameter
-// "mode" is either "front" or "back", connecting to their respective cameras
 function next(mode) {
 	
 	// Gets the 'MobileNet' model featureExtractor libraries from ml5 ready
 	model = ml5.featureExtractor('mobilenet', function() {
 		
+		// Sets how many classes you can train
 		model.numClasses = maxAmount;
 		
+		// Debugs when the model was loaded
 		console.log("Model was loaded!!!");
 		
 		// Gets the camera ready for object classification
@@ -184,6 +136,7 @@ function next(mode) {
 // Called after the camera is loaded
 function cameraReady() {
 	
+	// Debugs when the camera was loaded
 	console.log("Camera was loaded!!!");
 	
 	document.getElementById('upperText').innerHTML = "No Images Trained";
@@ -243,6 +196,7 @@ function togglePredicting() {
 			document.getElementById('trainButton').disabled = false;
 			document.getElementById('saveButton').disabled = false;
 			
+			// If still trainable that means you did not train it, so this won't get disabled
 			if (trainAble)
 			{
 				document.getElementById('trainButton').disabled = false;
@@ -255,11 +209,6 @@ function togglePredicting() {
 			console.log("Stopping predicting...");
 		}
 	}
-}
-
-function classify() {
-	
-	classifier.classify(gotResult);
 }
 
 // Predicts what's in front of your webcam
@@ -278,6 +227,7 @@ function gotResult(err, res) {
 			// Gets the top result
 			document.getElementById('upperText').innerHTML = res;
 			
+			// finds the result in the database
 			findData(res);
 			
 			// Predicts again
@@ -286,22 +236,18 @@ function gotResult(err, res) {
 	}
 }
 
+// Function for classifying
+function classify() {
+	
+	//Actual classifying
+	classifier.classify(gotResult);
+}
+
 // draws the camera to the canvas
 function draw() {
 	
-	background(0);
-	
-	if (backCam) 
-	{
-		// Draws the camera to the canvas
-		image(back, 0, 0, w, h);
-	}
-	else if (backCam == false)
-	{
-		// Draws the camera to the canvas
-		image(front, 0, 0, w, h);
-	}
-	
+	// Draws the camera to the canvas
+	image(camera, 0, 0, w, h);
 	fill(255);
 }
 
@@ -314,15 +260,18 @@ function draw() {
 // Find the data from desData by the res from gotResult
 function findData(r) {
 
-	// Just in case
+	// Puts into lowercase
 	r = r.toLowerCase();
 	
 	// Finds the index of the result
 	var index = searchStringInArray(r, desData);
 	//console.log(index);
 	
+	// if found
 	if (index != -1)
 	{
+		// Was found
+		
 		// Gets the full text
 		var fullText = desData[index];
 		
@@ -337,6 +286,9 @@ function findData(r) {
 	}
 	else
 	{
+		// Was not found
+		
+		// Displays no description
 		document.getElementById('upperInfo').innerHTML = "no description";
 	}
 }
@@ -346,6 +298,7 @@ function searchStringInArray(s, a) {
 	
 	//Creates the name to check for later
 	var name = 'N_' + s + ':';
+	
 	//console.log("Searching for: " + name + " in array:");
 	//console.log(a);
 	
@@ -497,7 +450,7 @@ function addDesData(s, d) {
 			// Adds the data to the array
 			desData.push(fullText);
 			
-			var last = desData.length - 1;
+			//var last = desData.length - 1;
 			//console.log("Pushed one in: " + desData[last]);
 		}
 		else
@@ -522,6 +475,9 @@ function modelTrain() {
 	document.getElementById('upperText').innerHTML = "Starting Training...";
 	console.log("Starting training...");
 	
+	// You are training
+	training = true;
+	
 	// Trains the model, this will loop
 	classifier.train(function(lossValue) 
 	{
@@ -534,6 +490,7 @@ function modelTrain() {
 			
 			// You have trained
 			trained = true;
+			training = false;
 			
 			// Enables the buttons
 			able(false);
@@ -554,12 +511,18 @@ function modelTrain() {
 // Saves the model to your Downloads
 function modelSave() {
 	
+	// Checks if you have trained already
 	if (trained == false)
 	{
+		// You did not
+		
 		document.getElementById('upperInfo').innerHTML = "Press the 'Info' button for instructions";
 	}
 	else
 	{
+		// You did
+		
+		// Debugs a previe of your database
 		console.log("Saving txt data: " + desData);
 		
 		// Saves the description file, with the desData
@@ -567,7 +530,7 @@ function modelSave() {
 		saveAs(blob, "model.descriptions.txt");
 		
 		// Saves the model & weights
-		classifier.save(function()
+		classifier.save(function() 
 		{
 			console.log("Model was saved!");
 			
@@ -599,35 +562,38 @@ function windowResized() {
 		// Lanscape mode
 		resizeCanvas(w*0.6, h);
 		canvas.position(w*0.4, 5);
+		canvas.elt.style.zIndex = -1;
 		
 		// Changes the font sizes to around half size
 		for (button of document.body.getElementsByTagName("button")) 
 		{
-			button.style.fontSize = "0.6em";
+			button.style.fontSize = "0.7em";
 		}
 		for (p of document.body.getElementsByTagName("p"))
 		{
-			p.style.fontSize = "0.6em";
+			p.style.fontSize = "0.7em";
 		}
-		document.getElementById("upperText").style.fontSize = "1.2em";
+		document.getElementById("upperText").style.fontSize = "1.3em";
 		document.getElementById("upperInfo").style.fontSize = "1em";
 		document.getElementById("maxAmount").style.fontSize = "0.8em";
 		document.getElementById("currentAmount").style.fontSize = "0.8em";
 		document.getElementById("addIcon").style.fontSize = "2em";
-		document.getElementById("inputText").style.height = "0.7em";
-		document.getElementById("inputInfo").style.height = "0.7em";
-		document.getElementById("inputText").style.fontSize = "0.6em";
-		document.getElementById("inputInfo").style.fontSize = "0.6em";
+		document.getElementById("inputText").style.height = "0.8em";
+		document.getElementById("inputInfo").style.height = "0.8em";
+		document.getElementById("inputText").style.fontSize = "0.7em";
+		document.getElementById("inputInfo").style.fontSize = "0.7em";
 		document.getElementById("addTableHeight").style.height = "2em";
 		if (document.getElementById("littleTable") != null)
 		{
-			document.getElementById("littleTable").style.fontSize = "0.6em";
+			document.getElementById("littleTable").style.fontSize = "0.7em";
 		}
 		
 		// Moves all the content to the right
-		document.getElementById("upperDiv").style.width = "35%";
-		document.getElementById("content").style.width = "35%";
+		document.getElementById("upperDiv").style.width = "36%";
+		document.getElementById("content").style.width = "39%";
 		
+		// Moves buttons down
+		moveUpperButtons('down');
 	}
 	else if (w <= h)
 	{
@@ -663,19 +629,105 @@ function windowResized() {
 		// Makes the content full width
 		document.getElementById("upperDiv").style.width = "100%";
 		document.getElementById("content").style.width = "100%";
+		
+		// Moves buttons up
+		moveUpperButtons('up');
 	}
 	
 	//console.log("Window was resized, W: " + w + "H: " + h);
 }
 
+function moveUpperButtons(dirrection) {
+	
+	if (dirrection == "down")
+	{
+		if (isPredicting)
+		{
+			// It is predicting
+			
+			// Clears the upper buttons
+			document.getElementById("topButtons1").innerHTML = "";
+			
+			// locates the buttons to the buttom
+			document.getElementById("topButtons2").innerHTML = '<button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button><button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-play"></i> Predict</button>'
+			
+			// Changes the predict button to "Stop"
+			document.getElementById('toggleButton').innerHTML = "<i class='fas fa-stop'></i> Stop";
+			document.getElementById('toggleButton').style.filter = "invert(1)";
+		}
+		else
+		{
+			// It is not
+			
+			// Clears the upper buttons
+			document.getElementById("topButtons1").innerHTML = "";
+			
+			// locates the buttons to the buttom
+			document.getElementById("topButtons2").innerHTML = '<button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button><button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-play"></i> Predict</button>'
+			document.getElementById('toggleButton').style.filter = "invert(0)";
+		}
+	}
+	else if (dirrection == "up")
+	{
+		if (isPredicting)
+		{
+			// It is predicting
+			
+			// Clears the upper buttons
+			document.getElementById("topButtons2").innerHTML = "";
+			
+			// locates the buttons to the buttom
+			document.getElementById("topButtons1").innerHTML = '<button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button><button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-play"></i> Predict</button>'
+			
+			// Changes the predict button to "Stop"
+			document.getElementById('toggleButton').innerHTML = "<i class='fas fa-stop'></i> Stop";
+			document.getElementById('toggleButton').style.filter = "invert(1)";
+		}
+		else
+		{
+			// It is not
+			
+			// Clears the upper buttons
+			document.getElementById("topButtons2").innerHTML = "";
+			
+			// locates the buttons to the buttom
+			document.getElementById("topButtons1").innerHTML = '<button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button><button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-play"></i> Predict</button>'
+			document.getElementById('toggleButton').style.filter = "invert(0)";
+		}
+	}
+	else
+	{
+		console.log("The 'dirrection' is not right!");
+	}
+	
+	// This just checks for if the screen was titled while training
+	if (training)
+	{
+		// It is currently training
+		
+		// Disables the buttons
+		document.getElementById("instrButton").disabled = true;
+		document.getElementById("toggleButton").disabled = true;
+	}
+	else
+	{
+		// It is not training
+		
+		//Enables the buttons
+		document.getElementById("instrButton").disabled = false;
+		document.getElementById("toggleButton").disabled = false;
+	}
+}
+
 // Becuase I disable and enable the buttons alot
 function able(bool) {
 	
-	//document.getElementById('camButton').disabled = bool;
+	// Toggles all the buttons
 	document.getElementById('instrButton').disabled = bool;
 	document.getElementById('toggleButton').disabled = bool;
 	document.getElementById('addButton').disabled = bool;
 	
+	// Specially toggles te train and save buttons
 	if (trainAble)
 	{
 		document.getElementById('trainButton').disabled = bool;
@@ -683,13 +735,9 @@ function able(bool) {
 	}
 }
 
+// To send you to another site
 function goTo(toLink) {
 	
 	location.href = toLink;
-}
-
-function goBack() {
-	
-	location.href = "../index.html";
 }
 
