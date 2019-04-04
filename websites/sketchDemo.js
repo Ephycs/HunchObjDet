@@ -403,7 +403,7 @@ function windowResized() {
 		
 		// Moves all the content to the right
 		document.getElementById("upperDiv").style.width = "36%";
-		document.getElementById("content").style.width = "39%";
+		document.getElementById("content").style.width = "36%";
 		
 		// Moves buttons down
 		moveUpperButtons('down');
