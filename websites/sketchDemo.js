@@ -384,8 +384,8 @@ function windowResized() {
 	if (w > h)
 	{
 		// Lanscape mode
-		resizeCanvas(w*0.6, h);
-		canvas.position(w*0.4, 5);
+		resizeCanvas(w*0.55, h);
+		canvas.position(w*0.45, 5);
 		canvas.elt.style.zIndex = -1;
 		
 		// Changes the font sizes to around half size
@@ -402,7 +402,7 @@ function windowResized() {
 		document.getElementById("currentAmount").style.fontSize = "0.9em";
 		
 		// Moves all the content to the right
-		document.getElementById("upperDiv").style.width = "36%";
+		document.getElementById("upperDiv").style.width = "42%";
 		document.getElementById("content").style.width = "36%";
 		
 		// Moves buttons down
