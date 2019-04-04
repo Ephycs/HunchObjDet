@@ -11,13 +11,11 @@ let camera;
 let canvas;
 
 var cameraOptions = {
-	audio: false,
 	video: 
 	{
 		facingMode: "environment"
 	}
 };
-var backCam = true;
 
 var w;
 var h;
@@ -36,61 +34,7 @@ alert("Warning: If the page is black: KEEP the site, but leave your browser, the
 // This creates the camera
 function cameraFun() {
 	
-	console.log(cameraOptions);
 	
-	// Creates the capture using cameraOptions
-	// IOS needs that 'playsinline' thing
-	// Hides the camera, so that it can be used on the canvas instead
-	camera = createCapture(cameraOptions, function() {
-		
-		camera.elt.setAttribute('playsinline', true);
-		camera.elt.setAttribute('autoplay', true);
-		camera.hide();
-		
-		console.log("Camera was just set!");
-		
-		background(0);
-		
-		// Gets the 'MobileNet' model through ml5
-		// Gets the model classification libraries from ml5 and will use the camera
-		model = ml5.featureExtractor('mobilenet', modelReady);
-	});
-}
-
-// Sets & changes the camera used
-function changeCamera() {
-	
-	if (confirm("Changing the camera will reload the page and loose your training data!")) 
-	{
-		// Pressed 'ok'
-		
-		// Bool for whether it is using the back camera already
-		if (backCam)
-		{
-			cameraOptions.video.facingMode = "user";
-			
-			//document.getElementById('camButton').innerHTML = "<i class='fas fa-camera'></i> Front";
-			//document.getElementById('camButton').style.filter = "invert(1)";
-			
-			backCam = false;
-		}
-		else
-		{
-			cameraOptions.video.facingMode = "environment";
-			
-			//document.getElementById('camButton').innerHTML = "<i class='fas fa-camera'></i> Back";
-			//document.getElementById('camButton').style.filter = "invert(0)";
-			
-			backCam = true;
-		}
-		
-		// Calls the setup again
-		//setup();
-	} 
-	else 
-	{
-		// Pressed 'cancel'
-	}
 }
 
 
@@ -111,7 +55,27 @@ function setup() {
 	h = window.innerHeight * 0.96;
 	canvas = createCanvas(w, h);
 	
-	cameraFun();
+	// Debugging cameraOptions
+	console.log("cameraOptions: " + cameraOptions);
+	
+	// Creates the capture using cameraOptions
+	// With playsinline, autoplay, and muted
+	camera = createCapture(cameraOptions, function() {
+		
+		camera.elt.setAttribute('playsinline', true);
+		camera.elt.setAttribute('autoplay', true);
+		camera.elt.setAttribute('muted', true);
+		
+		// Hides the camera, so that it can be used on the canvas instead
+		camera.hide();
+		
+		// Debugs when camera was set
+		console.log("Camera was just set!");
+		
+		// Gets the 'MobileNet' model through ml5
+		// Gets the model classification libraries from ml5 and will use the camera
+		model = ml5.featureExtractor('mobilenet', modelReady);
+	});
 	
 	// Will call modelLoad when files are loaded into the webpage
 	document.getElementById('files').addEventListener('change', modelLoad, true);
@@ -129,6 +93,7 @@ function modelReady() {
 // Called after the camera is loaded
 function cameraReady() {
 	
+	// Debugs when the camera was loaded
 	console.log("Camera was loaded!!!");
 	
 	// Loads the preload
@@ -193,7 +158,7 @@ function togglePredicting() {
 		document.getElementById('toggleButton').innerHTML = "<i class='fas fa-stop'></i> Stop";
 		document.getElementById('toggleButton').style.filter = "invert(1)";
 		
-		console.log("Starting predicting");
+		console.log("Starting predicting...");
 		
 		// Actual predicting
 		classify();
@@ -213,13 +178,8 @@ function togglePredicting() {
 		document.getElementById('upperText').innerHTML = "...";
 		document.getElementById('upperInfo').innerHTML = "...";
 		
-		console.log("Stopping predicting");
+		console.log("Stopping predicting...");
 	}
-}
-
-function classify() {
-	
-	classifier.classify(gotResult);
 }
 
 // Predicts what's in front of your webcam
@@ -238,6 +198,7 @@ function gotResult(err, res) {
 			// Gets the top result
 			document.getElementById('upperText').innerHTML = res;
 			
+			// Finds the result in the database
 			findData(res);
 			
 			// Predicts again
@@ -246,10 +207,15 @@ function gotResult(err, res) {
 	}
 }
 
-// draws the camera to the canvas
-function draw() {
+// Function for classifying
+function classify() {
 	
-	background(0);
+	//Actual classifying
+	classifier.classify(gotResult);
+}
+
+// Draws the camera to the canvas
+function draw() {
 	
 	// Draws the camera to the canvas
 	image(camera, 0, 0, w, h);
@@ -264,15 +230,18 @@ function draw() {
 // Find the data from desData by the res from gotResult
 function findData(r) {
 
-	// Just in case
+	// Puts into lowercase
 	r = r.toLowerCase();
 	
 	// Finds the index of the result
 	var index = searchStringInArray(r, desData);
 	//console.log(index);
 	
+	// If found
 	if (index != -1)
 	{
+		// Was found
+		
 		// Gets the full text
 		var fullText = desData[index];
 		
@@ -287,6 +256,9 @@ function findData(r) {
 	}
 	else
 	{
+		// Was not found
+		
+		// Displays no description
 		document.getElementById('upperInfo').innerHTML = "no description";
 	}
 }
@@ -296,6 +268,7 @@ function searchStringInArray(s, a) {
 	
 	//Creates the name to check for later
 	var name = 'N_' + s + ':';
+	
 	//console.log("Searching for: " + name + " in array:");
 	//console.log(a);
 	
@@ -358,8 +331,11 @@ function modelLoad(evt) {
 		}
 		else if (f.type.match(/json.*/))
 		{
+			// Found a json file
+			
 			if (f.name.includes('model'))
 			{
+				// Found the model
 				var modelJson = new File([f], 'model.json');
 				
 				newFiles.push(modelJson);
@@ -367,6 +343,8 @@ function modelLoad(evt) {
 		}
 		if (f.name.includes('model.weights'))
 		{
+			// Found weights
+			
 			var modelBin = new File([f], 'model.weights.bin');
 			
 			newFiles.push(modelBin);
@@ -376,6 +354,7 @@ function modelLoad(evt) {
 	// Loads the model
 	classifier.load(newFiles);
 	
+	// Lets you know the new model was loaded
 	document.getElementById('upperText').innerHTML = 'New Model was Loaded';
 	console.log("New Model was Loaded!");
 	
@@ -394,7 +373,7 @@ function alertInstr() {
 	alert("1) Press the 'Predict' button to start or stop predicting objects.\n2) At the bottom, you can load models into the page by clicking the 'Choose Files' button and selecting: 'model.json', 'model.weights.bin', and 'model.descriptions.txt' all at once.\n3)The top-left button will take you to the training page.");
 }
 
-// These will call when the window is resized
+// This will call when the window is resized
 function windowResized() {
 	
 	// Gets new width and height
@@ -407,24 +386,27 @@ function windowResized() {
 		// Lanscape mode
 		resizeCanvas(w*0.6, h);
 		canvas.position(w*0.4, 5);
+		canvas.elt.style.zIndex = -1;
 		
 		// Changes the font sizes to around half size
 		for (button of document.body.getElementsByTagName("button")) 
 		{
-			button.style.fontSize = "0.6em";
+			button.style.fontSize = "0.8em";
 		}
 		for (p of document.body.getElementsByTagName("p"))
 		{
-			p.style.fontSize = "0.6em";
+			p.style.fontSize = "0.8em";
 		}
-		document.getElementById("upperText").style.fontSize = "1.2em";
+		document.getElementById("upperText").style.fontSize = "1.3em";
 		document.getElementById("upperInfo").style.fontSize = "1em";
-		document.getElementById("currentAmount").style.fontSize = "0.8em";
+		document.getElementById("currentAmount").style.fontSize = "0.9em";
 		
 		// Moves all the content to the right
-		document.getElementById("upperDiv").style.width = "35%";
-		document.getElementById("content").style.width = "35%";
+		document.getElementById("upperDiv").style.width = "36%";
+		document.getElementById("content").style.width = "39%";
 		
+		// Moves buttons down
+		moveUpperButtons('down');
 	}
 	else if (w <= h)
 	{
@@ -449,15 +431,81 @@ function windowResized() {
 		// Makes the content full width
 		document.getElementById("upperDiv").style.width = "100%";
 		document.getElementById("content").style.width = "100%";
+		
+		// Moves buttons up
+		moveUpperButtons('up');
 	}
 	
 	//console.log("Window was resized, W: " + w + "H: " + h);
 }
 
+function moveUpperButtons(dirrection) {
+	
+	if (dirrection == "down")
+	{
+		if (isPredicting)
+		{
+			// It is predicting
+			
+			// Clears the upper buttons
+			document.getElementById("topButtons1").innerHTML = "";
+			
+			// locates the buttons to the buttom
+			document.getElementById("topButtons2").innerHTML = '<button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button><button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-play"></i> Predict</button>'
+			
+			// Changes the predict button to "Stop"
+			document.getElementById('toggleButton').innerHTML = "<i class='fas fa-stop'></i> Stop";
+			document.getElementById('toggleButton').style.filter = "invert(1)";
+		}
+		else
+		{
+			// It is not
+			
+			// Clears the upper buttons
+			document.getElementById("topButtons1").innerHTML = "";
+			
+			// locates the buttons to the buttom
+			document.getElementById("topButtons2").innerHTML = '<button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button><button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-play"></i> Predict</button>'
+			document.getElementById('toggleButton').style.filter = "invert(0)";
+		}
+	}
+	else if (dirrection == "up")
+	{
+		if (isPredicting)
+		{
+			// It is predicting
+			
+			// Clears the upper buttons
+			document.getElementById("topButtons2").innerHTML = "";
+			
+			// locates the buttons to the buttom
+			document.getElementById("topButtons1").innerHTML = '<button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button><button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-play"></i> Predict</button>'
+			
+			// Changes the predict button to "Stop"
+			document.getElementById('toggleButton').innerHTML = "<i class='fas fa-stop'></i> Stop";
+			document.getElementById('toggleButton').style.filter = "invert(1)";
+		}
+		else
+		{
+			// It is not
+			
+			// Clears the upper buttons
+			document.getElementById("topButtons2").innerHTML = "";
+			
+			// locates the buttons to the buttom
+			document.getElementById("topButtons1").innerHTML = '<button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button><button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-play"></i> Predict</button>'
+			document.getElementById('toggleButton').style.filter = "invert(0)";
+		}
+	}
+	else
+	{
+		console.log("The 'dirrection' is not right!");
+	}
+}
+
 // Becuase I disable and enable the buttons alot
 function able(bool) {
 	
-	//document.getElementById('camButton').disabled = bool;
 	document.getElementById('instrButton').disabled = bool;
 	document.getElementById('toggleButton').disabled = bool;
 }
@@ -466,11 +514,5 @@ function able(bool) {
 function goTo(toLink) {
 	
 	location.href = toLink;
-}
-
-// Used to g back to the hub
-function goBack() {
-	
-	location.href = "../index.html";
 }
 

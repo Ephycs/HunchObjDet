@@ -101,6 +101,7 @@ function setup() {
 	// Creates the capture using cameraOptions
 	// With playsinline, autoplay, and muted
 	camera = createCapture(cameraOptions, function() {
+		
 		camera.elt.setAttribute('playsinline', true);
 		camera.elt.setAttribute('autoplay', true);
 		camera.elt.setAttribute('muted', true);
@@ -227,7 +228,7 @@ function gotResult(err, res) {
 			// Gets the top result
 			document.getElementById('upperText').innerHTML = res;
 			
-			// finds the result in the database
+			// Finds the result in the database
 			findData(res);
 			
 			// Predicts again
@@ -243,14 +244,13 @@ function classify() {
 	classifier.classify(gotResult);
 }
 
-// draws the camera to the canvas
+// Draws the camera to the canvas
 function draw() {
 	
 	// Draws the camera to the canvas
 	image(camera, 0, 0, w, h);
 	fill(255);
 }
-
 
 
 /*******************************/
@@ -267,7 +267,7 @@ function findData(r) {
 	var index = searchStringInArray(r, desData);
 	//console.log(index);
 	
-	// if found
+	// If found
 	if (index != -1)
 	{
 		// Was found
@@ -575,8 +575,8 @@ function windowResized() {
 		}
 		document.getElementById("upperText").style.fontSize = "1.3em";
 		document.getElementById("upperInfo").style.fontSize = "1em";
-		document.getElementById("maxAmount").style.fontSize = "0.8em";
 		document.getElementById("currentAmount").style.fontSize = "0.8em";
+		document.getElementById("maxAmount").style.fontSize = "0.8em";
 		document.getElementById("addIcon").style.fontSize = "2em";
 		document.getElementById("inputText").style.height = "0.8em";
 		document.getElementById("inputInfo").style.height = "0.8em";
@@ -613,8 +613,8 @@ function windowResized() {
 		}
 		document.getElementById("upperText").style.fontSize = "2em";
 		document.getElementById("upperInfo").style.fontSize = "1.5em";
-		document.getElementById("maxAmount").style.fontSize = "1.2em";
 		document.getElementById("currentAmount").style.fontSize = "1.2em";
+		document.getElementById("maxAmount").style.fontSize = "1.2em";
 		document.getElementById("addIcon").style.fontSize = "3em";
 		document.getElementById("inputText").style.height = "1em";
 		document.getElementById("inputInfo").style.height = "1em";
@@ -735,7 +735,7 @@ function able(bool) {
 	}
 }
 
-// To send you to another site
+// Used to go to another page
 function goTo(toLink) {
 	
 	location.href = toLink;
