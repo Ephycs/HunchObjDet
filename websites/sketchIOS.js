@@ -11,13 +11,11 @@ let camera;
 let canvas;
 
 var cameraOptions = {
-	audio: false,
 	video: 
 	{
 		facingMode: "environment"
 	}
 };
-var backCam = true;
 
 var w;
 var h;
@@ -27,71 +25,6 @@ var desData;
 // Begining Alert //
 
 alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nOlder versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\n\nPress the 'Info' button for instructions");
-
-
-/*******************************/
-// Camera
-/*******************************/
-
-// This creates the camera
-function cameraFun() {
-	
-	console.log(cameraOptions);
-	
-	// Creates the capture using cameraOptions
-	// IOS needs that 'playsinline' thing
-	// Hides the camera, so that it can be used on the canvas instead
-	camera = createCapture(cameraOptions, function() {
-		
-		camera.elt.setAttribute('playsinline', true);
-		camera.elt.setAttribute('autoplay', true);
-		camera.hide();
-		
-		console.log("Camera was just set!");
-		
-		background(0);
-		
-		// Gets the 'MobileNet' model through ml5
-		// Gets the model classification libraries from ml5 and will use the camera
-		model = ml5.imageClassifier('mobilenet', camera, modelReady);
-	});
-}
-
-// Sets & changes the camera used
-function changeCamera() {
-	
-	if (confirm("Changing the camera will reload the page and loose your training data!")) 
-	{
-		// Pressed 'ok'
-		
-		// Bool for whether it is using the back camera already
-		if (backCam)
-		{
-			cameraOptions.video.facingMode = "user";
-			
-			//document.getElementById('camButton').innerHTML = "<i class='fas fa-camera'></i> Front";
-			//document.getElementById('camButton').style.filter = "invert(1)";
-			
-			backCam = false;
-		}
-		else
-		{
-			cameraOptions.video.facingMode = "environment";
-			
-			//document.getElementById('camButton').innerHTML = "<i class='fas fa-camera'></i> Back";
-			//document.getElementById('camButton').style.filter = "invert(0)";
-			
-			backCam = true;
-		}
-		
-		// Calls the setup again
-		//setup();
-	} 
-	else 
-	{
-		// Pressed 'cancel'
-	}
-}
 
 
 /*******************************/
@@ -111,11 +44,32 @@ function setup() {
 	h = window.innerHeight * 0.96;
 	canvas = createCanvas(w, h);
 	
-	cameraFun();
+	// Debugging cameraOptions
+	console.log("cameraOptions: " + cameraOptions);
+	
+	// Creates the capture using cameraOptions
+	// With playsinline, autoplay, and muted
+	camera = createCapture(cameraOptions, function() {
+		
+		camera.elt.setAttribute('playsinline', true);
+		camera.elt.setAttribute('autoplay', true);
+		camera.elt.setAttribute('muted', true);
+		
+		// Hides the camera, so that it can be used on the canvas instead
+		camera.hide();
+		
+		// Debugs when camera was set
+		console.log("Camera was just set!");
+		
+		// Gets the 'MobileNet' model through ml5
+		// Gets the model classification libraries from ml5 and will use the camera
+		model = ml5.imageClassifier('mobilenet', camera, modelReady);
+	});
 }
 
 function modelReady() {
 	
+	// Debug when the mode is loaded
 	console.log("MobileNet was loaded!!!");
 	
 	// Gets the descriptions
@@ -145,10 +99,14 @@ function preLoad() {
 				// This will overwrite perious data in the webpage's session
 				desData = data.split(",");
 				
+				// debugs the contents of the database
 				console.log("Preload txt:");
 				console.log(desData);
 				
+				// Heads up
 				document.getElementById("upperText").innerHTML = "MobileNet loaded!";
+				
+				// Enables the buttons
 				able(false);
             }
         }
@@ -172,11 +130,10 @@ function togglePredicting() {
 		document.getElementById('toggleButton').innerHTML = "<i class='fas fa-stop'></i> Stop";
 		document.getElementById('toggleButton').style.filter = "invert(1)";
 		
-		console.log("Starting predicting");
+		console.log("Starting predicting...");
 		
 		// Actual predicting
 		predict();
-		
 	}
 	else
 	{
@@ -191,16 +148,10 @@ function togglePredicting() {
 		
 		// Clears previous predictions
 		document.getElementById('upperText').innerHTML = "...";
-		document.getElementById('upperinfo').innerHTML = "...";
+		document.getElementById('upperInfo').innerHTML = "...";
 		
-		console.log("Stopping predicting");
+		console.log("Stopping predicting...");
 	}
-}
-
-// Predicting 
-function predict() {
-	
-	model.predict(gotResult);
 }
 
 // Predicts what's in front of your webcam
@@ -212,15 +163,17 @@ function gotResult(err, res) {
 		// Checks for errors
 		if (err) 
 		{	
-			alert(err+ "\nPress the 'Stop' button.");
+			alert(err + "\nPress the 'Stop' button.");
 		}
 		else
 		{
-			console.log(res[0].className);
+			// Debugs top result
+			//console.log(res[0].className);
 			
 			// Gets the top result
 			document.getElementById('upperText').innerHTML = res[0].className;
 			
+			// Finds the result in the database
 			findData(res[0].className);
 			
 			// Predicts again
@@ -229,10 +182,15 @@ function gotResult(err, res) {
 	}
 }
 
+// Predicting 
+function predict() {
+	
+	//Actual predicting
+	model.predict(gotResult);
+}
+
 // draws the camera to the canvas
 function draw() {
-	
-	background(0);
 	
 	// Draws the camera to the canvas
 	image(camera, 0, 0, w, h);
@@ -247,7 +205,7 @@ function draw() {
 // Find the data from desData by the res from gotResult
 function findData(r) {
 
-	// Just in case
+	// Puts into lowercase
 	r = r.toLowerCase();
 	
 	// Finds the index of the result
@@ -256,6 +214,8 @@ function findData(r) {
 	
 	if (index != -1)
 	{
+		// Was found
+		
 		// Gets the full text
 		var fullText = desData[index];
 		
@@ -270,6 +230,9 @@ function findData(r) {
 	}
 	else
 	{
+		// Was not found
+		
+		// Displays no description
 		document.getElementById('upperInfo').innerHTML = "no description";
 	}
 }
@@ -318,23 +281,26 @@ function windowResized() {
 		// Lanscape mode
 		resizeCanvas(w*0.6, h);
 		canvas.position(w*0.4, 5);
+		canvas.elt.style.zIndex = -1;
 		
 		// Changes the font sizes to around half size
 		for (button of document.body.getElementsByTagName("button")) 
 		{
-			button.style.fontSize = "0.6em";
+			button.style.fontSize = "0.8em";
 		}
 		for (p of document.body.getElementsByTagName("p"))
 		{
-			p.style.fontSize = "0.6em";
+			p.style.fontSize = "0.8em";
 		}
-		document.getElementById("upperText").style.fontSize = "1.2em";
+		document.getElementById("upperText").style.fontSize = "1.3em";
 		document.getElementById("upperInfo").style.fontSize = "1em";
 		
 		// Moves all the content to the right
 		document.getElementById("upperDiv").style.width = "35%";
 		document.getElementById("content").style.width = "35%";
 		
+		// Moves buttons down
+		moveUpperButtons('down');
 	}
 	else if (w <= h)
 	{
@@ -358,15 +324,83 @@ function windowResized() {
 		// Makes the content full width
 		document.getElementById("upperDiv").style.width = "100%";
 		document.getElementById("content").style.width = "100%";
+		
+		// Moves buttons up
+		moveUpperButtons('up');
 	}
 	
 	//console.log("Window was resized, W: " + w + "H: " + h);
 }
 
+// Moves the uppper (top) buttons
+// Needs either "up" or "down"
+function moveUpperButtons(dirrection) {
+	
+	if (dirrection == "down")
+	{
+		if (isPredicting)
+		{
+			// It is predicting
+			
+			// Clears the upper buttons
+			document.getElementById("topButtons1").innerHTML = "";
+			
+			// locates the buttons to the buttom
+			document.getElementById("topButtons2").innerHTML = '<button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button><button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-play"></i> Predict</button>'
+			
+			// Changes the predict button to "Stop"
+			document.getElementById('toggleButton').innerHTML = "<i class='fas fa-stop'></i> Stop";
+			document.getElementById('toggleButton').style.filter = "invert(1)";
+		}
+		else
+		{
+			// It is not
+			
+			// Clears the upper buttons
+			document.getElementById("topButtons1").innerHTML = "";
+			
+			// locates the buttons to the buttom
+			document.getElementById("topButtons2").innerHTML = '<button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button><button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-play"></i> Predict</button>'
+			document.getElementById('toggleButton').style.filter = "invert(0)";
+		}
+	}
+	else if (dirrection == "up")
+	{
+		if (isPredicting)
+		{
+			// It is predicting
+			
+			// Clears the upper buttons
+			document.getElementById("topButtons2").innerHTML = "";
+			
+			// locates the buttons to the buttom
+			document.getElementById("topButtons1").innerHTML = '<button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button><button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-play"></i> Predict</button>'
+			
+			// Changes the predict button to "Stop"
+			document.getElementById('toggleButton').innerHTML = "<i class='fas fa-stop'></i> Stop";
+			document.getElementById('toggleButton').style.filter = "invert(1)";
+		}
+		else
+		{
+			// It is not
+			
+			// Clears the upper buttons
+			document.getElementById("topButtons2").innerHTML = "";
+			
+			// locates the buttons to the buttom
+			document.getElementById("topButtons1").innerHTML = '<button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button><button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-play"></i> Predict</button>'
+			document.getElementById('toggleButton').style.filter = "invert(0)";
+		}
+	}
+	else
+	{
+		console.log("The 'dirrection' is not right!");
+	}
+}
+
 // Becuase I disable and enable the buttons alot
 function able(bool) {
 	
-	//document.getElementById('camButton').disabled = bool;
 	document.getElementById('instrButton').disabled = bool;
 	document.getElementById('toggleButton').disabled = bool;
 }
@@ -375,11 +409,5 @@ function able(bool) {
 function goTo(toLink) {
 	
 	location.href = toLink;
-}
-
-// Used to g back to the hub
-function goBack() {
-	
-	location.href = "../index.html";
 }
 

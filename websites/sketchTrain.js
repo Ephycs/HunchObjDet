@@ -637,6 +637,8 @@ function windowResized() {
 	//console.log("Window was resized, W: " + w + "H: " + h);
 }
 
+// Moves the uppper (top) buttons
+// Needs either "up" or "down"
 function moveUpperButtons(dirrection) {
 	
 	if (dirrection == "down")

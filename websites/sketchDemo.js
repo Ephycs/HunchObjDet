@@ -28,17 +28,6 @@ alert("Warning: If the page is black: KEEP the site, but leave your browser, the
 
 
 /*******************************/
-// Camera
-/*******************************/
-
-// This creates the camera
-function cameraFun() {
-	
-	
-}
-
-
-/*******************************/
 // Core Features
 /*******************************/
 
@@ -84,6 +73,7 @@ function setup() {
 // Called after the model is loaded
 function modelReady() {
 	
+	// Debug when the mode is loaded
 	console.log("Model was loaded!!!");
 	
 	// Gets the camera ready for object classification
@@ -439,6 +429,8 @@ function windowResized() {
 	//console.log("Window was resized, W: " + w + "H: " + h);
 }
 
+// Moves the uppper (top) buttons
+// Needs either "up" or "down"
 function moveUpperButtons(dirrection) {
 	
 	if (dirrection == "down")

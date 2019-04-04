@@ -33,12 +33,22 @@
 		</center>
 	</div>
 	
-	<div id="content" class="content">
-		<!--<button id="camButton" onClick="changeCamera()"><i class="fas fa-camera"></i> Change</button>-->
-		<button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button>
-		<button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-play"></i> Predict</button>
-		
-		<p>This demo uses google's MobileNet model. This is to test the iOS and MacOS, but can be used by other operating systems too.</p>
+	<div class="content">
+		<table>
+			<tr>
+				<td id="content">
+					<center id="topButtons1">
+						<button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button>
+						<button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-play"></i> Predict</button>
+					</center>
+					
+					<p>This demo uses google's MobileNet model. This is to test the iOS and MacOS, but can be used by other operating systems too.</p>
+				</td>
+				<td id="content2">
+					<center id="topButtons2"></center>
+				</td>
+			</tr>
+		</table>
 	</div>
 </body>
 
