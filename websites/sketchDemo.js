@@ -22,9 +22,12 @@ var h;
 var isPredicting;
 var desData;
 
-// Begining Alert //
+var minZoom = 50;
+var maxZoom = 175;
+var zoom = 100;
 
-alert("Warning: If the page is black: KEEP the site, but leave your browser, then return back in.\nOlder versions of Chrome, Firefox, and Safari may not be compatible with Tensorflow.js\nIt will take a little bit Load.\n\nPress the 'Info' button for instructions");
+// Begining Alert
+alert("Press the 'Info' button for instructions and 'Question' button for zooming in and out.");
 
 
 /*******************************/
@@ -433,6 +436,11 @@ function windowResized() {
 // Needs either "up" or "down"
 function moveUpperButtons(dirrection) {
 	
+	// gets the state of the buttons
+	var zoomState = document.getElementById("zoomButton").disabled;
+	var instrState = document.getElementById("instrButton").disabled;
+	var toggleState = document.getElementById("toggleButton").disabled;
+	
 	if (dirrection == "down")
 	{
 		if (isPredicting)
@@ -443,10 +451,7 @@ function moveUpperButtons(dirrection) {
 			document.getElementById("topButtons1").innerHTML = "";
 			
 			// locates the buttons to the buttom
-			document.getElementById("topButtons2").innerHTML = '<button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button><button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-play"></i> Predict</button>'
-			
-			// Changes the predict button to "Stop"
-			document.getElementById('toggleButton').innerHTML = "<i class='fas fa-stop'></i> Stop";
+			document.getElementById("topButtons2").innerHTML = '<button id="zoomButton" onClick="alertZoom()"><i class="fas fa-search"></i><i class="fas fa-question"></i></button><button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button><button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-stop"></i> Stop</button>'
 			document.getElementById('toggleButton').style.filter = "invert(1)";
 		}
 		else
@@ -457,7 +462,7 @@ function moveUpperButtons(dirrection) {
 			document.getElementById("topButtons1").innerHTML = "";
 			
 			// locates the buttons to the buttom
-			document.getElementById("topButtons2").innerHTML = '<button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button><button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-play"></i> Predict</button>'
+			document.getElementById("topButtons2").innerHTML = '<button id="zoomButton" onClick="alertZoom()"><i class="fas fa-search"></i><i class="fas fa-question"></i></button><button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button><button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-play"></i> Predict</button>'
 			document.getElementById('toggleButton').style.filter = "invert(0)";
 		}
 	}
@@ -471,10 +476,7 @@ function moveUpperButtons(dirrection) {
 			document.getElementById("topButtons2").innerHTML = "";
 			
 			// locates the buttons to the buttom
-			document.getElementById("topButtons1").innerHTML = '<button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button><button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-play"></i> Predict</button>'
-			
-			// Changes the predict button to "Stop"
-			document.getElementById('toggleButton').innerHTML = "<i class='fas fa-stop'></i> Stop";
+			document.getElementById("topButtons1").innerHTML = '<button id="zoomButton" onClick="alertZoom()"><i class="fas fa-search"></i><i class="fas fa-question"></i></button><button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button><button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-stop"></i> Stop</button>'
 			document.getElementById('toggleButton').style.filter = "invert(1)";
 		}
 		else
@@ -485,7 +487,7 @@ function moveUpperButtons(dirrection) {
 			document.getElementById("topButtons2").innerHTML = "";
 			
 			// locates the buttons to the buttom
-			document.getElementById("topButtons1").innerHTML = '<button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button><button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-play"></i> Predict</button>'
+			document.getElementById("topButtons1").innerHTML = '<button id="zoomButton" onClick="alertZoom()"><i class="fas fa-search"></i><i class="fas fa-question"></i></button><button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button><button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-play"></i> Predict</button>'
 			document.getElementById('toggleButton').style.filter = "invert(0)";
 		}
 	}
@@ -493,13 +495,26 @@ function moveUpperButtons(dirrection) {
 	{
 		console.log("The 'dirrection' is not right!");
 	}
+	
+	// If it was disabled before, it will stay disabled nd visa versa
+	document.getElementById("zoomButton").disabled = zoomState;
+	document.getElementById("instrButton").disabled = instrState;
+	document.getElementById("toggleButton").disabled = toggleState;
 }
 
 // Becuase I disable and enable the buttons alot
 function able(bool) {
 	
+	// Toggles all the buttons
+	document.getElementById("zoomButton").disabled = bool;
 	document.getElementById('instrButton').disabled = bool;
 	document.getElementById('toggleButton').disabled = bool;
+}
+
+// Shows how to maximize or minimize
+function alertZoom() {
+	
+	alert("If on a desktop/computer/laptop, Not Mobile, it is suggested to use your browser's zoom feature to maxmize to 175%.\nOn Chrome make your way to triple-dots on the upper top of the page, bellow the [X], and maximize or minimize.");
 }
 
 // Used to go to another page
