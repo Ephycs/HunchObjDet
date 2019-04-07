@@ -27,7 +27,7 @@ var maxZoom = 175;
 var zoom = 100;
 
 // Begining Alert
-alert("Press the 'Info' button for instructions and 'Question' button for zooming in and out.");
+alert("Warning: The page might take some time to load!\n\nPress the 'Info' button for instructions and 'Question' button for zooming in and out.");
 
 
 /*******************************/

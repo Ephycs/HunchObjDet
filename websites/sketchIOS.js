@@ -23,7 +23,7 @@ var isPredicting;
 var desData;
 
 // Begining Alert
-alert("Press the 'Info' button for instructions and 'Question' button for zooming in and out.");
+alert("Warning: The page might take some time to load!\n\nPress the 'Info' button for instructions and 'Question' button for zooming in and out.");
 
 
 /*******************************/
