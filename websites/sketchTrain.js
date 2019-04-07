@@ -645,18 +645,23 @@ function moveUpperButtons(dirrection) {
 	var zoomState = document.getElementById("zoomButton").disabled;
 	var instrState = document.getElementById("instrButton").disabled;
 	var toggleState = document.getElementById("toggleButton").disabled;
+	var trainState = document.getElementById("trainButton").disabled;
+	var saveState = document.getElementById("saveButton").disabled;
 	
 	if (dirrection == "down")
 	{
+		// Lanscape mode
+		
 		if (isPredicting)
 		{
 			// It is predicting
 			
 			// Clears the upper buttons
 			document.getElementById("topButtons1").innerHTML = "";
+			document.getElementById("topButtons3").innerHTML = "";
 			
 			// locates the buttons to the buttom
-			document.getElementById("topButtons2").innerHTML = '<button id="zoomButton" onClick="alertZoom()"><i class="fas fa-search"></i><i class="fas fa-question"></i></button><button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button><button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-stop"></i> Stop</button>'
+			document.getElementById("topButtons2").innerHTML = '<button id="trainButton" onClick="modelTrain()"><i class="fas fa-cogs"></i> Train</button><button id="saveButton" onClick="modelSave()"><i class="fas fa-download"></i> Dnld</button><button id="zoomButton" onClick="alertZoom()"><i class="fas fa-search"></i><i class="fas fa-question"></i></button><button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button><button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-stop"></i> Stop</button>'
 			document.getElementById('toggleButton').style.filter = "invert(1)";
 		}
 		else
@@ -665,14 +670,17 @@ function moveUpperButtons(dirrection) {
 			
 			// Clears the upper buttons
 			document.getElementById("topButtons1").innerHTML = "";
+			document.getElementById("topButtons3").innerHTML = "";
 			
 			// locates the buttons to the buttom
-			document.getElementById("topButtons2").innerHTML = '<button id="zoomButton" onClick="alertZoom()"><i class="fas fa-search"></i><i class="fas fa-question"></i></button><button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button><button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-play"></i> Predict</button>'
+			document.getElementById("topButtons2").innerHTML = '<button id="trainButton" onClick="modelTrain()"><i class="fas fa-cogs"></i> Train</button><button id="saveButton" onClick="modelSave()"><i class="fas fa-download"></i> Dnld</button><button id="zoomButton" onClick="alertZoom()"><i class="fas fa-search"></i><i class="fas fa-question"></i></button><button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button><button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-play"></i> Predict</button>'
 			document.getElementById('toggleButton').style.filter = "invert(0)";
 		}
 	}
 	else if (dirrection == "up")
 	{
+		// Portrait mode
+		
 		if (isPredicting)
 		{
 			// It is predicting
@@ -683,6 +691,9 @@ function moveUpperButtons(dirrection) {
 			// locates the buttons to the buttom
 			document.getElementById("topButtons1").innerHTML = '<button id="zoomButton" onClick="alertZoom()"><i class="fas fa-search"></i><i class="fas fa-question"></i></button><button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button><button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-stop"></i> Stop</button>'
 			document.getElementById('toggleButton').style.filter = "invert(1)";
+			
+			// Puts the other buttons on the bottom
+			document.getElementById("topButtons3").innerHTML = '<button id="trainButton" onClick="modelTrain()"><i class="fas fa-cogs"></i> Train</button><button id="saveButton" onClick="modelSave()"><i class="fas fa-download"></i> Download Model</button>';
 		}
 		else
 		{
@@ -694,6 +705,9 @@ function moveUpperButtons(dirrection) {
 			// locates the buttons to the buttom
 			document.getElementById("topButtons1").innerHTML = '<button id="zoomButton" onClick="alertZoom()"><i class="fas fa-search"></i><i class="fas fa-question"></i></button><button id="instrButton" onClick="alertInstr()"><i class="fas fa-info-circle"></i> Info</button><button id="toggleButton" onClick="togglePredicting()"><i class="fas fa-play"></i> Predict</button>'
 			document.getElementById('toggleButton').style.filter = "invert(0)";
+			
+			// Puts the other buttons on the bottom
+			document.getElementById("topButtons3").innerHTML = '<button id="trainButton" onClick="modelTrain()"><i class="fas fa-cogs"></i> Train</button><button id="saveButton" onClick="modelSave()"><i class="fas fa-download"></i> Download Model</button>';
 		}
 	}
 	else
@@ -706,6 +720,8 @@ function moveUpperButtons(dirrection) {
 	document.getElementById("zoomButton").disabled = zoomState;
 	document.getElementById("instrButton").disabled = instrState;
 	document.getElementById("toggleButton").disabled = toggleState;
+	document.getElementById("trainButton").disabled = trainState;
+	document.getElementById("saveButton").disabled = saveState;
 }
 
 // Becuase I disable and enable the buttons alot

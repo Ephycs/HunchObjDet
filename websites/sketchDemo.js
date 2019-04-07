@@ -395,8 +395,10 @@ function windowResized() {
 		document.getElementById("currentAmount").style.fontSize = "0.9em";
 		
 		// Moves all the content to the right
-		document.getElementById("upperDiv").style.width = "42%";
-		document.getElementById("content").style.width = "36%";
+		document.getElementById("upperDiv").style.width = "40%";
+		document.getElementById("content").style.width = "40%";
+		document.getElementById("files").style.width = "40%";
+		document.getElementById("files").style.fontSize = "0.6em";
 		
 		// Moves buttons down
 		moveUpperButtons('down');
@@ -424,6 +426,8 @@ function windowResized() {
 		// Makes the content full width
 		document.getElementById("upperDiv").style.width = "100%";
 		document.getElementById("content").style.width = "100%";
+		document.getElementById("files").style.width = "100%";
+		document.getElementById("files").style.fontSize = "1em";
 		
 		// Moves buttons up
 		moveUpperButtons('up');
