@@ -1,3 +1,3 @@
 Platt Tech Software Team
 
-This is for the NH Object Detection project for the 2018-2019
+This is for the NASA HUNCH Object Identification project for 2018-2019
