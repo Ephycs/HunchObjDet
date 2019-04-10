@@ -7,9 +7,9 @@ body {
 
 .upper {
 	position: fixed;
-	left: 0px;
+	left: -10px;
 	background: rgba(0, 0, 0, 0.5);
-	width: 96%;
+	width: 100%;
 	padding: 0.5em;
 }
 .right {
@@ -97,7 +97,7 @@ table, th, td {
 	font-size: 1.5em;
 }
 #upperTable {
-	width: 90%;
+	width: 95%;
 }
 
 #maxAmount, #currentAmount {
