@@ -35,7 +35,7 @@ var timeout;
 
 // Begining Alert
 //Asks for how many images you would like to train
-maxAmount = prompt("This is website trains objects in your browser, before we start enter how many objects you would like to train:");
+maxAmount = prompt("Warning: This website maight not work with older versions of browsers.\n\nThis is website trains objects in your browser, before we start enter how many objects you would like to train:");
 
 if (maxAmount == null)
 {
