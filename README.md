@@ -1,1 +1,1 @@
-Platt Tech NASA HUNCH Software Team, but Solo work by Ethan Feldman.
+Platt Tech NASA HUNCH Software Team, but completed only by Ethan Feldman.
