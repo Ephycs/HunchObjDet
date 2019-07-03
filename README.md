@@ -1,3 +1,1 @@
-Platt Tech NASA HUNCH Software Team
-
-This was for the 2018-2019 Object Identification Tool.
+Platt Tech NASA HUNCH Software Team, but Solo work by Ethan Feldman.
